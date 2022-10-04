@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 6.3.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/1655090890230.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/1655090890230.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="记录一下猪猪侠这位师傅的话，受益匪浅  &amp;ensp;&amp;ensp;&amp;ensp;&amp;ensp;最近手机卸载了抖音、哗哩哗哩之类的软件，甚至差点把自己的微博都注销了。数据流里信息不断，信息永远是看不完的,并且大部分和你还没啥关系，而真正重要的事情,最后一定会以各种方式挤到你眼前的。 &amp;ensp;&amp;ensp;&amp;ensp;&amp;ensp;再就是把微">
+<meta property="og:type" content="article">
+<meta property="og:title" content="猪猪侠大佬">
+<meta property="og:url" content="http://example.com/2022/10/04/%E6%97%A5%E8%AE%B0-%E6%AF%8F%E6%97%A5%E4%B8%80%E8%AE%B0%E4%BD%8F/index.html">
+<meta property="og:site_name" content="Security">
+<meta property="og:description" content="记录一下猪猪侠这位师傅的话，受益匪浅  &amp;ensp;&amp;ensp;&amp;ensp;&amp;ensp;最近手机卸载了抖音、哗哩哗哩之类的软件，甚至差点把自己的微博都注销了。数据流里信息不断，信息永远是看不完的,并且大部分和你还没啥关系，而真正重要的事情,最后一定会以各种方式挤到你眼前的。 &amp;ensp;&amp;ensp;&amp;ensp;&amp;ensp;再就是把微">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2022-10-04T14:36:54.913Z">
+<meta property="article:modified_time" content="2022-10-04T14:36:46.166Z">
+<meta property="article:author" content="l3ife">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://example.com/2022/10/04/%E6%97%A5%E8%AE%B0-%E6%AF%8F%E6%97%A5%E4%B8%80%E8%AE%B0%E4%BD%8F/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>猪猪侠大佬 | Security</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Security</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="tags fa-fw"></i>标签<span class="badge">1</span></a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="th fa-fw"></i>分类<span class="badge">2</span></a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="archive fa-fw"></i>归档<span class="badge">3</span></a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/10/04/%E6%97%A5%E8%AE%B0-%E6%AF%8F%E6%97%A5%E4%B8%80%E8%AE%B0%E4%BD%8F/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="l3ife">
+      <meta itemprop="description" content="谁想当安全混子呢">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Security">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          猪猪侠大佬
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2022-10-04 22:36:54 / 修改时间：22:36:46" itemprop="dateCreated datePublished" datetime="2022-10-04T22:36:54+08:00">2022-10-04</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E6%97%A5%E8%AE%B0%E8%AE%B0%E5%BD%95/" itemprop="url" rel="index"><span itemprop="name">日记记录</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <blockquote>
+<p>记录一下猪猪侠这位师傅的话，受益匪浅</p>
+</blockquote>
+<p>&amp;ensp;&amp;ensp;&amp;ensp;&amp;ensp;最近手机卸载了抖音、哗哩哗哩之类的软件，甚至差点把自己的微博都注销了。数据流里信息不断，信息永远是看不完的,并且大部分和你还没啥关系，而真正重要的事情,最后一定会以各种方式挤到你眼前的。</p>
+<p>&amp;ensp;&amp;ensp;&amp;ensp;&amp;ensp;再就是把微信、钉钉、阿里钉之类的通知都关了。下班和周末的时候,我会定时看下钉钉里是不是有同事的消息，这样，就能化被动为主动，不然这种通知总是会把我的时间切的更碎。举个例子，比如你正在安静的写代码或看书，突然弹出来一条微信消息,你是回还是不回呢?</p>
+<p>&amp;ensp;&amp;ensp;&amp;ensp;&amp;ensp;着急的事我也不会错过，他们会打电话给我的。我发现2小时左右集中回复一次微信消息，基本不会错过重要消息，也能保证不被即时通讯打乱正常的工作节奏。</p>
+<p>&amp;ensp;&amp;ensp;&amp;ensp;&amp;ensp;之前每天自己还特别忙,能主动控制部分时间后，日常节奏也就静下来了。突然一天凌晨看到年轻时候的笔记惊醒，年轻时候的理想去哪了，实现了吗?</p>
+<p>&amp;ensp;&amp;ensp;&amp;ensp;&amp;ensp;每个人小时候似乎都有这么个梦想，做一件惊天动地的大事,从此以后大家都会记得我们的名字。所以,我们试图练就—身本领，成为一个无法无天的孙猴子。我很多时候以为自己是个孙悟空，什么都可以。后来我觉得自己是一只猪八戒，为太多东西所困。</p>
+<p>&amp;ensp;&amp;ensp;&amp;ensp;&amp;ensp;年轻的时候觉得安全技术是神圣的事物，心无旁骛的专心研究,琢磨一个技术细节通宵达旦是常态。我以前理解不了「懈怠」的状态到底是怎么回事,现在看看自己和周围的人，慢慢就懂了。人们到了一定的年龄之后，一个人的「琐事」和「责任」就会越来越多，注意力和精力就跟不上了，让人没有精力和时间再挑战有难度的事情,一直被封锁在低阶状态，陷入低水平循环。</p>
+<p>&amp;ensp;&amp;ensp;&amp;ensp;&amp;ensp;当你人生有些困惑的时候，千万不要去问同龄人，或者和你格局差不多的人,他们不太能够总结出有效的实践经验，甚至还会恐吓你，更没法给你相对全面、不偏执的人生建议。因为，他们吃的盐、见的世面和你差不多。</p>
+<p>&amp;ensp;&amp;ensp;&amp;ensp;&amp;ensp;所以我去找了五十岁的迟老师,得到一段话:每个人年轻时都有雄心壮志,我们总想去追求什么，去突破什么，去找寻什么。我们心怀梦想，踏马江湖，拔剑四顾…..人到中年，「似乎不论如何去苦苦追求，总有一些你必须放弃，总有一些你只能怀念，还有一些永远在梦想中。我们永远在计算成败、取舍与得失，却没有人找到正确的答案。</p>
+<p>迟老师等于啥都没说，正确的答案得靠自己找。</p>
+<p>&amp;ensp;&amp;ensp;&amp;ensp;&amp;ensp;于是我打算自己寻找答案，直到昨天一口气读完羽生结弦和藤泽秀行的自传，一个滑冰的,一个下棋的，讲了同一个道理:选定一个方向，努力集中精力在一件事上，每一天都拼尽全力,全力以赴直到获得世界冠军。</p>
+<p>&amp;ensp;&amp;ensp;&amp;ensp;&amp;ensp;大家精力都是有限的,频繁的上下文切换，每件事都做,浅尝辄止,这是最糟糕的状态。「那么我们可以少做事，但得把这些事做好，做得非常好」，我也不确定这是不是正确的答案，隐约觉得方向是对的，值得去尝试。</p>
+<p>《胜负与艺术-我的围棋之路》<br>藤泽秀行自传,4岁开始和下围棋的父亲学棋，14岁成为职业棋手<br>《苍炎1》&#x2F;《苍炎2:飞翔篇》<br>羽生结弦自传，4岁开始滑冰,10岁全国冠军，17岁在国际崭露头角</p>
+<p>&amp;ensp;&amp;ensp;&amp;ensp;&amp;ensp;羽生结弦和藤泽秀行让我重新认识了「天赋」，认识到绝大部分事情并不需要天赋。投入时间多，就能做得好，做得越好，就越愿意投入更多时间。他们也不太认可「兴趣爱好」这个说法，因为每个人的兴趣爱好其实都差不多，而且兴趣往往是业余的，上下限都极低，且目标感差。</p>
+<p>&amp;ensp;&amp;ensp;&amp;ensp;&amp;ensp;一样东西你当做业余兴趣爱好，做到50分的时候就会获得优秀的夸奖，做到60分就会被称赞是个天才。而作为职业选手，做到80分是理所应当的及格线,做到90分只能算是初出茅庐<br>所以，在个人十几年、几十年如一日的职业选手面前，绝大部分人都是渣</p>
+<p>&amp;ensp;&amp;ensp;&amp;ensp;&amp;ensp;仔细一想，职业选手经验对大多数人是不适用的，还不能轻易的去模仿。在你的基础训练时长不够、底子不够厚的情况，很多事情其实是做不到的，前10年的基础积累最为关键。冲上来就学职业选手,无异于游戏一开始就把你和玩了上万小时的对手放一起,你每次开局就死，会导致信心迅速丧失，变得消极,那你能喜欢和坚持这个游戏才怪呢。</p>
+<hr>
+<p><strong>那具体要怎么样才能把一件事情做好呢</strong>?<br>&amp;ensp;&amp;ensp;&amp;ensp;&amp;ensp;万事一理，方法这东西跟内功心法非常相似。把冰滑好，把棋下好，把步跑好，把代码写好，下面的办法适用绝大部分场景……</p>
+<p>&amp;ensp;&amp;ensp;&amp;ensp;&amp;ensp;正确的方式还是参考游戏的设计，只有先把基础打牢靠,然后再提升层级，随着投入的时间增加，你能够去较高级一些的地方，这里面人的水平越来越高,你的能力也得到了锻炼。随后你再能够到更高级别的地方。这种游戏设置，让你一直在练习，一直有挑战,一直有乐趣、持续有成就感。<br>做好一件事情的三个要点:<br>&amp;ensp;&amp;ensp;&amp;ensp;&amp;ensp;<strong>要点一</strong>:保证在时间上的持续投入。飞行员不开够一千个小时不能算老手，马拉松运动员的跑量每天都跑几十公里,优秀的程序员也是从对着书一行一行代码敲过来的,直到写够一万行代码。在前期，一个人是没有方向、没有思路、没有全局感的，最重要的就是不断地投入时间实践,过一段时间就会突然清晰了。很多人学技能一无所成，就是死在了这个时间点前。</p>
+<p>&amp;ensp;&amp;ensp;&amp;ensp;&amp;ensp;你要跑步口号震天,是不是一年下来都没跑够300公里?我现在每个月的目标是跑满10个小时,配速稍差一点也是够100公里的。马拉松运动员的跑量一年大概10000公里,你觉得我有可能跑赢运动员吗?<br>&amp;ensp;&amp;ensp;&amp;ensp;&amp;ensp;<strong>要点二</strong>:在你还没达到60分及格线前降低预期，把每天的目标定低，以至于不需要毅力去做。你可以试试，如果想做成一件事,不要把目标定太高，要追求每天「从容的开始」，而不是一天取得十天的效果。制定目标的时候一定要容易，具体操作的时候，每天把基础目标先达成了，后面再自由调整。<br>*<br>&amp;ensp;&amp;ensp;&amp;ensp;&amp;ensp;<strong>要点三</strong>:确保自己一直在做「有效的」基础练习。最好的训练方法是越练越难,但是在每个阶段都扎实做基础训练。但要准确识别出怎样的路径是持续挑战却非常困难,绝大多数人其实是失败在这里了，要么他自己想不明白，没人指导,要么是指导他的教练不上心或水平不行<br>&amp;ensp;&amp;ensp;&amp;ensp;&amp;ensp;《刻意练习:如何从新手到大师》这本书把练习归纳为3个区(舒适区、学习区、恐慌区)，刻意练习发生在舒适区之外。我把他分解为更加容易理解的舒适区、训练区、挑战区。</p>
+<p>&amp;ensp;&amp;ensp;&amp;ensp;&amp;ensp;如果你想接触什么新东西，当你选择有所了解的方向，那么就是待在舒适区。但是你如果真的想进步提升，你最好的选择就是在稍微比现在懂的东西复杂一点点的地方训练，也就是训练区。而不是直接跑到挑战区去，因为挑战区难度实在太大。挑战难度大，你的积极性就难免受挫，受挫次数多了，你就很难持续。<br>&amp;ensp;&amp;ensp;&amp;ensp;&amp;ensp;<strong>一个人只有在挑战区摸爬滚打才能有效果，那种一直停留在舒适区和训练区的「不断重复」无法带来进步和让你升阶，也就是你会被一直锁死在基础水平。</strong></p>
+<p>最后举一个高考的例子:</p>
+<p>&amp;ensp;&amp;ensp;&amp;ensp;&amp;ensp;从过往的数据看90%的孩子智商差不太多，一个学生能否考好，关键是他在高中的三年是不是一直在做「有效练习」，也就是有没有把基础的东西练习足够长的时间。<br>&amp;ensp;&amp;ensp;&amp;ensp;&amp;ensp;在读高中的时候把教科书上的题目练好，对一个高中学生来说是最需要做的基础功课，但是大部分人踏踏实实地做到了吗?当然没有，那为什么没有做到呢?主要大部分人是狂妄的,认为自己非同凡响,要做就做有难度的事，对最基础的事情不屑一顾。<br>&amp;ensp;&amp;ensp;&amp;ensp;&amp;ensp;殊不知，这个世界上所有的事都是相互联系的，你掌握不了这些基本的，你就没办法向前走一步，更何况挑战有难度的,你的水平一直就被锁死在基础阶段。</p>
+<hr>
+<p>&amp;ensp;&amp;ensp;&amp;ensp;&amp;ensp;这也是世界上最常见的一个逻辑:人生这玩意往往是在一个阶段完成所有任务后才能进入下一个阶段，就像游戏里的角色升级,但是生活的诡异之处就在于，没人告诉你有哪些任务是这个阶段必须完成的，所以很多人一直被锁死在低阶状态，陷入低水平循环。</p>
+<p>&amp;ensp;&amp;ensp;&amp;ensp;&amp;ensp;你选了一个方向，开始集中精力，持续投入时间，做够了扎实的基础训练。跑步运动量上了5万公里,代码量写了100万行,成功渗透入侵的服务器到了1000万台。作为业余选手终于登上了山顶,达到职业选手的及格线水平。迎接你的是下一座高山:职业选手的竞技区。</p>
+<p>&amp;ensp;&amp;ensp;&amp;ensp;&amp;ensp;进入竞技区后，一般人眼前只有一条下坡路。少有人能看清还有更高阶「把事情做到非常好」的路，也有人看清了但是不愿意走。还有一些类似《强风吹拂》提到的选手，明明没有目的地，却仍日日不间断地跑下去的人，能够断言自己究竟是喜欢还是讨厌吗?<br>&amp;ensp;&amp;ensp;&amp;ensp;&amp;ensp;竞技区的人数较少，但却是个激励竞争的环境。那些职业选手大都经过几十年的艰苦训练，且经验丰富，他们可以随时进入「竞技状态」，完美的身体状态结合平稳的心境，瞬间高出力形成高密集能量释放，把你秒杀掉。<br>&amp;ensp;&amp;ensp;&amp;ensp;&amp;ensp;瞬间的挫败感,你开始感受到差距了，感受到自己普通了,怎么办呢?你为啥想不开非得做职业选手?</p>
+<hr>
+<p>&amp;ensp;&amp;ensp;&amp;ensp;&amp;ensp;羽生结弦的答案:“除了努力，也没有别的办法了。我唯一能做的，就是往前走。为此，尽我所有，做我能做的电”<br>&amp;ensp;&amp;ensp;人一生有两次妥协:第一次是意识到父母很普通;第二次是意识到自己也很普通;承认自己普通吧，这没有什么不好。当你承认自己普通的时候，才能够开始真正的带来改变。只要愿望还够强烈。<br>才会有「后来者居上」一说。</p>
+
+    </div>
+
+    
+    
+    
+        
+
+<div>
+<ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者： </strong>l3ife
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="http://example.com/2022/10/04/%E6%97%A5%E8%AE%B0-%E6%AF%8F%E6%97%A5%E4%B8%80%E8%AE%B0%E4%BD%8F/" title="猪猪侠大佬">http://example.com/2022/10/04/日记-每日一记住/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+</div>
+
+
+      <footer class="post-footer">
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2022/10/04/%5Bvulnstack%5DATT&CK%E6%94%BB%E5%87%BB-1/" rel="prev" title="ATT&CK-1">
+      <i class="fa fa-chevron-left"></i> ATT&CK-1
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2022/10/04/ATT-CK-1/" rel="next" title="ATT&CK-1">
+      ATT&CK-1 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">l3ife</p>
+  <div class="site-description" itemprop="description">谁想当安全混子呢</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">3</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">2</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">1</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="cc-license motion-element" itemprop="license">
+    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" class="cc-opacity" rel="noopener" target="_blank"><img src="/images/cc-by-nc-sa.svg" alt="Creative Commons"></a>
+  </div>
+
+
+
+      </div>
+	
+	  
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">l3ife</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>
