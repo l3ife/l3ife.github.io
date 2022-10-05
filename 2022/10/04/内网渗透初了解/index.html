@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 6.3.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/1655090890230.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/1655090890230.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="内网信息收集部门，继续填充">
+<meta property="og:type" content="article">
+<meta property="og:title" content="内网渗透-信息收集命令">
+<meta property="og:url" content="http://example.com/2022/10/04/%E5%86%85%E7%BD%91%E6%B8%97%E9%80%8F%E5%88%9D%E4%BA%86%E8%A7%A3/index.html">
+<meta property="og:site_name" content="Security">
+<meta property="og:description" content="内网信息收集部门，继续填充">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2022-10-04T15:45:42.551Z">
+<meta property="article:modified_time" content="2022-10-04T16:01:44.633Z">
+<meta property="article:author" content="l3ife">
+<meta property="article:tag" content="内网">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://example.com/2022/10/04/%E5%86%85%E7%BD%91%E6%B8%97%E9%80%8F%E5%88%9D%E4%BA%86%E8%A7%A3/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>内网渗透-信息收集命令 | Security</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Security</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="tags fa-fw"></i>标签<span class="badge">4</span></a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="th fa-fw"></i>分类<span class="badge">2</span></a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="archive fa-fw"></i>归档<span class="badge">4</span></a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/10/04/%E5%86%85%E7%BD%91%E6%B8%97%E9%80%8F%E5%88%9D%E4%BA%86%E8%A7%A3/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="l3ife">
+      <meta itemprop="description" content="谁想当安全混子呢">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Security">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          内网渗透-信息收集命令
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2022-10-04 23:45:42" itemprop="dateCreated datePublished" datetime="2022-10-04T23:45:42+08:00">2022-10-04</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2022-10-05 00:01:44" itemprop="dateModified" datetime="2022-10-05T00:01:44+08:00">2022-10-05</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E5%86%85%E7%BD%91%E6%B8%97%E9%80%8F/" itemprop="url" rel="index"><span itemprop="name">内网渗透</span></a>
+                </span>
+            </span>
+
+          
+            <div class="post-description">内网信息收集部门，继续填充</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h2 id="用户"><a href="#用户" class="headerlink" title="用户"></a>用户</h2><figure class="highlight crmsh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">net <span class="keyword">user</span> <span class="title">#本机用户</span></span><br><span class="line"><span class="title">net</span> <span class="keyword">user</span> <span class="title">XXX</span>     <span class="comment">#查看用户详细信息 </span></span><br><span class="line">net <span class="keyword">user</span> <span class="title">username</span> password /add  <span class="comment">#增加用户，修改密码</span></span><br><span class="line">net <span class="keyword">user</span> <span class="title">username</span> /delete</span><br><span class="line"></span><br><span class="line">net localgroup    <span class="comment">#查看管理员组成员</span></span><br><span class="line">net localgroup administrators  <span class="comment">#查看本机管理员</span></span><br><span class="line">net localgroup administrators /domain  <span class="comment">#登录本机的域管理员</span></span><br><span class="line">net localgroup workgroup\user001 /add   <span class="comment">#域用户添加到本机</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#检查当前用户，权限</span></span><br><span class="line">whoami /<span class="keyword">user</span> <span class="title">&amp;&amp; whoami</span> /priv</span><br><span class="line">whoami /all        <span class="comment">#查看当前域并获取域SID</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#查看在线用户信息</span></span><br><span class="line">quser</span><br><span class="line">query <span class="keyword">user</span> <span class="title">|| qwinsta</span></span><br></pre></td></tr></table></figure>
+
+
+
+
+
+<h2 id="网络"><a href="#网络" class="headerlink" title="网络"></a>网络</h2><figure class="highlight gauss"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">netstat -ano               <span class="meta">#端口信息</span></span><br><span class="line">ipconfig /all              <span class="meta">#查询本机IP段，所在域等</span></span><br><span class="line">route                 <span class="meta">#打印路由信息</span></span><br><span class="line">arp -a                     <span class="meta">#查看arp缓存，可以发现内网主机</span></span><br><span class="line">tracert IP                <span class="meta">#路由跟踪</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="meta">#查看局域网信息</span></span><br><span class="line">net <span class="built_in">view</span>            <span class="meta">#查看同一域内机器列表</span></span><br><span class="line">net <span class="built_in">view</span> \\ip       <span class="meta">#查看某ip共享</span></span><br><span class="line">net <span class="built_in">view</span> \\GHQ      <span class="meta">#查看GHQ计算机的共享资源列表</span></span><br><span class="line">net <span class="built_in">view</span> /domain    <span class="meta">#查看内网存在多少个域</span></span><br><span class="line">net <span class="built_in">view</span> /domin:<span class="built_in">XYZ</span>  <span class="meta">#查看XYZ域的机器列表</span></span><br><span class="line">net accounts /domain  <span class="meta">#查询域用户密码过期等信息</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+
+
+
+<h2 id="域"><a href="#域" class="headerlink" title="域"></a>域</h2><figure class="highlight jboss-cli"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#判断是否存在域</span></span><br><span class="line">net config workstation    <span class="comment"># 查看当前计算机名，全名，用户名，系统版本，工作站域，登陆的域等</span></span><br><span class="line">net view <span class="string">/domain</span>          <span class="comment"># 查看域</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#查看主域服务器</span></span><br><span class="line">net time <span class="string">/domain</span>           <span class="comment">#主域服务器会同时作为时间服务器</span></span><br><span class="line"></span><br><span class="line">nltest <span class="string">/DCLIST</span><span class="function">:god</span>         <span class="comment">#查看域控制器主机名，god为域名</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#查看域用户相关信息</span></span><br><span class="line">net user <span class="string">/domain</span>          <span class="comment">#显示所在域的用户 </span></span><br><span class="line">net user 域用户 <span class="string">/domain</span>    <span class="comment">#获取域用户详细信息</span></span><br><span class="line">net user <span class="string">/domain</span> XXX 123456   <span class="comment">#修改用户密码，需要域管理员权限</span></span><br><span class="line"></span><br><span class="line">net group <span class="string">/domain</span>       <span class="comment">#查看域内用户组列表</span></span><br><span class="line">net group <span class="string">&quot;domain admins&quot;</span> <span class="string">/domain</span>       <span class="comment">#获取域管理员列表</span></span><br><span class="line">net group <span class="string">&quot;domain controllers&quot;</span> <span class="string">/domain</span>  <span class="comment">#查看域控制器组</span></span><br><span class="line">net group <span class="string">&quot;domain computers&quot;</span>  <span class="string">/domain</span>   <span class="comment">#查看域机器</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#列出域信任关系</span></span><br><span class="line">nltest <span class="string">/domain_trusts</span>      <span class="comment">#列出域与域之间的信任关系</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#获得域内用户详细信息</span></span><br><span class="line">wmic useraccount get <span class="string">/all</span>   <span class="comment">#可以获取到域用户的用户名、描述信息、SID、域名、状态等。</span></span><br></pre></td></tr></table></figure>
+
+
+
+
+
+
+    </div>
+
+    
+    
+    
+        
+
+<div>
+<ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者： </strong>l3ife
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="http://example.com/2022/10/04/%E5%86%85%E7%BD%91%E6%B8%97%E9%80%8F%E5%88%9D%E4%BA%86%E8%A7%A3/" title="内网渗透-信息收集命令">http://example.com/2022/10/04/内网渗透初了解/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+</div>
+
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E5%86%85%E7%BD%91/" rel="tag"># 内网</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2022/10/04/%E6%97%A5%E8%AE%B0-%E6%AF%8F%E6%97%A5%E4%B8%80%E8%AE%B0%E4%BD%8F/" rel="prev" title="猪猪侠大佬">
+      <i class="fa fa-chevron-left"></i> 猪猪侠大佬
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2022/10/05/%E5%86%85%E7%BD%91%E4%BB%A3%E7%90%86%E8%BD%AC%E5%8F%91%E5%B7%A5%E5%85%B7/" rel="next" title="内网">
+      内网 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%94%A8%E6%88%B7"><span class="nav-number">1.</span> <span class="nav-text">用户</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BD%91%E7%BB%9C"><span class="nav-number">2.</span> <span class="nav-text">网络</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9F%9F"><span class="nav-number">3.</span> <span class="nav-text">域</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">l3ife</p>
+  <div class="site-description" itemprop="description">谁想当安全混子呢</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">4</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">2</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">4</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="cc-license motion-element" itemprop="license">
+    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" class="cc-opacity" rel="noopener" target="_blank"><img src="/images/cc-by-nc-sa.svg" alt="Creative Commons"></a>
+  </div>
+
+
+
+      </div>
+	  
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">l3ife</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

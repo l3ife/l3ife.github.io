@@ -1,0 +1,507 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 6.3.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/1655090890230.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/1655090890230.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="日常靶场训练遇到的工具记录，还有没用过的工具">
+<meta property="og:type" content="article">
+<meta property="og:title" content="内网">
+<meta property="og:url" content="http://example.com/2022/10/05/%E5%86%85%E7%BD%91%E4%BB%A3%E7%90%86%E8%BD%AC%E5%8F%91%E5%B7%A5%E5%85%B7/index.html">
+<meta property="og:site_name" content="Security">
+<meta property="og:description" content="日常靶场训练遇到的工具记录，还有没用过的工具">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://i.imgtg.com/2022/10/05/p5MjX.png">
+<meta property="og:image" content="https://s2.loli.net/2022/10/05/pqe5iGryTtjBKuP.png">
+<meta property="og:image" content="https://s2.loli.net/2022/10/05/kHazOYryX3RlTEe.png">
+<meta property="og:image" content="https://s2.loli.net/2022/10/05/OxEgwktseci4DBQ.png">
+<meta property="og:image" content="https://s2.loli.net/2022/10/05/gHrQ6Nz4mxXciRO.png">
+<meta property="og:image" content="https://s2.loli.net/2022/10/05/xZCK38wFNtbQAdi.png">
+<meta property="og:image" content="https://s2.loli.net/2022/10/05/XvzC6o2BIWPnhq8.png">
+<meta property="og:image" content="https://s2.loli.net/2022/10/05/DukAcoXT7Sy5fKL.png">
+<meta property="article:published_time" content="2022-10-04T16:01:07.653Z">
+<meta property="article:modified_time" content="2022-10-04T17:33:17.493Z">
+<meta property="article:author" content="l3ife">
+<meta property="article:tag" content="代理转发">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://i.imgtg.com/2022/10/05/p5MjX.png">
+
+<link rel="canonical" href="http://example.com/2022/10/05/%E5%86%85%E7%BD%91%E4%BB%A3%E7%90%86%E8%BD%AC%E5%8F%91%E5%B7%A5%E5%85%B7/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>内网 | Security</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Security</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="tags fa-fw"></i>标签<span class="badge">4</span></a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="th fa-fw"></i>分类<span class="badge">2</span></a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="archive fa-fw"></i>归档<span class="badge">4</span></a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/10/05/%E5%86%85%E7%BD%91%E4%BB%A3%E7%90%86%E8%BD%AC%E5%8F%91%E5%B7%A5%E5%85%B7/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="l3ife">
+      <meta itemprop="description" content="谁想当安全混子呢">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Security">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          内网
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2022-10-05 00:01:07 / 修改时间：01:33:17" itemprop="dateCreated datePublished" datetime="2022-10-05T00:01:07+08:00">2022-10-05</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E5%86%85%E7%BD%91%E6%B8%97%E9%80%8F/" itemprop="url" rel="index"><span itemprop="name">内网渗透</span></a>
+                </span>
+            </span>
+
+          
+            <div class="post-description">日常靶场训练遇到的工具记录，还有没用过的工具</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="概念"><a href="#概念" class="headerlink" title="概念"></a>概念</h1><h2 id="端口转发"><a href="#端口转发" class="headerlink" title="端口转发"></a>端口转发</h2><p>端口转发就是将本机端口或者本机可以访问到任意主机的端口，转发到任意一台可以访问到的IP上，通常为公网IP</p>
+<p>适合端口转发的场景：</p>
+<p>1.服务器处于内网，可以访问外部网络</p>
+<p>2.服务器处于内网，可以访问外部网络，但开启防火墙限制敏感端口连接</p>
+<p>3.服务器处于内网，对外只开放80端口，且服务器不能访问外部网络</p>
+<h2 id="端口映射"><a href="#端口映射" class="headerlink" title="端口映射"></a>端口映射</h2><figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">端口转发和端口映射区别</span><br><span class="line"><span class="number">1</span>、端口映射场景：外网主机<span class="selector-tag">A</span>想访问内网主机<span class="selector-tag">B</span>的服务</span><br><span class="line"><span class="number">2</span>、端口转发场景：外网主机<span class="selector-tag">A</span>可以随意访问内网主机<span class="selector-tag">B</span>的端口，却无法访问内网主机C的端口，需要将内网主机C的端口转发到<span class="selector-tag">B</span>主机的端口</span><br></pre></td></tr></table></figure>
+
+<h2 id="代理"><a href="#代理" class="headerlink" title="代理"></a>代理</h2><p>代理一般分为HTTP代理、socks代理、ftp代理、telnet代理、ssl代理</p>
+<p><strong>正向与反向区别</strong></p>
+<p>1、正向是一对多，反向是只允许一对特定服务</p>
+<p>2、正向代理客户端，反向代理服务器</p>
+<h2 id="隧道"><a href="#隧道" class="headerlink" title="隧道"></a>隧道</h2><p>服务器与客户端之间的中转站，确保安全通信。</p>
+<h1 id="端口转发工具"><a href="#端口转发工具" class="headerlink" title="端口转发工具"></a>端口转发工具</h1><h2 id="概念讲解"><a href="#概念讲解" class="headerlink" title="概念讲解"></a>概念讲解</h2><h3 id="socket端口转发"><a href="#socket端口转发" class="headerlink" title="socket端口转发"></a>socket端口转发</h3><p>一条正常的socket隧道必备两端，一端为服务端，会监听端口等待客户端连接</p>
+<p>一端为客户端，通过传入服务端的IP和端口，才会主动连接服务器。</p>
+<p>合格的socket隧道有两种接口分别对应服务端和客户端，端口转发有4种工作状态，分别为</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">1.客户端接客户端</span><br><span class="line">2.客户端接服务端</span><br><span class="line">3.服务端接服务端</span><br><span class="line">4.服务端接客户端</span><br></pre></td></tr></table></figure>
+
+<h3 id="socket代理"><a href="#socket代理" class="headerlink" title="socket代理"></a>socket代理</h3><p>socket服务器作为中间人，帮助客户端去访问Internet</p>
+<p>使用代理服务时，我们配置好代理服务器后，通过浏览器就可以访问任意网站。socket代理有一个交互协议，浏览器会将访问的IP和端口给socket服务器，socks服务端解析信息后，会代替浏览器访问目标网站</p>
+<p><strong>两者异同</strong></p>
+<p><strong>1、socket端口转发不需要通讯协议支持，socks代理需要socks协议支持</strong></p>
+<p><strong>2、socket端口转发一对一，socket代理一对多</strong></p>
+<h2 id="转发工具"><a href="#转发工具" class="headerlink" title="转发工具"></a>转发工具</h2><h3 id="MSF反弹木马"><a href="#MSF反弹木马" class="headerlink" title="MSF反弹木马"></a>MSF反弹木马</h3><p>使用条件</p>
+<p>1.服务器通外网且有自己公网IP</p>
+<p>2.目标服务器存在webshell</p>
+<figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#进入Mete转发目标主机192.168.50.238的3389端口到本地8888</span></span><br><span class="line"><span class="attribute">portfwd</span> add -l <span class="number">8888</span> -p <span class="number">3389</span> -r <span class="number">192.168.50.238</span></span><br><span class="line"><span class="comment">#使用kali的rdesktop连接本地的8888端口</span></span><br><span class="line"><span class="attribute">rdesktop</span> <span class="number">127.0.0.1:8888</span></span><br></pre></td></tr></table></figure>
+
+<p><a target="_blank" rel="noopener" href="https://imgtg.com/image/p5MjX"><img src="https://i.imgtg.com/2022/10/05/p5MjX.png" alt="p5MjX.png"></a></p>
+<h3 id="lcx"><a href="#lcx" class="headerlink" title="lcx"></a>lcx</h3><p>使用条件</p>
+<p>1.服务器通外网且有自己公网IP</p>
+<p>2.需上传lcx.exe到目标网站</p>
+<p>3.lcx在Window为lcx.exe，在linux下为postmap</p>
+<figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">#将目标服务器端口<span class="number">3389</span>转发为原服务器<span class="number">9999</span></span><br><span class="line">lcx<span class="selector-class">.exe</span> -slave  x<span class="selector-class">.x</span><span class="selector-class">.x</span><span class="selector-class">.x</span>(原服务器) <span class="number">9999</span> x<span class="selector-class">.x</span><span class="selector-class">.x</span><span class="selector-class">.x</span>(目标服务器) <span class="number">3389</span></span><br><span class="line">#将转发出来的端口 要转发出去的端口</span><br><span class="line">lcx –listen <span class="number">9999</span> <span class="number">6666</span></span><br><span class="line">访问<span class="number">127.0</span>.<span class="number">0.1</span>:<span class="number">6666</span></span><br><span class="line"></span><br><span class="line">两种情况，适用于正向连接或反向连接</span><br><span class="line"></span><br><span class="line">portmap</span><br><span class="line">./portmap -m <span class="number">2</span> -p1 <span class="number">3389</span> -<span class="selector-tag">h2</span> x<span class="selector-class">.x</span><span class="selector-class">.x</span><span class="selector-class">.x</span> -p2 <span class="number">9999</span></span><br><span class="line"></span><br><span class="line">p1为监听的端口</span><br><span class="line">p2为转发到的端口</span><br><span class="line">-m 参数表示以什么方式用这个工具</span><br><span class="line">  <span class="number">1</span>.监听port1端口并连接主机<span class="number">2</span>的port2端口</span><br><span class="line">  <span class="number">2</span>.监听port1和port2端口</span><br><span class="line">  <span class="number">3</span>.连接主机<span class="number">1</span>对应端口和主机<span class="number">2</span>对应端口</span><br></pre></td></tr></table></figure>
+
+<h3 id="ssh端口转发"><a href="#ssh端口转发" class="headerlink" title="ssh端口转发"></a>ssh端口转发</h3><p>能够将其他TCP端口的网络数据通过SSH转发</p>
+<figure class="highlight less"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">-g</span>：允许远程主机连接<span class="selector-tag">host</span>的转发端口</span><br><span class="line">   <span class="selector-tag">-f</span>：后台执行<span class="selector-tag">ssh</span>指令</span><br><span class="line">   <span class="selector-tag">-C</span>：允许压缩数据</span><br><span class="line">   <span class="selector-tag">-N</span>：不执行远程指令</span><br><span class="line">   <span class="selector-tag">-R</span>：将远程主机的某个端口转发到本地主机指定端口</span><br><span class="line">   <span class="selector-tag">-L</span>：将本地机的某个端口转发到远程指定机器的指定端口</span><br><span class="line">   <span class="selector-tag">-p</span>：指定远程主机的端口</span><br><span class="line"></span><br><span class="line">反向代理 <span class="selector-tag">ssh</span> <span class="selector-tag">-fCNR</span></span><br><span class="line">正向代理 <span class="selector-tag">ssh</span> <span class="selector-tag">-fCNL</span></span><br><span class="line"></span><br><span class="line">本地端口转发（正向） <span class="selector-id">#A</span>通过一台访问<span class="selector-tag">B</span>去访问<span class="selector-tag">C</span>的服务，<span class="selector-tag">A</span>不能直接访问<span class="selector-tag">C</span>的服务，但是<span class="selector-tag">A</span>可以访问<span class="selector-tag">B</span>，<span class="selector-tag">B</span>可以访问<span class="selector-tag">C</span>的服务。</span><br><span class="line">	<span class="selector-tag">ssh</span> <span class="selector-tag">-CNFL</span> <span class="selector-tag">a_port</span>:<span class="selector-tag">c_ip</span>:<span class="selector-tag">c_port</span> <span class="selector-tag">b_user</span>@<span class="selector-tag">b_ip</span></span><br><span class="line">远程端口转发（反向）#把内网主机暴露出来，以便所有主机可以访问到主机<span class="selector-tag">A</span>的服务，就需要一台公网访问的主机（<span class="selector-tag">B</span>）给<span class="selector-tag">A</span>做代理</span><br><span class="line">  <span class="selector-tag">ssh</span> <span class="selector-tag">-CNFR</span> <span class="selector-tag">b_port</span>:<span class="number">127.0</span><span class="selector-class">.0</span><span class="selector-class">.1</span>:<span class="selector-tag">a_port</span> <span class="selector-tag">b_user</span>@<span class="selector-tag">b_ip</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="iptables端口转发（未）"><a href="#iptables端口转发（未）" class="headerlink" title="iptables端口转发（未）"></a>iptables端口转发（未）</h3><h3 id="firewall端口转发（未）"><a href="#firewall端口转发（未）" class="headerlink" title="firewall端口转发（未）"></a>firewall端口转发（未）</h3><h1 id="socket代理工具"><a href="#socket代理工具" class="headerlink" title="socket代理工具"></a>socket代理工具</h1><p>Socks是一种代理服务，可以简单地将一端的系统连接到另外一端，支持多种协议，包括http、ftp请求及其它类型的请求。它分socks 4 和socks 5两种类型，socks 4只支持TCP协议，而socks 5支持TCP&#x2F;UDP协议，还支持各种身份验证机制等协议，其标准端口为1080。</p>
+<p>socks在服务端监听服务端口，当有请求时会从socks协议解析访问目标端口；ProxyChains是Linux下的代理工具，kali已经安装，它可以使任何程序通过代理上网，允许TCP和DNS通过代理隧道，支持HTTP、SOCKS4和SOCKS5类型的代理服务器，并且可配置多个代理。</p>
+<h2 id="基于WEB服务的sock代理工具"><a href="#基于WEB服务的sock代理工具" class="headerlink" title="基于WEB服务的sock代理工具"></a>基于WEB服务的sock代理工具</h2><h3 id="sock-proxychains"><a href="#sock-proxychains" class="headerlink" title="sock+proxychains"></a>sock+proxychains</h3><p><strong>1、sock4使用</strong></p>
+<p>拿到一台web服务器的shell，发现存在内网IP，目的是使用kali工具探测内网端口服务，搭建sock4代理</p>
+<p><img src="https://s2.loli.net/2022/10/05/pqe5iGryTtjBKuP.png" alt="image.png"></p>
+<p>修改&#x2F;etc&#x2F;proxychains.conf</p>
+<figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">socks4</span> <span class="number">127.0.0.1</span> <span class="number">8887</span> (kali_ip) (kali_port)</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://s2.loli.net/2022/10/05/kHazOYryX3RlTEe.png" alt="image.png"></p>
+<p>代理使用nc命令探测，发现可以连通</p>
+<p><img src="https://s2.loli.net/2022/10/05/OxEgwktseci4DBQ.png" alt="image.png"></p>
+<p>进行nmap端口扫描</p>
+<p><img src="https://s2.loli.net/2022/10/05/gHrQ6Nz4mxXciRO.png" alt="image.png"></p>
+<p><strong>2、搭建sock5代理</strong></p>
+<p>先添加10的路由，让socket代理能通过域主机访问到内网机器</p>
+<p> run autoroute -s 10.10.10.0&#x2F;24</p>
+<p><img src="https://s2.loli.net/2022/10/05/xZCK38wFNtbQAdi.png" alt="image.png"></p>
+<p>在kali机器开启socket代理</p>
+<figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">background   <span class="regexp">//</span>把<span class="number">2003</span>进程放到后台，返回msf</span><br><span class="line">use auxiliary<span class="regexp">/server/</span>socks_proxy</span><br><span class="line">show options</span><br><span class="line">set SRVHOST <span class="number">192.168</span>.<span class="number">1.9</span>  <span class="regexp">//</span>kali的IP</span><br><span class="line">exploit</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p><img src="https://s2.loli.net/2022/10/05/XvzC6o2BIWPnhq8.png" alt="image.png"></p>
+<p>显示如下为开启代理。</p>
+<p>gedit &#x2F;etc&#x2F;proxychains.conf</p>
+<p><img src="https://s2.loli.net/2022/10/05/DukAcoXT7Sy5fKL.png" alt="image.png"></p>
+<p>代理扫描IP服务，扫描10段的1到10的机子的开放端口</p>
+<p>proxychains nmap -sT -Pn -p 445,22,80 10.10.10.1-2</p>
+<h3 id="reGeorg（未）"><a href="#reGeorg（未）" class="headerlink" title="reGeorg（未）"></a>reGeorg（未）</h3><h3 id="Tunna（未）"><a href="#Tunna（未）" class="headerlink" title="Tunna（未）"></a>Tunna（未）</h3><h2 id="多层代理工具"><a href="#多层代理工具" class="headerlink" title="多层代理工具"></a>多层代理工具</h2><p>Earthworm（未）</p>
+<p>Termite（未）</p>
+<p>venom（未）</p>
+<p>fuso（未）</p>
+<h2 id="内网穿透工具"><a href="#内网穿透工具" class="headerlink" title="内网穿透工具"></a>内网穿透工具</h2><p>nps（未）</p>
+<p>ngrok（未）</p>
+<p>frp（未）</p>
+
+    </div>
+
+    
+    
+    
+        
+
+<div>
+<ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者： </strong>l3ife
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="http://example.com/2022/10/05/%E5%86%85%E7%BD%91%E4%BB%A3%E7%90%86%E8%BD%AC%E5%8F%91%E5%B7%A5%E5%85%B7/" title="内网">http://example.com/2022/10/05/内网代理转发工具/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+</div>
+
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E4%BB%A3%E7%90%86%E8%BD%AC%E5%8F%91/" rel="tag"># 代理转发</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2022/10/04/%E5%86%85%E7%BD%91%E6%B8%97%E9%80%8F%E5%88%9D%E4%BA%86%E8%A7%A3/" rel="prev" title="内网渗透-信息收集命令">
+      <i class="fa fa-chevron-left"></i> 内网渗透-信息收集命令
+    </a></div>
+      <div class="post-nav-item"></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%A6%82%E5%BF%B5"><span class="nav-number">1.</span> <span class="nav-text">概念</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%AB%AF%E5%8F%A3%E8%BD%AC%E5%8F%91"><span class="nav-number">1.1.</span> <span class="nav-text">端口转发</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%AB%AF%E5%8F%A3%E6%98%A0%E5%B0%84"><span class="nav-number">1.2.</span> <span class="nav-text">端口映射</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BB%A3%E7%90%86"><span class="nav-number">1.3.</span> <span class="nav-text">代理</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%9A%A7%E9%81%93"><span class="nav-number">1.4.</span> <span class="nav-text">隧道</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%AB%AF%E5%8F%A3%E8%BD%AC%E5%8F%91%E5%B7%A5%E5%85%B7"><span class="nav-number">2.</span> <span class="nav-text">端口转发工具</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%A6%82%E5%BF%B5%E8%AE%B2%E8%A7%A3"><span class="nav-number">2.1.</span> <span class="nav-text">概念讲解</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#socket%E7%AB%AF%E5%8F%A3%E8%BD%AC%E5%8F%91"><span class="nav-number">2.1.1.</span> <span class="nav-text">socket端口转发</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#socket%E4%BB%A3%E7%90%86"><span class="nav-number">2.1.2.</span> <span class="nav-text">socket代理</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%BD%AC%E5%8F%91%E5%B7%A5%E5%85%B7"><span class="nav-number">2.2.</span> <span class="nav-text">转发工具</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#MSF%E5%8F%8D%E5%BC%B9%E6%9C%A8%E9%A9%AC"><span class="nav-number">2.2.1.</span> <span class="nav-text">MSF反弹木马</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#lcx"><span class="nav-number">2.2.2.</span> <span class="nav-text">lcx</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ssh%E7%AB%AF%E5%8F%A3%E8%BD%AC%E5%8F%91"><span class="nav-number">2.2.3.</span> <span class="nav-text">ssh端口转发</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#iptables%E7%AB%AF%E5%8F%A3%E8%BD%AC%E5%8F%91%EF%BC%88%E6%9C%AA%EF%BC%89"><span class="nav-number">2.2.4.</span> <span class="nav-text">iptables端口转发（未）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#firewall%E7%AB%AF%E5%8F%A3%E8%BD%AC%E5%8F%91%EF%BC%88%E6%9C%AA%EF%BC%89"><span class="nav-number">2.2.5.</span> <span class="nav-text">firewall端口转发（未）</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#socket%E4%BB%A3%E7%90%86%E5%B7%A5%E5%85%B7"><span class="nav-number">3.</span> <span class="nav-text">socket代理工具</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9F%BA%E4%BA%8EWEB%E6%9C%8D%E5%8A%A1%E7%9A%84sock%E4%BB%A3%E7%90%86%E5%B7%A5%E5%85%B7"><span class="nav-number">3.1.</span> <span class="nav-text">基于WEB服务的sock代理工具</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#sock-proxychains"><span class="nav-number">3.1.1.</span> <span class="nav-text">sock+proxychains</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#reGeorg%EF%BC%88%E6%9C%AA%EF%BC%89"><span class="nav-number">3.1.2.</span> <span class="nav-text">reGeorg（未）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Tunna%EF%BC%88%E6%9C%AA%EF%BC%89"><span class="nav-number">3.1.3.</span> <span class="nav-text">Tunna（未）</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%A4%9A%E5%B1%82%E4%BB%A3%E7%90%86%E5%B7%A5%E5%85%B7"><span class="nav-number">3.2.</span> <span class="nav-text">多层代理工具</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%86%85%E7%BD%91%E7%A9%BF%E9%80%8F%E5%B7%A5%E5%85%B7"><span class="nav-number">3.3.</span> <span class="nav-text">内网穿透工具</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">l3ife</p>
+  <div class="site-description" itemprop="description">谁想当安全混子呢</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">4</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">2</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">4</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="cc-license motion-element" itemprop="license">
+    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" class="cc-opacity" rel="noopener" target="_blank"><img src="/images/cc-by-nc-sa.svg" alt="Creative Commons"></a>
+  </div>
+
+
+
+      </div>
+	  
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">l3ife</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>
