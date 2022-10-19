@@ -86,7 +86,7 @@
   </style>
 </noscript>
 
-</head>
+<link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css"></head>
 
 <body itemscope itemtype="http://schema.org/WebPage">
   <div class="container use-motion">
@@ -129,17 +129,17 @@
   </li>
         <li class="menu-item menu-item-tags">
 
-    <a href="/tags/" rel="section"><i class="tags fa-fw"></i>标签<span class="badge">3</span></a>
+    <a href="/tags/" rel="section"><i class="tags fa-fw"></i>标签<span class="badge">6</span></a>
 
   </li>
         <li class="menu-item menu-item-categories">
 
-    <a href="/categories/" rel="section"><i class="th fa-fw"></i>分类<span class="badge">3</span></a>
+    <a href="/categories/" rel="section"><i class="th fa-fw"></i>分类<span class="badge">5</span></a>
 
   </li>
         <li class="menu-item menu-item-archives">
 
-    <a href="/archives/" rel="section"><i class="archive fa-fw"></i>归档<span class="badge">6</span></a>
+    <a href="/archives/" rel="section"><i class="archive fa-fw"></i>归档<span class="badge">11</span></a>
 
   </li>
   </ul>
@@ -229,8 +229,10 @@
 <p>1.服务器处于内网，可以访问外部网络</p>
 <p>2.服务器处于内网，可以访问外部网络，但开启防火墙限制敏感端口连接</p>
 <p>3.服务器处于内网，对外只开放80端口，且服务器不能访问外部网络</p>
-<h2 id="端口映射"><a href="#端口映射" class="headerlink" title="端口映射"></a>端口映射</h2><figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">端口转发和端口映射区别</span><br><span class="line"><span class="number">1</span>、端口映射场景：外网主机<span class="selector-tag">A</span>想访问内网主机<span class="selector-tag">B</span>的服务</span><br><span class="line"><span class="number">2</span>、端口转发场景：外网主机<span class="selector-tag">A</span>可以随意访问内网主机<span class="selector-tag">B</span>的端口，却无法访问内网主机C的端口，需要将内网主机C的端口转发到<span class="selector-tag">B</span>主机的端口</span><br></pre></td></tr></table></figure>
-
+<h2 id="端口映射"><a href="#端口映射" class="headerlink" title="端口映射"></a>端口映射</h2><pre><code>端口转发和端口映射区别
+1、端口映射场景：外网主机A想访问内网主机B的服务
+2、端口转发场景：外网主机A可以随意访问内网主机B的端口，却无法访问内网主机C的端口，需要将内网主机C的端口转发到B主机的端口
+</code></pre>
 <h2 id="代理"><a href="#代理" class="headerlink" title="代理"></a>代理</h2><p>代理一般分为HTTP代理、socks代理、ftp代理、telnet代理、ssl代理</p>
 <p><strong>正向与反向区别</strong></p>
 <p>1、正向是一对多，反向是只允许一对特定服务</p>
@@ -239,8 +241,11 @@
 <h1 id="端口转发工具"><a href="#端口转发工具" class="headerlink" title="端口转发工具"></a>端口转发工具</h1><h2 id="概念讲解"><a href="#概念讲解" class="headerlink" title="概念讲解"></a>概念讲解</h2><h3 id="socket端口转发"><a href="#socket端口转发" class="headerlink" title="socket端口转发"></a>socket端口转发</h3><p>一条正常的socket隧道必备两端，一端为服务端，会监听端口等待客户端连接</p>
 <p>一端为客户端，通过传入服务端的IP和端口，才会主动连接服务器。</p>
 <p>合格的socket隧道有两种接口分别对应服务端和客户端，端口转发有4种工作状态，分别为</p>
-<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">1.客户端接客户端</span><br><span class="line">2.客户端接服务端</span><br><span class="line">3.服务端接服务端</span><br><span class="line">4.服务端接客户端</span><br></pre></td></tr></table></figure>
-
+<pre><code>1.客户端接客户端
+2.客户端接服务端
+3.服务端接服务端
+4.服务端接客户端
+</code></pre>
 <h3 id="socket代理"><a href="#socket代理" class="headerlink" title="socket代理"></a>socket代理</h3><p>socket服务器作为中间人，帮助客户端去访问Internet</p>
 <p>使用代理服务时，我们配置好代理服务器后，通过浏览器就可以访问任意网站。socket代理有一个交互协议，浏览器会将访问的IP和端口给socket服务器，socks服务端解析信息后，会代替浏览器访问目标网站</p>
 <p><strong>两者异同</strong></p>
@@ -249,26 +254,59 @@
 <h2 id="转发工具"><a href="#转发工具" class="headerlink" title="转发工具"></a>转发工具</h2><h3 id="MSF反弹木马"><a href="#MSF反弹木马" class="headerlink" title="MSF反弹木马"></a>MSF反弹木马</h3><p>使用条件</p>
 <p>1.服务器通外网且有自己公网IP</p>
 <p>2.目标服务器存在webshell</p>
-<figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#进入Mete转发目标主机192.168.50.238的3389端口到本地8888</span></span><br><span class="line"><span class="attribute">portfwd</span> add -l <span class="number">8888</span> -p <span class="number">3389</span> -r <span class="number">192.168.50.238</span></span><br><span class="line"><span class="comment">#使用kali的rdesktop连接本地的8888端口</span></span><br><span class="line"><span class="attribute">rdesktop</span> <span class="number">127.0.0.1:8888</span></span><br></pre></td></tr></table></figure>
-
+<pre><code>#进入Mete转发目标主机192.168.50.238的3389端口到本地8888
+portfwd add -l 8888 -p 3389 -r 192.168.50.238
+#使用kali的rdesktop连接本地的8888端口
+rdesktop 127.0.0.1:8888
+</code></pre>
 <p><a target="_blank" rel="noopener" href="https://imgtg.com/image/p5MjX"><img src="https://i.imgtg.com/2022/10/05/p5MjX.png" alt="p5MjX.png"></a></p>
 <h3 id="lcx"><a href="#lcx" class="headerlink" title="lcx"></a>lcx</h3><p>使用条件</p>
 <p>1.服务器通外网且有自己公网IP</p>
 <p>2.需上传lcx.exe到目标网站</p>
 <p>3.lcx在Window为lcx.exe，在linux下为postmap</p>
-<figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">#将目标服务器端口<span class="number">3389</span>转发为原服务器<span class="number">9999</span></span><br><span class="line">lcx<span class="selector-class">.exe</span> -slave  x<span class="selector-class">.x</span><span class="selector-class">.x</span><span class="selector-class">.x</span>(原服务器) <span class="number">9999</span> x<span class="selector-class">.x</span><span class="selector-class">.x</span><span class="selector-class">.x</span>(目标服务器) <span class="number">3389</span></span><br><span class="line">#将转发出来的端口 要转发出去的端口</span><br><span class="line">lcx –listen <span class="number">9999</span> <span class="number">6666</span></span><br><span class="line">访问<span class="number">127.0</span>.<span class="number">0.1</span>:<span class="number">6666</span></span><br><span class="line"></span><br><span class="line">两种情况，适用于正向连接或反向连接</span><br><span class="line"></span><br><span class="line">portmap</span><br><span class="line">./portmap -m <span class="number">2</span> -p1 <span class="number">3389</span> -<span class="selector-tag">h2</span> x<span class="selector-class">.x</span><span class="selector-class">.x</span><span class="selector-class">.x</span> -p2 <span class="number">9999</span></span><br><span class="line"></span><br><span class="line">p1为监听的端口</span><br><span class="line">p2为转发到的端口</span><br><span class="line">-m 参数表示以什么方式用这个工具</span><br><span class="line">  <span class="number">1</span>.监听port1端口并连接主机<span class="number">2</span>的port2端口</span><br><span class="line">  <span class="number">2</span>.监听port1和port2端口</span><br><span class="line">  <span class="number">3</span>.连接主机<span class="number">1</span>对应端口和主机<span class="number">2</span>对应端口</span><br></pre></td></tr></table></figure>
+<pre><code>#将目标服务器端口3389转发为原服务器9999
+lcx.exe -slave  x.x.x.x(原服务器) 9999 x.x.x.x(目标服务器) 3389
+#将转发出来的端口 要转发出去的端口
+lcx –listen 9999 6666
+访问127.0.0.1:6666
 
+两种情况，适用于正向连接或反向连接
+
+portmap
+./portmap -m 2 -p1 3389 -h2 x.x.x.x -p2 9999
+
+p1为监听的端口
+p2为转发到的端口
+-m 参数表示以什么方式用这个工具
+  1.监听port1端口并连接主机2的port2端口
+  2.监听port1和port2端口
+  3.连接主机1对应端口和主机2对应端口
+</code></pre>
 <h3 id="ssh端口转发"><a href="#ssh端口转发" class="headerlink" title="ssh端口转发"></a>ssh端口转发</h3><p>能够将其他TCP端口的网络数据通过SSH转发</p>
-<figure class="highlight less"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">-g</span>：允许远程主机连接<span class="selector-tag">host</span>的转发端口</span><br><span class="line">   <span class="selector-tag">-f</span>：后台执行<span class="selector-tag">ssh</span>指令</span><br><span class="line">   <span class="selector-tag">-C</span>：允许压缩数据</span><br><span class="line">   <span class="selector-tag">-N</span>：不执行远程指令</span><br><span class="line">   <span class="selector-tag">-R</span>：将远程主机的某个端口转发到本地主机指定端口</span><br><span class="line">   <span class="selector-tag">-L</span>：将本地机的某个端口转发到远程指定机器的指定端口</span><br><span class="line">   <span class="selector-tag">-p</span>：指定远程主机的端口</span><br><span class="line"></span><br><span class="line">反向代理 <span class="selector-tag">ssh</span> <span class="selector-tag">-fCNR</span></span><br><span class="line">正向代理 <span class="selector-tag">ssh</span> <span class="selector-tag">-fCNL</span></span><br><span class="line"></span><br><span class="line">本地端口转发（正向） <span class="selector-id">#A</span>通过一台访问<span class="selector-tag">B</span>去访问<span class="selector-tag">C</span>的服务，<span class="selector-tag">A</span>不能直接访问<span class="selector-tag">C</span>的服务，但是<span class="selector-tag">A</span>可以访问<span class="selector-tag">B</span>，<span class="selector-tag">B</span>可以访问<span class="selector-tag">C</span>的服务。</span><br><span class="line">	<span class="selector-tag">ssh</span> <span class="selector-tag">-CNFL</span> <span class="selector-tag">a_port</span>:<span class="selector-tag">c_ip</span>:<span class="selector-tag">c_port</span> <span class="selector-tag">b_user</span>@<span class="selector-tag">b_ip</span></span><br><span class="line">远程端口转发（反向）#把内网主机暴露出来，以便所有主机可以访问到主机<span class="selector-tag">A</span>的服务，就需要一台公网访问的主机（<span class="selector-tag">B</span>）给<span class="selector-tag">A</span>做代理</span><br><span class="line">  <span class="selector-tag">ssh</span> <span class="selector-tag">-CNFR</span> <span class="selector-tag">b_port</span>:<span class="number">127.0</span><span class="selector-class">.0</span><span class="selector-class">.1</span>:<span class="selector-tag">a_port</span> <span class="selector-tag">b_user</span>@<span class="selector-tag">b_ip</span></span><br></pre></td></tr></table></figure>
+<pre><code>-g：允许远程主机连接host的转发端口
+   -f：后台执行ssh指令
+   -C：允许压缩数据
+   -N：不执行远程指令
+   -R：将远程主机的某个端口转发到本地主机指定端口
+   -L：将本地机的某个端口转发到远程指定机器的指定端口
+   -p：指定远程主机的端口
 
+反向代理 ssh -fCNR
+正向代理 ssh -fCNL
+
+本地端口转发（正向） #A通过一台访问B去访问C的服务，A不能直接访问C的服务，但是A可以访问B，B可以访问C的服务。
+    ssh -CNFL a_port:c_ip:c_port b_user@b_ip
+远程端口转发（反向）#把内网主机暴露出来，以便所有主机可以访问到主机A的服务，就需要一台公网访问的主机（B）给A做代理
+  ssh -CNFR b_port:127.0.0.1:a_port b_user@b_ip
+</code></pre>
 <h3 id="iptables端口转发（未）"><a href="#iptables端口转发（未）" class="headerlink" title="iptables端口转发（未）"></a>iptables端口转发（未）</h3><h3 id="firewall端口转发（未）"><a href="#firewall端口转发（未）" class="headerlink" title="firewall端口转发（未）"></a>firewall端口转发（未）</h3><h1 id="socket代理工具"><a href="#socket代理工具" class="headerlink" title="socket代理工具"></a>socket代理工具</h1><p>Socks是一种代理服务，可以简单地将一端的系统连接到另外一端，支持多种协议，包括http、ftp请求及其它类型的请求。它分socks 4 和socks 5两种类型，socks 4只支持TCP协议，而socks 5支持TCP&#x2F;UDP协议，还支持各种身份验证机制等协议，其标准端口为1080。</p>
 <p>socks在服务端监听服务端口，当有请求时会从socks协议解析访问目标端口；ProxyChains是Linux下的代理工具，kali已经安装，它可以使任何程序通过代理上网，允许TCP和DNS通过代理隧道，支持HTTP、SOCKS4和SOCKS5类型的代理服务器，并且可配置多个代理。</p>
 <h2 id="基于WEB服务的sock代理工具"><a href="#基于WEB服务的sock代理工具" class="headerlink" title="基于WEB服务的sock代理工具"></a>基于WEB服务的sock代理工具</h2><h3 id="sock-proxychains"><a href="#sock-proxychains" class="headerlink" title="sock+proxychains"></a>sock+proxychains</h3><p><strong>1、sock4使用</strong></p>
 <p>拿到一台web服务器的shell，发现存在内网IP，目的是使用kali工具探测内网端口服务，搭建sock4代理</p>
 <p><img src="https://s2.loli.net/2022/10/05/pqe5iGryTtjBKuP.png" alt="image.png"></p>
 <p>修改&#x2F;etc&#x2F;proxychains.conf</p>
-<figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">socks4</span> <span class="number">127.0.0.1</span> <span class="number">8887</span> (kali_ip) (kali_port)</span><br></pre></td></tr></table></figure>
-
+<pre><code>socks4 127.0.0.1 8887 (kali_ip) (kali_port)
+</code></pre>
 <p><img src="https://s2.loli.net/2022/10/05/kHazOYryX3RlTEe.png" alt="image.png"></p>
 <p>代理使用nc命令探测，发现可以连通</p>
 <p><img src="https://s2.loli.net/2022/10/05/OxEgwktseci4DBQ.png" alt="image.png"></p>
@@ -279,8 +317,12 @@
 <p> run autoroute -s 10.10.10.0&#x2F;24</p>
 <p><img src="https://s2.loli.net/2022/10/05/xZCK38wFNtbQAdi.png" alt="image.png"></p>
 <p>在kali机器开启socket代理</p>
-<figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">background   <span class="regexp">//</span>把<span class="number">2003</span>进程放到后台，返回msf</span><br><span class="line">use auxiliary<span class="regexp">/server/</span>socks_proxy</span><br><span class="line">show options</span><br><span class="line">set SRVHOST <span class="number">192.168</span>.<span class="number">1.9</span>  <span class="regexp">//</span>kali的IP</span><br><span class="line">exploit</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
+<pre><code>background   //把2003进程放到后台，返回msf
+use auxiliary/server/socks_proxy
+show options
+set SRVHOST 192.168.1.9  //kali的IP
+exploit
+</code></pre>
 <p><img src="https://s2.loli.net/2022/10/05/XvzC6o2BIWPnhq8.png" alt="image.png"></p>
 <p>显示如下为开启代理。</p>
 <p>gedit &#x2F;etc&#x2F;proxychains.conf</p>
@@ -408,20 +450,20 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">6</span>
+          <span class="site-state-item-count">11</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
           
-        <span class="site-state-item-count">3</span>
+        <span class="site-state-item-count">5</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">3</span>
+        <span class="site-state-item-count">6</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>

