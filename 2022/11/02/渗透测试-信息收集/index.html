@@ -1,0 +1,598 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 6.3.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/1655090890230.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/1655090890230.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="渗透测试信息收集">
+<meta property="og:type" content="article">
+<meta property="og:title" content="信息收集">
+<meta property="og:url" content="http://example.com/2022/11/02/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95-%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86/index.html">
+<meta property="og:site_name" content="Security">
+<meta property="og:description" content="渗透测试信息收集">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://s2.loli.net/2022/11/02/Og1oqKRV3QcIuYs.png">
+<meta property="og:image" content="https://s2.loli.net/2022/11/02/MZJlPhA1S9arEY2.png">
+<meta property="og:image" content="https://s2.loli.net/2022/11/02/Jq9FkCyKD8XcQMf.png">
+<meta property="og:image" content="https://s2.loli.net/2022/11/02/CWbv4swjcGPaenD.png">
+<meta property="article:published_time" content="2022-11-02T15:14:29.001Z">
+<meta property="article:modified_time" content="2022-11-02T15:26:17.595Z">
+<meta property="article:author" content="l3ife">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://s2.loli.net/2022/11/02/Og1oqKRV3QcIuYs.png">
+
+<link rel="canonical" href="http://example.com/2022/11/02/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95-%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>信息收集 | Security</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Security</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="tags fa-fw"></i>标签<span class="badge">8</span></a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="th fa-fw"></i>分类<span class="badge">5</span></a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="archive fa-fw"></i>归档<span class="badge">13</span></a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/11/02/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95-%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="l3ife">
+      <meta itemprop="description" content="谁想当安全混子呢">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Security">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          信息收集
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2022-11-02 23:14:29 / 修改时间：23:26:17" itemprop="dateCreated datePublished" datetime="2022-11-02T23:14:29+08:00">2022-11-02</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/" itemprop="url" rel="index"><span itemprop="name">渗透测试</span></a>
+                </span>
+            </span>
+
+          
+            <div class="post-description">渗透测试信息收集</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="域名查询"><a href="#域名查询" class="headerlink" title="域名查询"></a><strong>域名查询</strong></h1><h2 id="Whois查询"><a href="#Whois查询" class="headerlink" title="Whois查询"></a><strong>Whois查询</strong></h2><p><strong>查询域名是否已经被注册，以及注册域名的详细信息的数据库（如域名所有人、域名注册商、域名注册日期和过期日期等）</strong></p>
+<p><a target="_blank" rel="noopener" href="http://whois.chinaz.com/">http://whois.chinaz.com/</a></p>
+<p><img src="https://s2.loli.net/2022/11/02/Og1oqKRV3QcIuYs.png" alt="image.png"></p>
+<p>相关的查询网址</p>
+<pre><code>https://www.alibabacloud.com/zh/whois
+https://www.whois365.com/cn/
+https://whois.cloud.tencent.com/
+https://whois.aliyun.com/
+</code></pre>
+<h2 id="备案信息查询"><a href="#备案信息查询" class="headerlink" title="备案信息查询"></a><strong>备案信息查询</strong></h2><p><strong>域名可查询该域名是否有备案及相关的ICP备案许可信息</strong></p>
+<p><a target="_blank" rel="noopener" href="https://beian.miit.gov.cn/?spm=a2c4g.11186623.0.0.58793367Iev0wi">https://beian.miit.gov.cn/?spm=a2c4g.11186623.0.0.58793367Iev0wi</a></p>
+<p><img src="https://s2.loli.net/2022/11/02/MZJlPhA1S9arEY2.png" alt="image.png"></p>
+<pre><code>http://icp.chinaz.com/
+http://www.jucha.com/beian/
+</code></pre>
+<h2 id="Whois反查"><a href="#Whois反查" class="headerlink" title="Whois反查"></a>Whois反查</h2><pre><code>https://www.cxw.com/rewhois
+http://whois.4.cn/reverse
+http://whois.bugscaner.com/
+</code></pre>
+<h1 id="获取二级域名"><a href="#获取二级域名" class="headerlink" title="获取二级域名"></a>获取二级域名</h1><h2 id="Layer子域名挖掘机"><a href="#Layer子域名挖掘机" class="headerlink" title="Layer子域名挖掘机"></a><strong>Layer子域名挖掘机</strong></h2><p><img src="https://s2.loli.net/2022/11/02/Jq9FkCyKD8XcQMf.png" alt="image.png"></p>
+<h2 id="脚本挖掘"><a href="#脚本挖掘" class="headerlink" title="脚本挖掘"></a>脚本挖掘</h2><pre><code>#! /usr/bin/env python3
+# _*_coding:utf-8 _*_
+#usage:python 子域名挖掘.py   baidu.com 5
+import requests
+from bs4 import BeautifulSoup
+from urllib.parse import urlparse #解析URL的参数
+import sys #对解释器使用或维护的一些变量的访问
+
+def bing_search(site,pages):
+    Subdomain= []  # 以列表形式存储子域名
+    headers= &#123;&#39;User-Agent&#39;:
+    &#39;Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:98.0) Gecko/20100101 Firefox/98.0&#39;,
+    &#39;Accept&#39;: &#39;*/*&#39;,
+    &#39;Referer&#39;:&#39;https://cn.bing.com&#39;,
+    &#39;Cookie&#39;:&#39;SUID=M; MUID=1B9B796D5D9E6E7E269768145C4C6F54; MUIDB=1B9B796D5D9E6E7E269768145C4C6F54; _EDGE_S=F=1&amp;SID=07B2260067386F2B3B2F377966EA6E64; _EDGE_V=1; SRCHD=AF=QBLH; SRCHUID=V=2&amp;GUID=D783F274FD984E06978EA411DA50276F&amp;dmnchg=1; SRCHUSR=DOB=20220401&amp;T=1648804797000; SRCHHPGUSR=SRCHLANG=zh-Hans&amp;BRW=XW&amp;BRH=M&amp;CW=1536&amp;CH=711&amp;SW=1536&amp;SH=864&amp;DPR=1.25&amp;UTC=480&amp;DM=1&amp;EXLTT=1&amp;HV=1648804801&amp;WTS=63784401597; _SS=SID=07B2260067386F2B3B2F377966EA6E64; ZHCHATSTRONGATTRACT=TRUE; ipv6=hit=1648808402805&amp;t=4&#39;,
+    &#125;
+    for i in range(1,int(pages)+1):
+        url=&quot;https://cn.bing.com/search?q=site%3A&quot;+site+&quot;&amp;qs=n&amp;form=QBRE&amp;sp=-1&amp;pq=site%3A&quot;+site+&quot;&amp;sc=1-17&amp;sk=&amp;cvid=F62DA717CE5347F384FF24C5C00A3F03&quot;
+        html = requests.get(url,headers)
+        soup =BeautifulSoup(html.content,&#39;html.parser&#39;)
+        job_bt =soup.findAll(&#39;h2&#39;)    #参数找到h2
+        for i in job_bt:
+            link=i.a.get(&#39;href&#39;)
+            domain=str(urlparse(link).scheme+&quot;://&quot;+ urlparse(link).netloc) #字符串，scheme协议，netloc服务器位置
+            if domain in Subdomain:
+                pass
+            else:
+                Subdomain.append(domain)
+                print(domain)
+if __name__ == &#39;__main__&#39;:
+    if len(sys.argv) == 3: #URL输出两个参数
+        site =sys.argv[1]
+        page =sys.argv[2]
+
+    else:
+        print(&quot;usage:%s baidu.com 10&quot; % sys.argv[0]) #输出帮助信息
+        sys.exit(-1)
+    Subdomain = bing_search(site,page)
+</code></pre>
+<h2 id="TheHarvester"><a href="#TheHarvester" class="headerlink" title="TheHarvester"></a>TheHarvester</h2><p>kali自带，python3以上</p>
+<pre><code>theHarvester -h  
+</code></pre>
+<p>常用语法</p>
+<pre><code>-d：指定搜索的域名或网址
+-b：指定采集信息的源（如baidu，biying，google）
+-l：指定采集信息的返回数量，默认500
+-f：输出文件名并保存采集结果，可以保存为HTML或XML格式；如果不指定，采集信息仅作屏幕显示
+</code></pre>
+<pre><code>theHarvester -d 4399.com -l 1000 -b baidu
+</code></pre>
+<pre><code>-d，--domain            要搜索的公司名称或域名。
+
+-l,    --limit                 限制搜索结果的数量，默认=500。
+
+-S,  --start                 从结果编号 X 开始，默认 = 0。
+
+-g,  --google-dork     使用 Google Dorks 进行 Google 搜索。
+
+-p,  --proxies            对请求使用代理，在 proxies.yaml 中输入代理。
+
+-s,  --shodan            使用 Shodan 查询发现的主机。
+
+--screenshot            对已解析的域进行截图，指定输出目录：--screenshot output_directory
+
+-v,  --virtual-host      通过 DNS 解析验证主机名并搜索虚拟主机。
+
+-e, --dns-server       用于查找的 DNS 服务器。
+
+-f，--filename          将结果保存到 XML 和 JSON 文件。
+
+-b, --source             指定搜索的引擎和数据源
+</code></pre>
+<h2 id="Amass"><a href="#Amass" class="headerlink" title="Amass"></a>Amass</h2><pre><code>五大参数：
+    amass intel - 枚举发现目标
+    amass enum  - 进行网络扫描和枚举
+    amass viz   - 将枚举结果可视化
+    amass track - 追踪枚举结果中的差异
+    amass db    - 操作amass的图表数据库
+每个参数下的支参数：
+    intel：
+        amass intel -h #获得amass intel所有参数
+        amass intel -active 192.168.2.1-64 -p 80,443,80 #启动主动侦察方法
+        amass intel -addr 192.168.2.1-64 #IP和范围（192.168.1.1-254），以逗号分隔
+    enum：
+        amass enum -brute -d example.com #执行暴力子域枚举
+</code></pre>
+<p><img src="https://s2.loli.net/2022/11/02/CWbv4swjcGPaenD.png" alt="image.png"></p>
+<h2 id="在线子域名"><a href="#在线子域名" class="headerlink" title="在线子域名"></a><strong>在线子域名</strong></h2><pre><code>https://tool.chinaz.com/subdomain/
+https://phpinfo.me/domain/
+https://tools.yum6.cn/Tools/urlblast/
+https://zhuanlan.zhihu.com/p/106705198 //23款子域名软件
+</code></pre>
+<h1 id="旁站收集"><a href="#旁站收集" class="headerlink" title="旁站收集"></a><strong>旁站收集</strong></h1><pre><code>站长之家
+http://ip.tool.chinaz.com/Same/、http://www.webscan.cc/    http://www.5kik.com/c/
+●
+谷歌语法
+site:211.69.130.*
+●
+Fofa、shodan
+ip=&quot;211.69.130.0/24&quot;
+●
+御剑
+</code></pre>
+<h1 id="端口扫描"><a href="#端口扫描" class="headerlink" title="端口扫描"></a>端口扫描</h1><h2 id="内网（nmap端口扫描）"><a href="#内网（nmap端口扫描）" class="headerlink" title="内网（nmap端口扫描）"></a><strong>内网（nmap端口扫描）</strong></h2><pre><code>语法：nmap &lt;target ip address&gt;
+
+commands：
+    -vv 参数设置对结果的详细输出
+    -p 扫描端口范围。-p 50-80  范围50到80          #nmap -p 50-80 192.168.1.1
+    -sn 进行ping扫描 							  #nmap -sn 192.168.1.1
+    -sP 扫描网段下的IP    						#nmap -sP 192.168.1.0/24 
+    -O  操作系统指纹识别                          #nmap -O 192.168.1.1
+    -A 多种扫描                                   #nmap -A 192.168.1.1
+    -iL 扫描文本里所有的URL					      #Nmap –iL C:\Users\targets.txt
+
+upgrade_commands:
+    --script=auth 对目标主机或主机网段进行应用弱口令检测 #nmap --script=auth 192.168.1.1
+    --script=brute 可对数据库，smb，snmap进行密码破解  #nmap --script=brute 192.168.1.1
+    --script=vuln 扫描常见漏洞 #Nmap --script=vuln 192.168.1.1
+    --script=realvnc-auth-bypass 扫描常见应用服务的扫描脚本 #nmap --script=realvnc-auth-bypass 192.168.1.1
+    --script=broadcast 探测局域网内更多服务开启的情况 #Nmap –n –p 445 --script=broadcast 192.168.1.1
+</code></pre>
+<h2 id="Shodan"><a href="#Shodan" class="headerlink" title="Shodan"></a>Shodan</h2><pre><code>pip install shodan #下载shodan
+shodan init [API_Key] #实例化
+</code></pre>
+<pre><code>hostname：搜索指定的主机或域名，例如 hostname:&quot;google&quot;
+port：搜索指定的端口或服务，例如 port:&quot;21&quot;
+country：搜索指定的国家，例如 country:&quot;CN&quot;
+city：搜索指定的城市，例如 city:&quot;Hefei&quot;
+org：搜索指定的组织或公司，例如 org:&quot;google&quot;
+isp：搜索指定的ISP供应商，例如 isp:&quot;China Telecom&quot;
+product：搜索指定的操作系统/软件/平台，例如 product:&quot;Apache httpd&quot;
+version：搜索指定的软件版本，例如 version:&quot;1.6.2&quot;
+geo：搜索指定的地理位置，参数为经纬度，例如 geo:&quot;31.8639, 117.2808&quot;
+before/after：搜索指定收录时间前后的数据，格式为dd-mm-yy，例如 before:&quot;11-11-15&quot;
+net：搜索指定的IP地址或子网，例如 net:&quot;210.45.240.0/24&quot;
+</code></pre>
+<pre><code>shodan host 222.243.129.135 #查看指定主机的相关信息，如地理位置信息，开放端口，甚至是否存在某些漏洞等信息
+
+shodan search --fields ip_str,port,org,hostnames tomcat country:cn --limit 10
+#只显示IP、端口号、组织名称和主机名
+</code></pre>
+<h2 id="在线端口扫描"><a href="#在线端口扫描" class="headerlink" title="在线端口扫描"></a>在线端口扫描</h2><pre><code>https://tool.chinaz.com/port
+http://coolaf.com/tool/port
+https://hidemy.name/cn/port-scanner/
+https://zh-hans.ipshu.com/scan_port
+https://duankou.wlphp.com/
+https://www.tool.cab/inquire/port.html
+https://www.sojson.com/zz/portscan.html
+</code></pre>
+
+    </div>
+
+    
+    
+    
+        
+
+<div>
+<ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者： </strong>l3ife
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="http://example.com/2022/11/02/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95-%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86/" title="信息收集">http://example.com/2022/11/02/渗透测试-信息收集/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+</div>
+
+
+      <footer class="post-footer">
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2022/11/02/disable_function%E7%BB%95%E8%BF%87/" rel="prev" title="disable_function绕过">
+      <i class="fa fa-chevron-left"></i> disable_function绕过
+    </a></div>
+      <div class="post-nav-item"></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%9F%9F%E5%90%8D%E6%9F%A5%E8%AF%A2"><span class="nav-number">1.</span> <span class="nav-text">域名查询</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Whois%E6%9F%A5%E8%AF%A2"><span class="nav-number">1.1.</span> <span class="nav-text">Whois查询</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%A4%87%E6%A1%88%E4%BF%A1%E6%81%AF%E6%9F%A5%E8%AF%A2"><span class="nav-number">1.2.</span> <span class="nav-text">备案信息查询</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Whois%E5%8F%8D%E6%9F%A5"><span class="nav-number">1.3.</span> <span class="nav-text">Whois反查</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E8%8E%B7%E5%8F%96%E4%BA%8C%E7%BA%A7%E5%9F%9F%E5%90%8D"><span class="nav-number">2.</span> <span class="nav-text">获取二级域名</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Layer%E5%AD%90%E5%9F%9F%E5%90%8D%E6%8C%96%E6%8E%98%E6%9C%BA"><span class="nav-number">2.1.</span> <span class="nav-text">Layer子域名挖掘机</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%84%9A%E6%9C%AC%E6%8C%96%E6%8E%98"><span class="nav-number">2.2.</span> <span class="nav-text">脚本挖掘</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#TheHarvester"><span class="nav-number">2.3.</span> <span class="nav-text">TheHarvester</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Amass"><span class="nav-number">2.4.</span> <span class="nav-text">Amass</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9C%A8%E7%BA%BF%E5%AD%90%E5%9F%9F%E5%90%8D"><span class="nav-number">2.5.</span> <span class="nav-text">在线子域名</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%97%81%E7%AB%99%E6%94%B6%E9%9B%86"><span class="nav-number">3.</span> <span class="nav-text">旁站收集</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%AB%AF%E5%8F%A3%E6%89%AB%E6%8F%8F"><span class="nav-number">4.</span> <span class="nav-text">端口扫描</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%86%85%E7%BD%91%EF%BC%88nmap%E7%AB%AF%E5%8F%A3%E6%89%AB%E6%8F%8F%EF%BC%89"><span class="nav-number">4.1.</span> <span class="nav-text">内网（nmap端口扫描）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Shodan"><span class="nav-number">4.2.</span> <span class="nav-text">Shodan</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9C%A8%E7%BA%BF%E7%AB%AF%E5%8F%A3%E6%89%AB%E6%8F%8F"><span class="nav-number">4.3.</span> <span class="nav-text">在线端口扫描</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">l3ife</p>
+  <div class="site-description" itemprop="description">谁想当安全混子呢</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">13</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">5</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">8</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="cc-license motion-element" itemprop="license">
+    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" class="cc-opacity" rel="noopener" target="_blank"><img src="/images/cc-by-nc-sa.svg" alt="Creative Commons"></a>
+  </div>
+
+
+
+      </div>
+	  
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">l3ife</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

