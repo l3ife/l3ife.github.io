@@ -36,7 +36,7 @@
 <meta property="og:image" content="https://s2.loli.net/2022/10/05/XvzC6o2BIWPnhq8.png">
 <meta property="og:image" content="https://s2.loli.net/2022/10/05/DukAcoXT7Sy5fKL.png">
 <meta property="article:published_time" content="2022-10-04T16:01:07.653Z">
-<meta property="article:modified_time" content="2022-10-06T14:36:36.213Z">
+<meta property="article:modified_time" content="2022-11-03T07:02:41.975Z">
 <meta property="article:author" content="l3ife">
 <meta property="article:tag" content="代理转发">
 <meta name="twitter:card" content="summary">
@@ -129,17 +129,17 @@
   </li>
         <li class="menu-item menu-item-tags">
 
-    <a href="/tags/" rel="section"><i class="tags fa-fw"></i>标签<span class="badge">8</span></a>
+    <a href="/tags/" rel="section"><i class="tags fa-fw"></i>标签<span class="badge">9</span></a>
 
   </li>
         <li class="menu-item menu-item-categories">
 
-    <a href="/categories/" rel="section"><i class="th fa-fw"></i>分类<span class="badge">5</span></a>
+    <a href="/categories/" rel="section"><i class="th fa-fw"></i>分类<span class="badge">6</span></a>
 
   </li>
         <li class="menu-item menu-item-archives">
 
-    <a href="/archives/" rel="section"><i class="archive fa-fw"></i>归档<span class="badge">13</span></a>
+    <a href="/archives/" rel="section"><i class="archive fa-fw"></i>归档<span class="badge">15</span></a>
 
   </li>
   </ul>
@@ -200,7 +200,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-10-06 22:36:36" itemprop="dateModified" datetime="2022-10-06T22:36:36+08:00">2022-10-06</time>
+                <time title="修改时间：2022-11-03 15:02:41" itemprop="dateModified" datetime="2022-11-03T15:02:41+08:00">2022-11-03</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -317,18 +317,27 @@ p2为转发到的端口
 <p> run autoroute -s 10.10.10.0&#x2F;24</p>
 <p><img src="https://s2.loli.net/2022/10/05/xZCK38wFNtbQAdi.png" alt="image.png"></p>
 <p>在kali机器开启socket代理</p>
-<pre><code>background   //把2003进程放到后台，返回msf
-use auxiliary/server/socks_proxy
-show options
-set SRVHOST 192.168.1.9  //kali的IP
-exploit
+<pre><code>msf6 &gt; use auxiliary/server/socks_proxy
+
+msf6 auxiliary(server/socks_proxy) &gt; set srvhost 172.16.12.30
+
+msf6 auxiliary(server/socks_proxy) &gt; run
+
+msf6 auxiliary(server/socks_proxy) &gt; #按回车
+
+[*] Starting the SOCKS proxy server
+
+msf6 auxiliary(server/socks_proxy) &gt; jobs
+
+
 </code></pre>
 <p><img src="https://s2.loli.net/2022/10/05/XvzC6o2BIWPnhq8.png" alt="image.png"></p>
 <p>显示如下为开启代理。</p>
 <p>gedit &#x2F;etc&#x2F;proxychains.conf</p>
 <p><img src="https://s2.loli.net/2022/10/05/DukAcoXT7Sy5fKL.png" alt="image.png"></p>
 <p>代理扫描IP服务，扫描10段的1到10的机子的开放端口</p>
-<p>proxychains nmap -sT -Pn -p 445,22,80 10.10.10.1-2</p>
+<pre><code>msf6 &gt; proxychains nmap -p 1-10000 -Pn -sT 192.168.11.3
+</code></pre>
 <h3 id="reGeorg（未）"><a href="#reGeorg（未）" class="headerlink" title="reGeorg（未）"></a>reGeorg（未）</h3><h3 id="Tunna（未）"><a href="#Tunna（未）" class="headerlink" title="Tunna（未）"></a>Tunna（未）</h3><h2 id="多层代理工具"><a href="#多层代理工具" class="headerlink" title="多层代理工具"></a>多层代理工具</h2><p>Earthworm（未）</p>
 <p>Termite（未）</p>
 <p>venom（未）</p>
@@ -450,20 +459,20 @@ exploit
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">13</span>
+          <span class="site-state-item-count">15</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
           
-        <span class="site-state-item-count">5</span>
+        <span class="site-state-item-count">6</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">8</span>
+        <span class="site-state-item-count">9</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
